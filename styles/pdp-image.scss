@@ -1,0 +1,33 @@
+@import './sizes.scss';
+@import './colors.scss';
+
+.pdp-images {
+  .pdp-image-list-c {
+    max-height: 696px;
+    .pdp-image-list {
+      min-width: 80px;
+    }
+  }
+  .pdp-primary-image {
+    max-height: 696px;
+  }
+  .mob-pdp-image-slider {
+    box-shadow: rgb(36 36 36 / 25%) 0px -6px 20px 1px;
+    max-height: 100vh;
+    transition: 1s ease-in-out;
+    min-height: 100vh;
+    .mob-pdp-image-c {
+      min-height: 360px;
+      max-height: 360px;
+    }
+  }
+  .slider-active {
+    bottom: 0;
+  }
+  .slider {
+    bottom: -200%;
+  }
+  .active {
+    border-color: $red-color;
+  }
+}

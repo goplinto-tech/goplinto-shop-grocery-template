@@ -1,0 +1,75 @@
+@import "./colors.module.scss";
+
+.stars {
+  cursor: pointer;
+  display: flex;
+  margin-top: 15px;
+
+  .rating-text {
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: $dark-blue-50;
+    line-height: 25px;
+  }
+
+  svg {
+    transform: scale(0.8);
+  }
+
+  &:hover {
+    .star polygon {
+      fill: $rating-yellow !important;
+    }
+  }
+
+  .star {
+    polygon {
+      fill: #d8d8d8;
+    }
+
+    &:hover ~ .star {
+      polygon {
+        fill: #d8d8d8 !important;
+      }
+    }
+  }
+
+  &[data-stars] {
+    .star polygon {
+      fill: $rating-yellow;
+    }
+  }
+
+  &[data-stars="1"] {
+    .star:nth-child(1) ~ .star polygon {
+      fill: #d8d8d8;
+    }
+  }
+
+  &[data-stars="2"] {
+    .star:nth-child(2) ~ .star polygon {
+      fill: #d8d8d8;
+    }
+  }
+
+  &[data-stars="3"] {
+    .star:nth-child(3) ~ .star polygon {
+      fill: #d8d8d8;
+    }
+  }
+
+  &[data-stars="4"] {
+    .star:nth-child(4) ~ .star polygon {
+      fill: #d8d8d8;
+    }
+  }
+
+  &[data-stars="5"] {
+    .star:nth-child(5) ~ .star polygon {
+      fill: #d8d8d8;
+    }
+  }
+}

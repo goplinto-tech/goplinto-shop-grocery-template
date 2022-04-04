@@ -1,0 +1,47 @@
+@import './colors.scss';
+
+//Radio
+// .radio-input:checked {
+//   border-color: $primary-color;
+// }
+// .radio-input:focus {
+//   border-color: $red-color;
+//   box-shadow: 0 0 0 0.25rem $red-color-50;
+//   border-color: $red-color;
+// }
+input[type='radio'] {
+  color: transparent;
+  border-color: transparent;
+}
+input[type='radio']:after {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  background-color: $white-color;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid $black-color-75;
+}
+
+input[type='radio']:checked:after {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  top: -2px;
+  left: -1px;
+  position: relative;
+  // background-color: $red-color;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 3px solid $white-color;
+  // box-shadow: 0px 0px 0px 2px $red-color;
+}
+
+input[type='radio']:checked + label {
+  border-style: groove;
+}

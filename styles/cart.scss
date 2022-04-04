@@ -1,0 +1,35 @@
+@import './colors.scss';
+
+.cart {
+  .cart-item-img {
+    width: 104px;
+    height: 104px;
+    min-width: 104px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .cart-item-title {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+  .delivery-inputs {
+    // border: 2px;
+    // border-style: dashed;
+    border-color: $black-color-50;
+    // border-width: 3px;
+    &:hover {
+      // border-color: $red-color;
+    }
+  }
+  .address ~ .active {
+    .delivery-inputs {
+      border-style: groove;
+      border-color: $red-color;
+    }
+  }
+}

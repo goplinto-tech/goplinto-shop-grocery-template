@@ -1,0 +1,43 @@
+@import './colors.scss';
+
+nav {
+  background-repeat: no-repeat;
+  // background-position: center;
+  background-size: cover;
+}
+
+.navbar-body {
+  background-repeat: no-repeat;
+  // background-position: center;
+  background-size: cover;
+  .mob-navbar {
+    span {
+      font-size: 12px;
+      margin-left: auto;
+      margin-right: auto;
+      margin-top: 2px;
+      font-weight: 600;
+      display: block;
+    }
+  }
+  .account {
+    &:hover {
+      .account-options {
+        display: block;
+      }
+    }
+    .account-options-c {
+      &::before {
+        content: '';
+        width: 20px;
+        height: 20px;
+        transform: rotate(45deg) translateX(-50%);
+        margin-bottom: -100px;
+        background-color: $white-color;
+        top: 1.3rem;
+        left: 50%;
+        position: absolute;
+      }
+    }
+  }
+}

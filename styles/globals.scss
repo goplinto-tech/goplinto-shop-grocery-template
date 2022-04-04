@@ -1,0 +1,102 @@
+@import './colors.scss';
+
+.primary-color {
+  color: $primary-color;
+}
+.red-color {
+  color: $red-color;
+}
+.white-color {
+  color: $white-color;
+}
+.white-color-75 {
+  color: $white-color-75;
+}
+.black-color {
+  color: $black-color;
+}
+.black-color-50 {
+  color: $black-color-50;
+}
+.black-color-75 {
+  color: $black-color-75;
+}
+.success-color {
+  color: $success-color;
+}
+
+.bg-primary-color {
+  background-color: $primary-color;
+}
+.bg-red-color {
+  background-color: $red-color;
+}
+.bg-white-color {
+  background-color: $white-color;
+}
+.bg-white-color-75 {
+  background-color: $white-color-75;
+}
+.bg-black-color {
+  background-color: $black-color;
+}
+.bg-black-color-50 {
+  background-color: $black-color-50;
+}
+.bg-black-color-75 {
+  background-color: $black-color-75;
+}
+.bg-success-color {
+  background-color: $success-color;
+}
+.bg-black-color-lighter {
+  background-color: $black-color-lighter;
+}
+.bg-success-color-lighter {
+  background-color: $success-color-10;
+}
+
+// btn
+// .btn-border {
+//   border-color: $red-color;
+// }
+// .btn-bg {
+//   background-color: $red-color;
+// }
+// .btn-bg-revese {
+//   background-color: $white-color;
+// }
+// .btn-bg-light {
+//   background-color: $red-color-50;
+// }
+// .btn-color {
+//   color: $white-color;
+// }
+// .btn-color-revese {
+//   color: $red-color;
+// }
+// .btn-color-revers {
+//   color: $red-color;
+// }
+// .btn-hover-color {
+//   transition: 0.3s ease-in-out;
+// }
+// .btn-hover-color:hover {
+//   color: $red-color;
+// }
+// //
+// .btn-nav-color {
+//   color: $black-color-75;
+//   fill: $black-color-75;
+// }
+// .btn-nav-color-active {
+//   color: $red-color;
+//   fill: $red-color;
+// }
+.footer-bg {
+  background-color: $black-color;
+}
+// Font size
+.text-xxs {
+  font-size: 10px;
+}

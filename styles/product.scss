@@ -1,0 +1,46 @@
+@import './colors.scss';
+@import './sizes.scss';
+.pdp {
+  .additional-info {
+    // border-color: $red-color;
+  }
+  .product-addinfo-img-c {
+    max-height: 556px;
+    @media screen and (min-width: $sm) {
+      height: 348px;
+    }
+    @media screen and (min-width: $md) {
+      height: 448px;
+    }
+    @media screen and (min-width: $lg) {
+      height: 496px;
+    }
+    @media screen and (min-width: $xl) {
+      height: 556px;
+    }
+  }
+  .pdp-primary-image {
+    max-height: 100%;
+    // @media screen and (min-width: $sm) {
+    //   height: 348px;
+    // }
+    // @media screen and (min-width: $md) {
+    //   height: 448px;
+    // }
+    // @media screen and (min-width: $lg) {
+    //   height: 496px;
+    // }
+    @media screen and (min-width: $xl) {
+      height: 556px;
+    }
+  }
+  .size-tab-active {
+    border-color: $red-color;
+  }
+  .product-truncate {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+}

@@ -1,0 +1,13 @@
+@import './colors.scss';
+
+.product-item {
+  .product-item-img {
+    // min-width: 160px;
+  }
+  .product-item-truncate {
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+  }
+}

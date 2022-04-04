@@ -1,0 +1,13 @@
+@import './colors.scss';
+
+.cat-active {
+  // background: transparent linear-gradient(90deg, #d85a5a00 0%, #d85a5a40 100%) 0% 0% no-repeat padding-box;
+  opacity: 1;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  // border-right: 4px solid $red-color;
+}
+
+.subcat-active {
+  // color: $red-color;
+}

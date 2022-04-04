@@ -1,0 +1,34 @@
+$primary-color: #6c63ff;
+$red-color: #d85a5a;
+$red-color-50: rgba(246, 75, 93, 0.13);
+$white-color: #ffffff;
+$white-color-75: hsla(0, 0%, 100%, 0.75);
+$black-color: #242424;
+$black-color-75: rgba(36, 36, 36, 0.749);
+$black-color-50: rgba(36, 36, 36, 0.5);
+$success-color: #1eaf82;
+$success-color-10: #1eae811a;
+$black-color-lighter: #f2f2f2;
+
+// Exporting
+:export {
+  primary-color: $primary-color;
+}
+:export {
+  red-color: $red-color;
+}
+:export {
+  white-color: $white-color;
+}
+:export {
+  white-color-75: $white-color-75;
+}
+:export {
+  black-color: $black-color;
+}
+:export {
+  black-color-75: $black-color-75;
+}
+:export {
+  success-color: $success-color;
+}

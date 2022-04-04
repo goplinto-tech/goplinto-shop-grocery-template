@@ -1,0 +1,6 @@
+@import './colors.scss';
+.mob-cat {
+  .active {
+    border-bottom: 4px solid $red-color;
+  }
+}
