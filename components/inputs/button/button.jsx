@@ -9,7 +9,8 @@
  */
 
 // import Link from "@components/link"
-import Link from "@components/link"
+// import Link from "@components/link"
+import Link from "next/link"
 
 const Button = ({ children = "", title = "", type = 'button', className = '', href = "/", ...props }) => {
     return (
@@ -22,7 +23,7 @@ const Button = ({ children = "", title = "", type = 'button', className = '', hr
                         </a>
                     </Link>
                     :
-                    <button className={`text-center custom-button outline-none ${' '}${className}`} {...props}>
+                    <button className={`text-center custom-button outline-none ${' '}${className}`} type={type} {...props}>
                         {children || title || 'Click'}
                     </button>
             }

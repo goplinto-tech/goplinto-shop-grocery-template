@@ -279,16 +279,16 @@ function* onCouponCodeApplyStart() {
         try {
             const res = yield fetcher('GET', `/?r=orders/validate-coupon&storeId=${storeId}&couponCode=${couponCode}&orderId=${orderId}&customerId=${userId}`)
             if (typeof res.data == 'object' && res.data?.status == "INVALID_COUPON_CODE") {
-                onError({ message: 'Invalid coupon code!' })
+                onError('Invalid coupon code!')
             } else if (res.data) {
                 yield put(getPurchageStart(purchaseId))
                 onSuccess('Apllied Successfully!.')
             } else {
-                onError({ message: 'Operation Failed!.' })
+                onError('Operation Failed!.')
             }
         } catch (error) {
             console.log(error);
-            onError({ message: 'Operation Failed!.' })
+            onError('Operation Failed!.')
             // yield put(orderPaymentConfirmError(error))
         }
     })

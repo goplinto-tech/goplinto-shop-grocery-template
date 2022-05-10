@@ -24,7 +24,7 @@
     "react-player": "^2.10.0",
     "react-rating-stars-component": "^2.2.0",
     "react-redux": "^7.2.6",
-    "react-responsive": "^9.0.0-beta.6",
+    "react-responsive": "^9.0.0",
     "react-router-dom": "^6.2.2",
     "react-step-progress": "^1.0.3",
     "react-swipeable": "^6.2.1",
