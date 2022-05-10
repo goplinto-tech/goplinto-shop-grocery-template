@@ -1,37 +1,42 @@
 import React from 'react'
-import Gnavbar from '@components/navbar/gnavbar'
+import { Router, useRouter } from 'next/router';
+
 import Link from "@components/link"
 
 // import RecommendedCard from '@components/Cards/Home/RecommendedCard'
 import {BsFilterLeft} from 'react-icons/bs'
 import ProductItem from '@components/product-item/product-item'
-function products({products,status,lastEleRef}) {
+function products({products,status,lastEleRef,wishlist}) {
 
   return (
-    <div>
+    <div className="bg-[#F5F5F5] md:bg-white">
 
-      <div className="flex flex-row wrapper w-full ">
-        <div className="basis-1/12 "></div>
-        <div className=" w-10/12">
-          <div className="flex justify-between  my-4">
-            <p className="flex items-center font-bold">All Items</p>
-            <div className="flex font-bold mx-8 ">
-              <div className="flex items-center ">
-              <BsFilterLeft size={20} className='mx-4'/>
+      <div className="flex flex-row md:ml-4 md:wrapper w-full ">
+        <div className="w-1/12 hidden md:block "></div>
+        <div className=" w-12/12 md:w-10/12 md:ml-16 md:mr-12 ">
+          <div className="md:mr-16">
+          <div className=" flex justify-between   my-2  bg-white p-2 py-4 md:py-0 md:p-0 md:my-4">
 
-              </div>
-               <p className="flex items-center">Filter / Sort By</p>
-            </div>
+<p className="   flex items-center font-bold md:ml-3 ">All Items</p>
+<div className="flex font-bold    ">
+  <div className="flex items-center  ">
+  <BsFilterLeft size={20} className='mx-4'/>
+
+  </div>
+   <p className="flex items-center ">Filter / Sort By</p>
+</div>
+</div>
           </div>
-        <div className="  grid  grid-cols-1 lg:grid-cols-4 md:grid-cols-2 gap-4">
+
+        <div className="  grid  mx-2 md:mx-2 grid-cols-2 lg:grid-cols-4 md:grid-cols-2 md:gap-2 gap-4">
 
         {         status == 'success' || status == 'loading'?
             products.length && (status == 'loading' || status == 'success')
             ?<>
              {
               products.map((item, i) => (
-                 <div>
-                <ProductItem key={i} data={item} />
+                 <div >
+                <ProductItem key={i} data={item} addItemToWishlist={wishlist} />
                 </div>
               ))}
               {
@@ -116,7 +121,7 @@ function products({products,status,lastEleRef}) {
 
 
         </div>
-        <div className="basis-1/12 "></div>
+        <div className="w-1/12 hidden md:block "></div>
       </div>
 
     </div>

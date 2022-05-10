@@ -7,6 +7,7 @@ import Link from 'next/link'
 // Actions
 import { orderPaymentConfirmStart } from "@redux/checkout/checkout-action"
 import PageWrapper from "@components/page-wrapper/page-wrapper"
+import Tracker from "@components/Cards/tracker"
 
 const ThankYou = ({ confirmOrder }) => {
     const [status, setStatus] = useState('loading') // loading, success, failure
@@ -22,7 +23,23 @@ const ThankYou = ({ confirmOrder }) => {
         confirmOrder({ ...data, setStatus })
 
     }, [router.isReady])
-
+    const [mobNavHeight, setMobNavHeight] = useState(0)
+    useEffect(() => {
+      if (typeof window !== 'undefined') {
+        const objerver = new ResizeObserver(function (e) {
+          if (e[0].contentRect.width < 640 && mobNavHeight == 0) {
+            const ele = document.getElementById('mob-navbar')
+            if (ele) {
+              if (ele.offsetWidth != mobNavHeight) {
+                // console.log(ele)
+                setMobNavHeight(ele.offsetHeight)
+              }
+            }
+          }
+        })
+        objerver.observe(document.body)
+      }
+    }, [])
     return (
         <section >
             {
@@ -32,8 +49,8 @@ const ThankYou = ({ confirmOrder }) => {
                     :
                     status == 'success'
                         ?
-                        <div className="wrapper mx-auto  bg-[#E5E5E5]">
-                            <div className="thank-you py-16 my-20">
+                        <div className="wrapper mx-auto  md:bg-[#E5E5E5]">
+                            <div className="thank-you py-16 my-5 md:my-20">
                                 <div className="flex justify-center items-center flex-col">
                                     <div className="">
                                         <div className="animation-ctn">
@@ -48,18 +65,18 @@ const ThankYou = ({ confirmOrder }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className=" text-center my-10">
+                                    <div className=" text-center my-10 ">
                                         <h3 className="text-xl font-bold text-[#1DAE81]">Order Placed!</h3>
                                         <div className='pt-6 pb-10'>
                                             <span className="text-lg font-bold  pb-10">You saved  ₹6837 On this Order.</span>
                                         </div>
                                         <div className="w-full flex justify-between items-center">
                                           <Link href="/">
-                                          <h4 className="text-lg text-[#1DAE81] mr-20  cursor-pointer">Continue Shoping</h4>
+                                          <h4 className="text-lg text-[#1DAE81]  hidden md:blockmr-20  cursor-pointer">Continue Shoping</h4>
 
                                           </Link>
                                         <div className=" ml-20">
-                                            <Button className="py-2 w-[156px] block mx-auto   btn-border btn-bg-revese 'btn-color-revese' text-white rounded border-2 " style={{backgroundColor:"#48887B", border:"2px solid #48887B"}} type="link" href={`/account/orderdetail/${orderId}`} title="Track order" />
+                                            <Button className="py-2 w-[156px] block mx-auto  hidden md:block  btn-border btn-bg-revese 'btn-color-revese' text-white rounded border-2 " style={{backgroundColor:"#48887B", border:"2px solid #48887B"}} type="link" href={`/account/orderdetail/${orderId}`} title="Track order" />
                                         </div>
                                         </div>
 
@@ -67,6 +84,36 @@ const ThankYou = ({ confirmOrder }) => {
                                 </div>
 
                             </div>
+                            <div id="cart-total-btn"
+                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
+                style={{
+                  bottom: `${mobNavHeight}px`,
+                  zIndex:1
+                }}
+              >
+                <div className="flex justify-between ">
+                  <div className="w-1/2 flex items-center">
+                  <Link href="/">
+
+<p className="flex text-[16px] text-[#F58634] justify-start ">Continue Shopping</p>
+</Link>
+                  </div>
+                  <div className="w-1/2 flex justify-end ml-4">
+                  <Button
+                      className=" w-3/4 py-3  px-2 sm:py-4 white-color rounded btn-bg text-center mx-auto"
+                      type="link"
+                      style={{ backgroundColor: '#F58634'}}
+                      href={`/account/orderdetail/${orderId}`}
+                    >
+                      Track Order
+                    </Button>
+                  </div>
+
+                  <div>
+
+                  </div>
+                </div>
+                </div>
                         </div>
                         :
                         <div className="wrapper mx-auto">
@@ -99,7 +146,13 @@ const ThankYou = ({ confirmOrder }) => {
                             </div>
                         </div>
 
+
             }
+            <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[124px] w-full `} style={{zIndex:1200}}>
+
+<Tracker status={status==='success'?'order':'failed'} active2={true}/>
+
+</div>
         </section>)
 }
 

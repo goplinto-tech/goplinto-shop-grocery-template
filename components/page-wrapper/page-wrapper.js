@@ -7,6 +7,7 @@ import Auth from "@components/auth/auth";
 import Loader from "@components/loading/loader";
 import NavBar from "@components/navbar/navbar";
 import Footer from '@components/Footer'
+import Popup from "@components/popup/popup";
 
 import {
     getShopInfoStart, getShopSeoStart, getShopSettingsStart, getSocialProfileStart, getShopDisplaySettingsStart, getPageCountStart, getBannerStart,
@@ -39,7 +40,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
     //     footerColor: displaySettings.secondary_color || '#000',
     // })
     useEffect(() => {
-        const { storeId } = router.query
+        const storeId = process.env.NEXT_PUBLIC_DEFAULT_STORE_ID
         if (!store.isReadyToGo && storeId) {
             getBanner(storeId)
             getShopSeo(storeId);
@@ -264,6 +265,7 @@ const verifier = ({ children, isLogin, store, getShopInfo, getShopSeo, getShopSe
             {
                 isLogin && <Auth />
             }
+            <Popup />
         </>
     )
 }

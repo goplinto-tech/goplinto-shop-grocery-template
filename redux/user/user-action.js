@@ -87,3 +87,49 @@ export const updateAddressSuccess = (add) => ({
     type: userActionType.UPDATE_ADDRESS_SUCCESS,
     payload: add
 })
+
+//
+export const registerWithPasswordStart = (data) => ({
+    type: userActionType.REGISTER_WITH_PASSWORD_START,
+    payload: data
+})
+export const registerWithPasswordSuccess = (data) => ({
+    type: userActionType.REGISTER_WITH_PASSWORD_SUCCESS,
+    payload: data
+})
+export const loginWithPasswordStart = (data) => ({
+    type: userActionType.LOGIN_WITH_PASSWORD_START,
+    payload: data
+})
+export const loginWithPasswordSuccess = (data) => ({
+    type: userActionType.LOGIN_WITH_PASSWORD_SUCCESS,
+    payload: data
+})
+export const forgotPasswordStart = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_START,
+    payload: data
+})
+export const forgotPasswordSuccess = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_SUCCESS,
+    payload: data
+})
+
+export const forgotPasswordOtpVerifyStart = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_OTP_VERIFY_START,
+    payload: data
+})
+export const forgotPasswordOtpVerifySuccess = (data) => ({
+    type: userActionType.FORGOT_PASSWORD_OTP_VERIFY_SUCCESS,
+    payload: data
+})
+
+export const newPasswordCreateStart = (data) => ({
+    type: userActionType.NEW_PASSWORD_CREATE_START,
+    payload: data
+})
+export const newPasswordCreateSuccess = (data) => ({
+    type: userActionType.NEW_PASSWORD_CREATE_SUCCESS,
+    payload: data
+})
+
+

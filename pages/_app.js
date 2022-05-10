@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import Router, { useRouter } from 'next/router'
 // import NProgress from 'nprogress'; //nprogress module
 // import 'nprogress/nprogress.css'
-
+import '@styles/mobauth.scss'
 // Global Styles
 import '@styles/globals.css'
 import '@styles/globals.scss'
@@ -25,7 +25,7 @@ import '@styles/cart.scss'
 import '@styles/saved-places.scss'
 
 
-//Binding events. 
+//Binding events.
 // Router.events.on('routeChangeStart', () => NProgress.start());
 // Router.events.on('routeChangeComplete', () => NProgress.done());
 // Router.events.on('routeChangeError', () => NProgress.done());

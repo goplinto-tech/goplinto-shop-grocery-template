@@ -5,10 +5,19 @@ import { QuantityID, Button } from "../inputs";
 import { addToCart, removeFromCart } from "../../redux/cart/cart-actions";
 import {AiOutlineHeart,AiFillStar} from 'react-icons/ai'
 
-const ProductItem = ({ data, addToCart, removeFromCart, cart,offer }) => {
+const ProductItem = ({ data,user, addToCart, removeFromCart, cart,offer,addItemToWishlist }) => {
 
     const  truncate=(str, no_words)=> {
       return str.split(" ").splice(0,no_words).join(" ");
+  }
+  
+  const wishlist =()=>{
+   const payload={
+    id: Number(data.item_id),
+    storeId: +data.store_id,
+    userId:+user.currentUser.customer_id
+   }
+   addItemToWishlist(payload)
   }
 
     if (!data) {
@@ -55,23 +64,23 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart,offer }) => {
                     })()}
                         onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
                     :
-                    <Button className={`btn-color w-full  btn-bg max-h-min text-base font-medium rounded py-2  ${className}`}  style={{backgroundColor:"#F58634"}} onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
+                    <Button className={`btn-color w-full  btn-bg max-h-min text-base font-medium rounded py-3  ${className}`}  style={{backgroundColor:"#F58634"}} onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
             }
         </>
     )
     return (
         <>
-            <div className=" border-[#B6B6B6] w-[221.85px]   block product-item">
+            <div className=" border-[#B6B6B6] w-[180px] md:w-[221.85px]   block product-item w-max ">
 
 
                 <>
-    <div className="w-100 border-[0.5px] h-[264.49px]">
-     <div className="flex justify-between w-full">
+    <div className="w-100 bg-white border-[0.5px]  h-[220px] md:h-[264.49px]">
+     <div className="flex  justify-between w-full">
        <img  className="m-2" src="/img/square.png"/>
-       <AiOutlineHeart className="m-2" size={18} />
+       <AiOutlineHeart className="m-2" size={18} onClick={wishlist} />
      </div>
      <Button className="block " type="link" href={`/product/${data.item_id}`} style={{ height: '-webkit-fill-available' }}>
-     <div className="w-8/12  mx-10 mt-6 cursor-pointer " style={{height:'160px'}}>
+     <div className="w-8/12 mx-8 md:mx-10  md:mt-6 cursor-pointer " style={{height:'160px'}}>
      <img className="w-full h-full " src={`${data.primary_img || '/img/default.png'}`} alt={`${data.item_name}`}/>
 
      </div>
@@ -96,7 +105,7 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart,offer }) => {
       <span className="text-gray-400 font-thinner text-sm ml-2 flex items-center line-through"> (MPR.{data.price})</span>
 
     </div>
-    <div className="flex">
+    <div className=" hidden md:flex">
     <p className=" text-sm flex items-center">4.5</p>
     <div className="flex items-center">
     <AiFillStar color="orange" />
@@ -146,7 +155,9 @@ const ProductItem = ({ data, addToCart, removeFromCart, cart,offer }) => {
     )
 }
 const mapStateToProps = state => ({
-    cart: state.cart
+    cart: state.cart,
+    user:state.user
+
 })
 const mapDispatchToProps = dispatch => ({
     addToCart: (item) => dispatch(addToCart(item)),

@@ -1,9 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import fetcher from '@redux/utility'
 import {AiOutlineCamera} from 'react-icons/ai';
 import { Button } from '@components/inputs';
 
 function Profile({ type, fullname, email_id, phone, id }) {
+  const [mobNavHeight, setMobNavHeight] = useState(0)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const objerver = new ResizeObserver(function (e) {
+        if (e[0].contentRect.width < 640 && mobNavHeight == 0) {
+          const ele = document.getElementById('mob-navbar')
+          if (ele) {
+            if (ele.offsetWidth != mobNavHeight) {
+              // console.log(ele)
+              setMobNavHeight(ele.offsetHeight)
+            }
+          }
+        }
+      })
+      objerver.observe(document.body)
+    }
+  }, [])
   const [profile, setprofile] = useState({
     fullName: fullname,
     emailId: email_id,
@@ -41,7 +58,7 @@ function Profile({ type, fullname, email_id, phone, id }) {
 </div>)
   return (
 
-    <div className={` w-full ${type === 'index' ? "lg:w-full" : "lg:w-1/2"}  md:w-full  `}>
+    <div className={` w-full h-[68vh] md:h-auto ${type === 'index' ? "lg:w-full" : "lg:w-1/2"}  md:w-full  `}>
       {/* <p className="m-8 mb-4 text-lg text-dark h md:block lg:block" >My Profile</p> */}
       {/* <div className="rounded w-[200px] h-[200px] bg-gray-100 text-gray-400 m-8 lg:mx-8 md:mx-8 lg:my-0 md:my-0 z-100 flex justify-center items-center">
         <span className='text-3xl font-extrabold	' >
@@ -81,7 +98,7 @@ function Profile({ type, fullname, email_id, phone, id }) {
           <input type="text" name="emailId" value={profile.emailId} placeholder="Email" onChange={(e) => { onChange(e) }} className="w-full border-2 bg-white h-10 rounded p-2 focus:outline-none" />
 
         </div>
-        <div className="  flex  justify-end">
+        <div className=" hidden md:flex  justify-end">
         <div className="flex items-center mr-16 ">
           <p className="   rounded text-sm text-green-500 " >Dont Save </p>
 
@@ -92,6 +109,28 @@ function Profile({ type, fullname, email_id, phone, id }) {
 
 
       </div>
+      <div id="cart-total-btn md:hidden"
+                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed mt-2 sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
+                style={{
+                  bottom: `${mobNavHeight}px`,
+                  zIndex:1
+                }}
+              >
+
+<div className="  h-min flex md:hidden items-center justify-between  ">
+
+          <p className="   rounded text-lg text-green-500 " >Dont Save </p>
+
+
+<Button className="px-4  py-2 justify-end text-right  bg-[#48887B] rounded text-base   text-white  "onClick={onSubmitHandler} >Submit</Button>
+
+</div>
+
+
+
+
+
+                </div>
 
     </div>
   )

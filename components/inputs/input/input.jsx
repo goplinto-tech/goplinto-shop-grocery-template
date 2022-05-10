@@ -7,9 +7,9 @@
  * @returns {function} Retun a JSX function.
  */
 
-const Input = ({ name = '', type = 'text', className, placeholder = '', ...props }) => {
+const Input = ({ name = '', type, className, placeholder = '', ...props }) => {
     return (
-        <input className={`p-4 outline-none border-2  w-full custom-input ${className}`} name={name} type={type} {...props} id={props?.id} placeholder={placeholder} />
+        <input className={`p-4 outline-none border-2  w-full custom-input ${className}`} name={name} type={type||'string'} {...props} id={props?.id} placeholder={placeholder} />
     )
 }
 

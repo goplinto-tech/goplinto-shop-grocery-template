@@ -9,7 +9,7 @@ function Sideprofilecard({ user, logout }) {
   let active = Router?.router?.state?.pathname.split('/')[4]
  active=active===undefined? 'account' :active
 
-
+// console.log(active,'linwertyuihvhhgufxfg')
   return (
     <div className="w-full  h-full hidden md:block lg:block rounded-t-md bg-white shadow-lg md:pb-20">
 
@@ -71,7 +71,7 @@ function Sideprofilecard({ user, logout }) {
 
           }
           {
-            active === 'myorders'||'orderdetail' ?
+            active === 'myorders' ?
               <div className="h-10 my-6">
                 <Link href='/account/myorders ' >
                   <p className=" flex mx-8 py-2 text-lg relative  font-semibold text-[#48887B] ">
@@ -92,49 +92,49 @@ function Sideprofilecard({ user, logout }) {
           }
 
           {
-            // active === 'wishlist' ?
-            //   <div className=" h-10 my-6">
+            active === 'wishlist' ?
+              <div className=" h-10 my-6">
 
-            //     <Link href='/account/wishlist ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-[#48887B] ">
+                <Link href='/account/wishlist ' >
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-[#48887B] ">
 
-            //         Wishlist
+                    Wishlist
 
-            //       </p>
-            //     </Link>
-            //   </div> :
-            //   <div className=" cursor-pointer h-10 my-6">
-            //     <Link href='/account/wishlist ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-            //         Wishlist
+                  </p>
+                </Link>
+              </div> :
+              <div className=" cursor-pointer h-10 my-6">
+                <Link href='/account/wishlist ' >
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
+                    Wishlist
 
-            //       </p>
-            //     </Link>
+                  </p>
+                </Link>
 
-            //   </div>
+              </div>
           }
 
           {
-            // active === 'wallet' ?
-            //   <div className=" h-10 my-6">
+            active === 'wallet' ?
+              <div className=" h-10 my-6">
 
-            //     <Link href='/account/wallet ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-[#48887B] ">
+                <Link href='/account/wallet ' >
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-[#48887B] ">
 
-            //         Wallet
+                    Wallet
 
-            //       </p>
-            //     </Link>
-            //   </div> :
-            //   <div className=" cursor-pointer h-10 my-6">
-            //     <Link href='/account/wallet ' >
-            //       <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
-            //         Wallet
+                  </p>
+                </Link>
+              </div> :
+              <div className=" cursor-pointer h-10 my-6">
+                <Link href='/account/wallet ' >
+                  <p className=" flex mx-8 py-2 text-lg relative  font-semibold relative  text-gray-600">
+                    Wallet
 
-            //       </p>
-            //     </Link>
+                  </p>
+                </Link>
 
-            //   </div>
+              </div>
           }
           {
             active === 'savedplaces' ?

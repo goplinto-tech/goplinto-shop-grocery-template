@@ -13,7 +13,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
 
 
 
-              <p className="text-left mx-4 text-sm font-medium text-gray-500 md:w-max ">OrderId- #{orderId}</p>
+              <p className=" hidden md:block text-left mx-4 text-sm font-medium text-gray-500 md:w-max ">OrderId- #{orderId}</p>
 
 
             </div>

@@ -9,6 +9,8 @@ import ErrorPage from '@components/error'
 // Actions
 import { getCurrentOrdersListStart, getPastOrdersListStart } from '@redux/orders/orders-action'
 import PageWrapper from '@components/page-wrapper/page-wrapper'
+import { useRouter } from 'next/router';
+import {BsArrowLeft} from 'react-icons/bs'
 
 function Myorders({ user, getCurrentOrders, getPastOrders }) {
   const [orderList, setOrderList] = useState([]);
@@ -16,6 +18,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
   const [isLoadingCurrent, setIsLoadingCurrent] = useState('loading')
   const [isLoadingPast, setIsLoadingPast] = useState('loading')
   const [error, setError] = useState("");
+  const router= useRouter()
 
   useEffect(() => {
     getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent })
@@ -72,6 +75,18 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
               </div>
             </>
       }
+     <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[122px] w-full `} style={{zIndex:1200}}>
+
+{/* <Tracker status={cartHeader.status}/> */}
+<div className={`flex items-center absolute bottom-0  mb-4`} onClick={router.back}>
+  <BsArrowLeft className={`mx-4`} size={35} color={'white'}/>
+   <p className={`text-2xl text-[white] mx-4`}>My Orders</p>
+</div>
+
+
+
+
+</div>
     </>
   )
 }

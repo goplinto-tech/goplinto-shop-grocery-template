@@ -1,9 +1,9 @@
 import { takeLatest, all, call, put } from "redux-saga/effects";
 import axios from "axios";
-import fetcher from "../utility";
+import fetcher, { nodefetcher } from "../utility";
 import userActionType from './user-action-type'
 import {
-    getLoginOtpSuccess, getRegisterOtpSuccess, autheError, otpVerificationSuccess, cleareUserStart, getAddressSuccess, getAddressStart
+    getLoginOtpSuccess, getRegisterOtpSuccess, autheError, otpVerificationSuccess, cleareUserStart, getAddressSuccess, getAddressStart, loginSuccess
 } from "./user-action";
 import { clearCheckout } from "../checkout/checkout-action";
 
@@ -86,32 +86,140 @@ function* onGetRegisterOtpStart() {
         }
     })
 }
+
+// Password >>
+
 function* onOtpVerificationStart() {
     yield takeLatest(userActionType.OTP_VERIFICATION_START, function* ({ payload }) {
-        const { userId, storeId, otp, setError, setStatus, mode, setUser } = payload;
+        const { userId, storeId, otp, setError, setStatus, setUser } = payload;
         try {
-            if (mode == 'email') {
-                const res = yield axios.get(`${process.env.NEXT_PUBLIC_PLINTO_NODE_URL}/customer/email-login-validate-otp?customerId=${userId}&otp=${otp}&storeId=${storeId}`)
-                if (res.data.status == 'success') {
-                    setUser(res.data.customerDetails)
-                    setStatus(res.data.customerDetails.customer_id)
-                } else {
-                    throw new Error(res.data.message)
-                }
+            const res = yield nodefetcher('GET', `/customer/email-login-validate-otp?customerId=${userId}&otp=${otp}&storeId=${storeId}`)
+            if (res.data.status == 'success') {
+                // setUser(res.data.customerDetails)
+                yield put(loginSuccess(res.data.customerDetails))
+                setStatus(false)
             } else {
-                const res = yield fetcher('GET', `?r=customer/verify-phone&customerId=${userId}&otp=${otp}&storeId=${storeId}`)
-                if (res.data && (typeof (res.data) == 'string' || typeof (res.data) == 'number')) {
-                    setStatus(res.data)
-                } else {
-                    throw new Error("Varification failed!.")
-                }
+                throw new Error(res.data.message)
+            }
+
+        } catch (error) {
+            console.log(error);
+            setError(error.message)
+            setStatus(false)
+        }
+    })
+}
+function* onRegisterWithPassword() {
+    yield takeLatest(userActionType.REGISTER_WITH_PASSWORD_START, function* ({ payload }) {
+        const { state, setError, setUser, setStatus } = payload
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/register`, { ...state })
+            console.log(data);
+            if (data.status == 'success') {
+                setUser(data.customerDetails)
+                setStatus(false)
+            }
+            else {
+                throw new Error(data.message)
             }
         } catch (error) {
             console.log(error);
             setError(error.message)
+            setStatus(false)
         }
     })
 }
+
+function* onLoginWithPasswordStart() {
+    yield takeLatest(userActionType.LOGIN_WITH_PASSWORD_START, function* ({ payload }) {
+        const { state, setStatus, setError } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/login`, state)
+            if (data.status == 'success') {
+                yield put(loginSuccess(data.customerDetails))
+                setStatus('success')
+            }
+            else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            setStatus('failed')
+            setError(error.message)
+        }
+    })
+}
+
+
+function* onForgotPasswordStart() {
+    yield takeLatest(userActionType.FORGOT_PASSWORD_START, function* ({ payload }) {
+        const { state, setUser, setIsLoading, setError } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/forget-password`, state)
+            if (data.status == 'success') {
+                if (setUser) {
+                    setUser(data.customerId)
+                }
+                if (setIsLoading) {
+                    setIsLoading(false)
+                }
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            if (setError) {
+                setError(error.message)
+            }
+
+            if (setIsLoading) {
+                setIsLoading(false)
+            }
+        }
+    })
+}
+
+function* onForgotPasswordOtpVerifyStart() {
+    yield takeLatest(userActionType.FORGOT_PASSWORD_OTP_VERIFY_START, function* ({ payload }) {
+        const { state, setError, setIsLoading, setIsSuccess, setUser } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/verify-otp`, state)
+            if (data.status == 'success') {
+                // yield put(setUser(data.customerId))
+                setUser(data.customerDetails)
+                setIsSuccess(true)
+                setIsLoading(false)
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            setError(error.message)
+            setIsLoading(false)
+        }
+    })
+}
+
+function* onNewPasswordCreateStart() {
+    yield takeLatest(userActionType.NEW_PASSWORD_CREATE_START, function* ({ payload }) {
+        const { state, setIsLoading, setError, setIsSuccess } = payload;
+        try {
+            const { data } = yield nodefetcher('POST', `/customer/reset-password`, state)
+            console.log(data);
+            if (data.status == 'success') {
+                // yield put(setUser(data.customerId))
+                setIsSuccess(true)
+                setIsLoading(false)
+            } else {
+                throw new Error(data.message)
+            }
+        } catch (error) {
+            setError(error.message)
+            setIsLoading(false)
+        }
+    })
+}
+
+
+// << Password
+
 
 
 function* onLogoutStart() {
@@ -228,5 +336,8 @@ function* onRemoveAddressStart() {
 }
 
 export default function* userSagas() {
-    yield all([call(onGetRegisterOtpStart), call(onGetLoginOtpStart), call(onOtpVerificationStart), call(onLogoutStart), call(onGetAddressStart), call(onAddAddressStart), call(onRemoveAddressStart), call(onUpdateAddressStart)])
+    yield all([call(onGetRegisterOtpStart), call(onGetLoginOtpStart), call(onOtpVerificationStart), call(onLogoutStart), call(onGetAddressStart), call(onAddAddressStart), call(onRemoveAddressStart), call(onUpdateAddressStart),
+    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart)
+    ])
+
 }

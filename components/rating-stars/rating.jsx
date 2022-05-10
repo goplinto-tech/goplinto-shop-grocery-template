@@ -8,9 +8,9 @@
 
 import ReactStars from "react-rating-stars-component";
 
-const Rating = ({ value, size = 30, edit = false, count = 5, place, changevalue,...params }) => {
+const Rating = ({ value, size , edit = false, count = 5, place, changevalue,...params }) => {
   const secondExample = {
-    size: 30,
+    size: size||30,
     count: 5,
     color: "black",
     activeColor: "red",

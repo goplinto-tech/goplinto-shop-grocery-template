@@ -13,6 +13,7 @@ import ErrorPage from '@components/error'
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 import accountLayout from '@components/layout/account-layout'
 import Review from '@components/Cards/Review/review'
+import {BsArrowLeft} from 'react-icons/bs'
 
 
 function orderDetail({ getOrderDetails }) {
@@ -37,12 +38,12 @@ function orderDetail({ getOrderDetails }) {
   return (
     <>
       <div className=' w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 ' style={{ boxShadow: `0px 2px 8px #0000001A` }}>
-        <button className='flex items-center black-color-75 mr-4' onClick={router.back}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-arrow-left" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z" />
-          </svg>
-        </button>
-        <span className='text-base font-semibold'>Order Details</span>
+
+{
+  orderDetails?.orderId&&
+  <span className='text-base text-gray-400 '>Order Id - {orderDetails?.orderId} </span>
+
+}
       </div>
       <section className="bg-gray-100 w-full ">
         <div className=' mx-auto'>
@@ -85,6 +86,18 @@ function orderDetail({ getOrderDetails }) {
           <Return action={'return'} items={orderDetails.orderItems} orderId={orderDetails.orderId} closeRetun={setIsReturnActive} />
         }
       </section>
+      <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[122px] w-full `} style={{zIndex:1200}}>
+
+{/* <Tracker status={cartHeader.status}/> */}
+<div className={`flex items-center absolute bottom-0  mb-4`} onClick={router.back}>
+  <BsArrowLeft className={`mx-4`} size={35} color={'white'}/>
+   <p className={`text-2xl text-[white] mx-4`}>Order Details</p>
+</div>
+
+
+
+
+</div>
     </>
   )
 }

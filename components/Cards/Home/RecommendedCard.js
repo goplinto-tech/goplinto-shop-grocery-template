@@ -8,10 +8,17 @@ function RecommendedCard({offer}) {
 }
   return (
     <>
-    <div className="border-2 border-gray-400 ">
+    <div className="md:border-2 md:border-gray-400 bg-white  ">
      <div className="flex justify-between w-full">
        <img  className="m-2" src="/img/square.png"/>
-       <AiOutlineHeart className="m-2" size={18} />
+       <AiOutlineHeart className="m-2 hidden md:block" size={18} />
+       <div className="md:hidden flex">
+    <p className=" text-sm flex items-center">4.5</p>
+    <div className="flex items-center">
+    <AiFillStar color="orange" />
+
+    </div>
+    </div>
      </div>
      <div className="w-10/12 h-30 mx-6 ">
      <img className="w-full h-full " src="/img/fresh1.png"/>
@@ -36,7 +43,7 @@ function RecommendedCard({offer}) {
       <p className="text-gray-400 font-thinner text-sm mx-4 flex items-center"> (MPR. 1249)</p>
 
     </div>
-    <div className="flex">
+    <div className="md:flex hidden">
     <p className=" text-sm flex items-center">4.5</p>
     <div className="flex items-center">
     <AiFillStar color="orange" />
@@ -52,7 +59,7 @@ function RecommendedCard({offer}) {
       }...
 </p>
      </div>
-    <div className="my-2 white-color">
+    <div className="my-2 white-color ">
     <Button  className="w-full py-2 rounded" style={{backgroundColor:"#F58634"}} type="button" href="/" title="ADD TO CART"/>
 
     </div>

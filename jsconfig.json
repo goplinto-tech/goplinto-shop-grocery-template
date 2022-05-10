@@ -47,5 +47,5 @@
         "**/*.ts",
         "**/*.tsx",
         "**/*.js"
-    ],
+, "components/Cards/Order/wishlist/wishlist.jsx"    ],
 }
