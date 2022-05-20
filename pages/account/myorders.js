@@ -22,8 +22,14 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
 
   useEffect(() => {
     getCurrentOrders({ userId: user.customer_id, setOrderList, setError, setIsLoadingCurrent })
-    getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast })
+    // getPastOrders({ userId: user.customer_id, setOrderList: setOrderListPast, setError, status: setIsLoadingPast })
   }, [])
+
+  // useEffect(()=>{
+  //   if(isLoadingCurrent=="success"){
+  //     getPastOrders({ userId: user.customer_id, orderList, setOrderList: setOrderList, setError, status: setIsLoadingPast })
+  //   }
+  // },[isLoadingCurrent])
 
   // useEffect(() => {
   //   setIsLoading((orderList.length || orderListPast.length) && true)
@@ -41,7 +47,7 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
               {/* <Header display={true} topic="My Orders" /> */}
 
 
-              <div className="grid  grid-cols-1  gap-6 mb-4">
+              <div className="grid grid-cols-1 gap-4 mb-4 md:mt-5 mt-28 lg:mt-0">
                 {
                   orderList.length ? orderList.map((item, i) => (
                     <div className="w-full rounded shadow bg-white " key={i}>
@@ -59,11 +65,11 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
                 }
               </div>
 
-              <div className="grid grid-cols-1 gap-6 mb-4 ">
+              {/* <div className="grid grid-cols-1 gap-6 mb-4">
                 {
                   orderListPast.length ?
                     orderListPast.map((item, i) => (
-                      <div className="w-full rounded shadow   bg-white" key={i}>
+                      <div className="w-full rounded shadow bg-white" key={i}>
                         <OrderCard data={item} status={'past'} message={'Delivery Success'} />
                       </div>
                     ))
@@ -72,10 +78,10 @@ function Myorders({ user, getCurrentOrders, getPastOrders }) {
                       <p className='text-lg'>You haven't past ordered !</p>
                     </div>
                 }
-              </div>
+              </div> */}
             </>
       }
-     <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[122px] w-full `} style={{zIndex:1200}}>
+     <div className={`md:hidden fixed top-0     shadow-lg nav-bg h-[80px] w-full `} style={{zIndex:1200}}>
 
 {/* <Tracker status={cartHeader.status}/> */}
 <div className={`flex items-center absolute bottom-0  mb-4`} onClick={router.back}>

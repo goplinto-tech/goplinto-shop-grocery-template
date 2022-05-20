@@ -22,6 +22,11 @@ const userReducer = (state = INITIAL_STATE, { type, payload }) => {
                 ...state,
                 address: [...payload],
             }
+        case userActionType.UPDATE_CURRENT_USER:
+            return {
+                ...state,
+                currentUser: payload,
+            }
 
         case userActionType.CLEARE_USER_START:
             return INITIAL_STATE

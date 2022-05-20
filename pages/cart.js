@@ -3,8 +3,6 @@ import { useRouter } from 'next/router'
 import { connect } from 'react-redux'
 import Link, { redirect } from '@components/link'
 import { Button } from '@components/inputs'
-import { IoIosCloseCircleOutline } from 'react-icons/io'
-import { AiFillCaretDown } from 'react-icons/ai'
 
 import { Input } from '@components/inputs'
 // Components
@@ -73,7 +71,6 @@ const Cart = ({
   const [active2, setactive2] = useState(false)
   const [confirmOrder, setConfirmOrder] = useState(false)
   const [checkoutDetails, setcheckoutDetails] = useState({
-    // deliveryAddress: userAddress.length ? userAddress[0]?.address_id : null,
     deliveryAddress: null,
     deliveryMethod: '',
     paymentMethod: '',
@@ -96,10 +93,8 @@ const Cart = ({
   }, [user])
   const router = useRouter()
   useEffect(() => {
-    // Get Purchase Id
-    if (!cart.length) return
-    // Do nothing if don't have storeId and user
-    if (!info || !user) return
+    // Do nothing if don't have storeId, user and cart length is zero
+    if (!info || !user || !cart.length) return
     const data = {
       [info.store_id]: [
         ...cart.map((item) => ({
@@ -110,31 +105,27 @@ const Cart = ({
         })),
       ],
     }
+    console.log('Cartipdate');
     //  Creating browsercart
-    if (!checkout.purchase) {
-      setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
-    }
+    setBackendCart({ userId: user.customer_id, groupId: info.group_id, purchaseId: checkout?.purchase?.purchase_id, data })
+    // if (!checkout.purchase) {
+    //   setBackendCart({ userId: user.customer_id, groupId: info.group_id, data })
+    // }
 
     // Setting default details
-    if (checkout.purchase) {
-      setPaymentMethod({
-        purchaseId: checkout.purchase?.purchase_id,
-        flag: checkoutDetails.paymentMethod,
-      })
-    }
-    if (checkout.purchase) {
-      setShipmentMethod({
-        purchaseId: checkout.purchase?.purchase_id,
-        flag: checkoutDetails.deliveryMethod,
-      })
-    }
-  }, [user, checkout.purchase, info])
-  // useEffect(() => {
-  //     if (checkoutDetails.deliveryAddress && checkout.purchase) {
-  //         setDeliveryAddressToPurchase({ purchaseId: checkout.purchase?.purchase_id, addressId: checkoutDetails.deliveryAddress })
-  //     }
-  //     console.log();
-  // }, [userAddress])
+    // if (checkout.purchase) {
+    //   setPaymentMethod({
+    //     purchaseId: checkout.purchase?.purchase_id,
+    //     flag: checkoutDetails.paymentMethod,
+    //   })
+    // }
+    // if (checkout.purchase) {
+    //   setShipmentMethod({
+    //     purchaseId: checkout.purchase?.purchase_id,
+    //     flag: checkoutDetails.deliveryMethod,
+    //   })
+    // }
+  }, [user, totalItems, info])
 
   useEffect(() => {
     if (user) {
@@ -259,6 +250,7 @@ const Cart = ({
             method: paymentMethod,
             customerId,
             orderId,
+            amount
           })
         )
       }
@@ -314,28 +306,17 @@ const Cart = ({
     return (
       <>
         <div className=" py-4 px-4 flex md:hidden bg-white items-center border-b-[1px] border-[#E7E7E7] ">
-
-
           <span className="text-black mx-2  text-lg font-bold">
             <svg width="25" height="25" viewBox="0 0 23 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.9688 10.1562C17.9688 8.29145 17.2872 6.50302 16.0741 5.18441C14.861 3.86579 13.2156 3.125 11.5 3.125C9.78438 3.125 8.13903 3.86579 6.9259 5.18441C5.71278 6.50302 5.03125 8.29145 5.03125 10.1562C5.03125 13.0406 7.15444 16.8 11.5 21.3031C15.8456 16.8 17.9688 13.0406 17.9688 10.1562ZM11.5 23.4375C6.22869 18.2297 3.59375 13.8016 3.59375 10.1562C3.59375 7.87705 4.42673 5.69119 5.90944 4.07955C7.39215 2.46791 9.40313 1.5625 11.5 1.5625C13.5969 1.5625 15.6079 2.46791 17.0906 4.07955C18.5733 5.69119 19.4062 7.87705 19.4062 10.1562C19.4062 13.8016 16.7713 18.2297 11.5 23.4375Z" fill="#313031" />
               <path d="M11.5 12.5C12.0719 12.5 12.6203 12.2531 13.0247 11.8135C13.4291 11.374 13.6562 10.7779 13.6562 10.1562C13.6562 9.53465 13.4291 8.93851 13.0247 8.49897C12.6203 8.05943 12.0719 7.8125 11.5 7.8125C10.9281 7.8125 10.3797 8.05943 9.9753 8.49897C9.57093 8.93851 9.34375 9.53465 9.34375 10.1562C9.34375 10.7779 9.57093 11.374 9.9753 11.8135C10.3797 12.2531 10.9281 12.5 11.5 12.5ZM11.5 14.0625C10.5469 14.0625 9.63279 13.6509 8.95884 12.9184C8.28488 12.1858 7.90625 11.1923 7.90625 10.1562C7.90625 9.12025 8.28488 8.12668 8.95884 7.39411C9.63279 6.66155 10.5469 6.25 11.5 6.25C12.4531 6.25 13.3672 6.66155 14.0412 7.39411C14.7151 8.12668 15.0938 9.12025 15.0938 10.1562C15.0938 11.1923 14.7151 12.1858 14.0412 12.9184C13.3672 13.6509 12.4531 14.0625 11.5 14.0625Z" fill="#313031" />
             </svg>
           </span>
-
           <div className="w-3/4 leading-5">
-
-
           </div>
-          <Button className={`btn-color   btn-bg m text-sm  rounded-2xl py-3 px-4  `} pdp={true} style={{ backgroundColor: "#F58634" }} onClick={() => {
+          <Button className={`btn-color btn-bg m text-sm  rounded-2xl py-3 px-4  `} pdp={true} style={{ backgroundColor: "#F58634" }} onClick={() => {
             router.push(`/account/savedplaces`)
           }}  >Change </Button>
-
-
-
-
-
-
         </div>
         <div
           className=" hidden w-full flex sm:hidden justify-start items-center p-5 bg-white sticky top-0 z-10 "
@@ -389,37 +370,16 @@ const Cart = ({
             zIndex: 1
           }}
         >
-          <div className="flex justify-center ">
-
-
-            <div className="w-full flex justify-end ml-4">
-              <Button
-                className="  py-4  px-10 sm:py-4 white-color rounded btn-bg text-center text-lg font-bold mx-auto"
-                type="link"
-                style={{ backgroundColor: '#F58634' }}
-                href={`/`}
-              >
-                Continue Shopping
-              </Button>
-            </div>
-
-            <div>
-
-            </div>
-          </div>
+          {/* */}
         </div>
       </>
     )
   }
   return (
     <>
-      <div className="flex bg-[#f2f2f2] flex-row  w-full ">
-        <div className="w-1/12 hidden md:block "></div>
-        <div className="w-12/12 md:w-10/12  md:mx-8">
-          <div
-            className=" w-full flex hidden justify-start items-center p-5 bg-white sticky top-0 z-10 "
-            style={{ boxShadow: `0px 2px 8px #0000001A` }}
-          >
+      <div className="flex wrapper bg-[#f2f2f2] flex-row  w-full ">
+        <div className="w-full">
+          <div className=" w-full flex hidden justify-start items-center p-5 bg-white sticky top-0 z-10 " style={{ boxShadow: `0px 2px 8px #0000001A` }}>
             <button
               className="flex items-center black-color-75 mr-4"
               onClick={router.back}
@@ -442,11 +402,11 @@ const Cart = ({
           </div>
           <section className=" bg-white md:bg-[#f2f2f2]  relative pb-16">
             <div className=" mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-12 md:gap-2 md:gap-6 2xl:gap-10">
-                <div className="w-full   col-span-10 md:col-span-7 xl:col-span-8 col-auto ">
+              <div className="grid grid-cols-1 lg:grid-cols-12 lg:gap-6 2xl:gap-10">
+                <div className="w-full col-span-12 md:col-span-7 lg:col-span-8 xl:col-span-8  ">
                   {payment && (
                     <>
-                      <div className=" py-4   hidden md:flex ">
+                      <div className=" py-4 hidden md:flex ">
                         <span className="text-lg font-bold ">
                           Select Payment Method
                         </span>
@@ -538,7 +498,7 @@ const Cart = ({
                               <div className=" w-full flex justify-center items-center">
                                 {!!purchaseDetails ? (
                                   <Button
-                                    className="w-3/4 py-3 sm:py-4 white-color rounded btn-bg text-center"
+                                    className="w-3/4 py-4 white-color rounded btn-bg text-center"
                                     onClick={initiatePayment}
                                     disabled={
                                       !enablePayment ||
@@ -563,7 +523,7 @@ const Cart = ({
                                   </Button>
                                 ) : (
                                   <Button
-                                    className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center opacity-70"
+                                    className="w-full py-4 white-color rounded btn-bg text-center opacity-70"
                                     disabled={true}
                                     style={{ backgroundColor: '#F58634' }}
                                   >
@@ -576,7 +536,7 @@ const Cart = ({
                         ) : (
                           <div className=" col-span-full">
                             <Button
-                              className="w-full py-3 sm:py-4 white-color rounded btn-bg text-center mx-auto"
+                              className="w-full py-4 rounded btn-bg btn-color text-center mx-auto"
                               onClick={authToggle}
                             >
                               Login to Proceed
@@ -602,10 +562,7 @@ const Cart = ({
                         />
                         <Button
                           className="px-4  py-2 sm:py-4 white-color rounded btn-bg text-center"
-                          // onClick={initiatePayment}
-                          style={{
-                            backgroundColor: '#F58634',
-                          }}
+                        // onClick={initiatePayment}
 
                         >
 
@@ -758,7 +715,7 @@ const Cart = ({
                   <div className=" pt-4 hidden  md:flex ">
                     {
                       !payment ? <>
-                        <span className="text-orange-400  text-lg font-bold">
+                        <span className="  text-lg font-bold">
                           {totalItems} items
                         </span>
                         <span className="text-lg font-bold mx-2">In your cart</span>
@@ -772,9 +729,7 @@ const Cart = ({
                   {
                     cartHeader.status === 'desktop' &&
                     <div className=" py-4 px-4 flex md:hidden bg-white items-center border-b-[1px] border-[#E7E7E7] ">
-
                       {
-
                         !payment ? <>
                           <span className="text-black mx-2  text-lg font-bold">
                             <svg width="25" height="25" viewBox="0 0 23 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -784,13 +739,12 @@ const Cart = ({
                           </span>
 
                           <div className="w-3/4 leading-5">
-                            <p className="text-lg font-bold ">{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.full_name === [] || userAddress[0]?.full_name}</p>
-                            <span className="text-base leading-3 ">{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.address_line_1 || userAddress[0]?.address_line_1},{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.address_line_2 || userAddress[0]?.address_line_2}</span>
+                            <p className="text-base md:text-lg font-bold ">{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.full_name === [] || userAddress[0]?.full_name}</p>
+                            <span className="text-sm md:text-base leading-3 ">{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.address_line_1 || userAddress[0]?.address_line_1},{userAddress.filter(x => x.address_id === +localStorage.getItem('addId'))[0]?.address_line_2 || userAddress[0]?.address_line_2}</span>
 
                           </div>
-                          <Button className={`btn-color   btn-bg m text-sm  rounded-2xl py-3 px-4  `} pdp={true} style={{ backgroundColor: "#F58634" }} onClick={() => {
-                            const url = `/${info?.store_name.replaceAll(" ", '-').trim()}/${info.store_id}`
-                            router.push(`${url}/account/savedplaces`)
+                          <Button className={`btn-color btn-bg text-sm  rounded-2xl py-3 px-4  `} pdp={true} onClick={() => {
+                            router.push(`/account/savedplaces`)
                           }}  >Change </Button>
 
                         </> :
@@ -804,15 +758,14 @@ const Cart = ({
                   {
                     cartHeader.status !== ('payment' || 'order') &&
                     <>
-
                       {cart.map((item, i) => (
                         <div key={i}>
                           <div className=" md:my-4  w-full bg-white rounded border-b-[1px] border-[#E7E7E7] md:border-[0px]">
-                            <div className="flex w-full p-2 justify-end text-gray-400   ">
+                            {/* <div className="flex w-full p-2 justify-end text-gray-400   ">
                               <IoIosCloseCircleOutline className="cursor-pointer hidden md:block" onClick={(e) => { deleteItemFromCart(item) }} size={20} />
-                            </div>
+                            </div> */}
                             {/* cart Item list */}
-                            <div className="p-3 py-0 lg:px-6 lg:pb-6 md:py-2 md:pb-6 sm:p-6  flex flex-col  divide-y sm:divide-y-0">
+                            <div className="p-3 lg:p-6  flex flex-col  divide-y sm:divide-y-0">
                               <CartItem data={item} />
                             </div>
                           </div>
@@ -820,8 +773,6 @@ const Cart = ({
                       ))}
                     </>
                   }
-
-
                   {!!purchaseDetails && payment && (
 
                     <>
@@ -1019,9 +970,8 @@ const Cart = ({
                   )}
                 </div>
                 {/* payment for mobile view */}
-
                 {/* Invoice section */}
-                <div className="w-full col-span-12  lg:col-span-5 xl:col-span-4 ">
+                <div className="w-full col-span-12 md:col-span-5 lg:col-span-4 xl:col-span-4 ">
                   {!!user && (
                     <>
                       {/* <div className="bg-white">
@@ -1045,7 +995,7 @@ const Cart = ({
                                     // setOnSuccess(null)
                                     setCouponCode(e.target.value)
                                   }} value={couponCode} />
-                                  <Button className=' col-span-2 rounded py-3 text-white bg-[#48887B]' onClick={onCouponAppyHandler} >Apply</Button>
+                                  <Button className=' col-span-2 rounded py-3 text-white btn-bg' onClick={onCouponAppyHandler} >Apply</Button>
                                 </div>
                                 {
                                   !!success &&
@@ -1087,13 +1037,13 @@ const Cart = ({
                                     </span>
                                   </div>
 
-                                  <span className="font-semibold">
+                                  {/* <span className="font-semibold">
                                     Get all Item before :
                                   </span>
                                   <span className="text-green-600">
                                     {' '}
                                     Wednesday 23 mar, 2022
-                                  </span>
+                                  </span> */}
                                 </div>
                               </div>
                             </div>
@@ -1220,18 +1170,12 @@ const Cart = ({
                       {
                         !!user ? (
                           (
-
                             <>
-
                               {
                                 !payment ?
                                   <Button
                                     className="w-3/4 py-3 hidden md:block sm:py-4 white-color rounded btn-bg text-center"
                                     onClick={() => { setpayment(!payment) }}
-
-                                    style={{
-                                      backgroundColor: '#F58634',
-                                    }}
                                   >Proceed</Button> :
                                   <Button
                                     className="w-3/4 py-3 hidden md:block sm:py-4 white-color rounded btn-bg text-center"
@@ -1242,20 +1186,17 @@ const Cart = ({
 
                                     }
                                     style={{
-                                      backgroundColor: '#F58634',
+
                                       opacity: `${checkoutDetails.paymentMethod === '' ? 0.6 : 1}`
                                     }}
                                   >Proceed To Pay</Button>
                               }
-
-
                               {
-                                cartHeader.status !== 'review' && <div className=" w-1/2 md:hidden flex justify-start text-gray-400 ">
-                                  <div>
-                                    <span className="   text-lg font-semibold">
-                                      {totalItems} Items
+                                cartHeader.status !== 'review' && <div className="w-full md:hidden flex justify-start text-gray-400 ">
+                                  <div className='p-3'>
+                                    <span className=" text-lg font-semibold">
+                                      {totalItems} Items In  cart
                                     </span>
-                                    <span className="text-lg font-gray-400 font-semibold mx-2">In  cart</span>
                                     <div className="flex text-black ">
                                       <h2 className="text-lg font-bold">
                                         Total
@@ -1268,12 +1209,8 @@ const Cart = ({
                                       </h2>
                                     </div>
                                   </div>
-
-
                                 </div>
                               }
-
-
                               {
                                 cartHeader.status === 'review' &&
                                 <>
@@ -1382,9 +1319,9 @@ const Cart = ({
 
                               {
                                 cartHeader.status !== 'review' ?
-                                  <div className="w-1/2  items-center flex justify-end md:hidden">
+                                  <div className="p-3 w-full items-center flex justify-end md:hidden">
                                     <Button
-                                      className="w-3/4 py-3  md:block sm:py-4 white-color rounded btn-bg text-center"
+                                      className="w-full   md:block py-4 white-color rounded btn-bg text-center"
                                       onClick={() => {
                                         setcartHeader({
                                           ...cartHeader,
@@ -1398,19 +1335,15 @@ const Cart = ({
                                       }
 
                                       style={{
-                                        backgroundColor: '#F58634',
                                         opacity: `${cartHeader.status === 'payment' && checkoutDetails.paymentMethod === '' ? 0.6 : 1}`
                                       }}
                                     >Proceed</Button>
                                   </div> :
-                                  <div className=" w-full   items-center flex justify-center md:hidden">
+                                  <div className=" w-full p-3  items-center flex justify-center md:hidden">
                                     <Button
-                                      className="w-full py-4  md:block sm:py-4 white-color rounded btn-bg text-center"
+                                      className="w-full  md:block py-4 white-color rounded btn-bg btn-color text-center"
                                       onClick={() => { initiatePayment(), setactive2(true) }}
 
-                                      style={{
-                                        backgroundColor: '#F58634',
-                                      }}
                                     >Proceed To Pay</Button>
                                   </div>
                               }
@@ -1419,9 +1352,8 @@ const Cart = ({
                             </>
                           )) :
                           <Button
-                            className="w-3/4 py-3 sm:py-4 white-color rounded btn-bg text-center mx-auto"
+                            className="w-3/4 py-4 white-color rounded btn-bg btn-color text-center mx-auto"
                             onClick={authToggle}
-                            style={{ backgroundColor: '#F58634' }}
                           >
                             Login
                           </Button>
@@ -1534,7 +1466,6 @@ const Cart = ({
             </div>
           )}
         </div>
-        <div className="w-1/12 hidden md:block "></div>
       </div>
       <div className={`md:hidden fixed top-0  ${!cartHeader.active && 'hidden'}   shadow-lg bg-[#48887B] h-[124px] w-full `} style={{ zIndex: 1200 }}>
 

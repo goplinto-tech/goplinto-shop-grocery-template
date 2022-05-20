@@ -80,8 +80,8 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                                     active.activeid === item.category_id && active.active &&
                                     <ul className="ul-list pl-6">
                                         {
-                                            item.subcategories.map((subitem, i) => (
-                                                <li >
+                                            item.subCategories.map((subitem, i) => (
+                                                <li>
                                                     <Link href={`/?category=${item.category_id}&subCategoryId=${subitem.sub_category_id}`}>
                                                         <a>
                                                             {parseInt(data?.subCategoryId, 10) === subitem.sub_category_id ?
@@ -130,7 +130,6 @@ const CatList = ({ title = "Categories", list = [], closeMenu, ...props }) => {
                         //       }
                         //   </ul>
                         //     </li>
-
                         // ))
                     }
                 </ul>

@@ -15,9 +15,9 @@ import { riseError } from "../global-error-handler/global-error-handler-action.t
 
 function* onSetBackendCartStart() {
     yield takeLatest(checkoutActionType.SET_BACKEND_CART_START, function* ({ payload }) {
-        const { userId, groupId, data } = payload;
+        const { userId, groupId, purchaseId, data } = payload;
         try {
-            const res = yield fetcher('POST', `?r=orders/add-items-to-cart&customerId=${userId}&groupId=${groupId}`, data)
+            const res = yield fetcher('POST', `?r=orders/add-items-to-cart&customerId=${userId}&groupId=${groupId}${purchaseId ? `&purchaseId=${purchaseId}` : ''}`, data)
             yield put(updateCartSuccess())
             yield put(setBackendCartSuccess(res.data));
             yield put((getPurchageStart(res.data?.purchase_id)))
@@ -38,7 +38,7 @@ function* onSetBackendCartStoreStart() {
         const { userId, groupId, data, purchaseId } = payload;
         try {
             // const res = yield fetcher('POST', `?r=orders/add-items-to-cart&customerId=${userId}&groupId=${groupId}&purchaseId=${purchaseId}`, data)
-            const res = yield fetcher('POST', `?r=orders/add-items-to-cart&customerId=${userId}&groupId=${groupId}&purchaseId=${purchaseId}`, data)
+            const res = yield fetcher('POST', `?r=orders/add-items-to-cart&customerId=${userId}&groupId=${groupId}${purchaseId ? `&purchaseId=${purchaseId}` : ''}`, data)
             yield put(updateCartSuccess())
             yield put(setBackendCartSuccess(res.data));
             yield put((getPurchageStart(res.data?.purchase_id)))
@@ -92,13 +92,14 @@ function* onSetDeliveryMethodToPurchese() {
             const resSetDelivery = yield fetcher('GET', `?r=orders/set-delivery&purchaseId=${purchaseId}&flagStatus=${flag}`)
             if (resSetDelivery.data && resSetParcel) {
                 yield put(setShipmentMethodSuccess(true))
+                yield put((getPurchageStart(purchaseId)))
             }
         } catch (error) {
-            if (error.message == 'Network Error') {
-                yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
-            } else {
-                yield put(riseError({ message: "Delivery method couldn't be set!", onOk: () => { return }, onOkName: "Close" }))
-            }
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { Router.reload() }, onOkName: "Reload" }))
+            // } else {
+            //     yield put(riseError({ message: "Delivery method couldn't be set!", onOk: () => { return }, onOkName: "Close" }))
+            // }
             // yield put(errorOnProductDetailPage(error))
         }
     })

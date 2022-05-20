@@ -133,3 +133,19 @@ export const newPasswordCreateSuccess = (data) => ({
 })
 
 
+// UPDATE USER DETAILS
+export const updateUserDetails = (data) => ({
+    type: userActionType.UPDATE_USER_DETAILS,
+    payload: data
+})
+
+export const updateCurrentUserDetails = (data) =>
+(
+
+    {
+        type: userActionType.UPDATE_CURRENT_USER,
+        payload: data
+    }
+)
+
+

@@ -3,11 +3,12 @@ import axios from "axios";
 import fetcher, { nodefetcher } from "../utility";
 import userActionType from './user-action-type'
 import {
-    getLoginOtpSuccess, getRegisterOtpSuccess, autheError, otpVerificationSuccess, cleareUserStart, getAddressSuccess, getAddressStart, loginSuccess
+    getLoginOtpSuccess, getRegisterOtpSuccess, autheError, otpVerificationSuccess, cleareUserStart, getAddressSuccess, getAddressStart, loginSuccess, updateCurrentUserDetails
 } from "./user-action";
 import { clearCheckout } from "../checkout/checkout-action";
 
 import { riseError } from '../global-error-handler/global-error-handler-action.ts'
+import { toast } from "react-toastify";
 
 function* onGetLoginOtpStart() {
     yield takeLatest(userActionType.GET_LOGIN_OTP_START, function* ({ payload }) {
@@ -277,6 +278,9 @@ function* onAddAddressStart() {
         try {
             const res = yield fetcher('POST', `?r=customer/add-address&customerId=${userId}`, { customerAddressDetails: address })
             if (res.data) {
+                toast.success("Saved Successfully",{
+                    autoClose: 2000
+                })
                 yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
@@ -299,6 +303,9 @@ function* onUpdateAddressStart() {
             const res = yield fetcher('POST', `?r=customer/update-address&addressId=${addressId}&customerId=${userId}`, { customerAddressDetails: address })
             console.log(res);
             if (res.data) {
+                toast.success("Updated Successfully",{
+                    autoClose: 2000
+                })
                 yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
@@ -319,6 +326,9 @@ function* onRemoveAddressStart() {
         try {
             const res = yield fetcher('GET', `?r=customer/remove-address&customerId=${userId}&addressId=${addressId}`)
             if (res.data) {
+                toast.success("Removed Successfully",{
+                    autoClose: 2000
+                })
                 yield put(getAddressStart({ userId, setError }))
             }
         } catch (error) {
@@ -335,9 +345,33 @@ function* onRemoveAddressStart() {
     })
 }
 
+function* onUpdateUserDetailsStart() {
+    yield takeLatest(userActionType.UPDATE_USER_DETAILS, function* ({ payload }) {
+        const {customerId} = payload;
+        try {
+            const res = yield fetcher('POST', `?r=customer/update-login-details&customerId=${customerId}`, payload)
+            if (res.data) {
+                toast.success("Updated Successfully",{
+                    autoClose: 2000
+                })
+                
+                yield put(updateCurrentUserDetails(res.data))
+            }
+        } catch (error) {
+            console.log(error)
+            // if (error.message == 'Network Error') {
+            //     yield put(riseError({ name: 'No Interner', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
+            // } else {
+            //     yield put(riseError({ name: error.name, message: "Operation faield!", onOk: () => { return }, onOkName: "CLOSE" }))
+            // }
+            // yield put(autheError(error))
+        }
+    })
+}
+
 export default function* userSagas() {
     yield all([call(onGetRegisterOtpStart), call(onGetLoginOtpStart), call(onOtpVerificationStart), call(onLogoutStart), call(onGetAddressStart), call(onAddAddressStart), call(onRemoveAddressStart), call(onUpdateAddressStart),
-    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart)
+    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart), call(onUpdateUserDetailsStart)
     ])
 
 }

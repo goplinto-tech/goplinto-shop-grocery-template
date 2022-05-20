@@ -35,7 +35,9 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
   const [query, setQuery] = useState('')
   const [Menu, setmenu] = useState(false)
   const router = useRouter();
+  const exceptionRouteinMobile = ['/account/profile', '/account/myorders', '/account/wishlist', '/account/wallet', '/account/savedplaces', '/account/newaddress']
   const isDesktopOrLaptop = useMediaQuery({ minWidth: 640 })
+  const isDesktopOrLaptopx = useMediaQuery({ minWidth: 1020 })
   useEffect(() => {
     getShopInfo(storeId);
     getShopSeo(storeId);
@@ -58,15 +60,10 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
     // This handler function comming from PLP page via redux
   }
   const onSearched = () => {
-
-    searchHandler(query)
-
-    // if (!searchHandler) {
-    //     router.push(`/`);
-    //     setStatus('loading')
-    //     redirect(`/?search=${query}`)
-    //   }
-
+    console.log('queryrr', query);
+    if (query.length) {
+      redirect(`/shop?search=${query}`)
+    }
   }
 
 
@@ -110,10 +107,9 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
   return (
     <nav className='sticky top-0  ' ref={ref} style={{ backgroundColor: `#F9F6ED` }}>
 
-      <div className={(router.pathname == "/[name]/[storeId] hidden md:block " || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body  relative bg-[#F9F6ED] hidden md:block` : 'hidden'} >
-
-        <div className="flex flex-row  py-4 w-full">
-          <div className="basis-1/12  md:basis-1/12 lg:basis-1/6 h-20 md:w-max lg:w-full  md:mx-2 lg:mx-0 lg:w-full flex items-center">
+      <div className={(router.pathname == "/[name]/[storeId] hidden md:block " || ['search', 'category'].some(val => router.asPath.includes(val))) || isDesktopOrLaptop ? `navbar-body  relative bg-[#F9F6ED] hidden md:block nav-bg` : 'hidden'} >
+        <div className="wrapper flex flex-row justify-between py-4 w-full">
+          <div className=" flex items-center ">
             <Button className="md:w-max lg:w-full" type="link" href="/">
               <div className="flex  justify-center md:w-max lg:w-full  items-center ">
                 <div className="h-20 w-20  shrink-0 flex  justify-center overflow-hidden rounded-md items-center">
@@ -126,52 +122,42 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
               </div>
             </Button>
           </div>
-          <div className="basis-1/2 flex items-center h-20">
-            <div className=" flex flex-row justify-between w-full ">
-              <div className="basis-1/4 border-white  h-10 text-black flex items-center">
-                <GrLocation size={20} />
-                <div className="mx-2">
-                  <p className="font-normal lg:text-base md:text-sm text-gray-600 leading-tight ">
-                    Shipping to
-                  </p>
-                  {
-                    !isLogin && !user &&
-                    <p onClick={openAuth} className={` cursor-pointer font-bold lg:text-base md:text-sm ${isLogin && user ? 'hidden' : 'flex'}`}>
-                      Login/Sign Up
-                    </p>
-                  }
-                </div>
-              </div>
-
-              <div className=" basis-3/4 mx-4 w-full flex rounded">
-                <Input className=" h-10 " placeholder='Search for items' onChange={onInputChangeHandler} />
-                <div className="bg-[#48887B] lg:px-8 md:px-2  cursor-pointer rounded-r flex items-center " onClick={onSearched}>
+          <div className=" items-center justify-end flex md:basis-10/12 lg:basis-9/12 space-x-6 lg:space-x-14">
+            <div className=" flex flex-1 flex-row justify-between w-full ">
+              <div className=" w-full flex rounded">
+                <Input className=" px-4 p-2.5 lg:p-3 text-sm border rounded-r-none border-[#48887B] rounded  outline-none" placeholder='Search' onChange={onInputChangeHandler} />
+                <div className="btn-bg px-8  cursor-pointer rounded-r flex items-center " onClick={onSearched}>
                   <AiOutlineSearch color={'white'} size={20} />
                 </div>
               </div>
             </div>
-          </div>
-          <div className="md:basis-2/4 lg:basis-1/4    items-center">
-            <div className=" flex flex-row justify-between items-center text-black mt-4">
-              <div className=" w-full flex justify-around ">
-                <span className="whitespace-nowrap font-bold inline-block tracking-tight md:text-sm lg:text-lg">
-                  Home
-                </span>
-                <span className="whitespace-nowrap font-bold inline-block tracking-tight  md:text-sm lg:text-lg">
-                  shop
-                </span>
-                <span className="whitespace-nowrap font-bold inline-block tracking-tight md:text-sm lg:text-lg">
-                  About
-                </span>
+            <div className=" flex flex-row justify-between items-center nav-items-color text-black space-x-14">
+              <div className=" w-full flex justify-around space-x-4 lg:space-x-6 xl:space-x-14">
+                <Link href={'/'}>
+                  <a className="block whitespace-nowrap font-normal  tracking-tight lg:text-base">
+                    Home
+                  </a>
+                </Link>
+                <Link href={'/shop'}>
+                  <a className="block whitespace-nowrap font-normal  tracking-tight  lg:text-base">
+                    shop
+                  </a>
+                </Link>
+                <a className="block whitespace-nowrap font-normal  tracking-tight lg:text-base">
+                  Contact
+                </a>
               </div>
-              <div className="  flex justify-end ">
+              <div className="flex items-center justify-end space-x-4">
                 <Button
                   className="flex items-center text-black"
                   type="link"
                   href="/cart"
                 >
-                  <span className=" text-black font-bold  my-2 relative">
-                    <IoMdCart size={30} />
+                  <span className=" text-black nav-items-color font-bold  my-2 relative">
+                    {/* <IoMdCart size={30} /> */}
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                    </svg>
                     {
                       !!totalItems &&
                       <div className="absolute -top-2 -right-1 w-5 h-5 p-2 flex bg-[#F58634] justify-center bg-red-600 rounded-full text-white items-center text-xs text-center rounded-full btn-bgs btn-color border border-white">
@@ -183,219 +169,195 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
                     }
                   </span>
                 </Button>
-              </div>
-              {
-                !isLogin && !user ?
-                  <div className="w-32 ml-8 hidden shrink-0 flex items-center">
-                    <Button onClick={openAuth} className=" bg-white text-black max-h-min text-base font-medium rounded py-3 px-8 hover:bg-orange-400 hover:text-white " title="Sign In"></Button>
-                  </div>
-                  :
-                  <div className=" w-max flex relative text-black items-center justify-end lg:ml-4 md:mx-4  cursor-pointer account">
-                    <div className=" w-6 h-6 bg-gray-100 text-gray-400 p-5 overflow-hidden flex justify-center items-center rounded-full">
-                      <span className="text-sm font-extrabold	">
-                        {(() => {
-                          const name = user?.full_name.split(' ')
-                          if (name?.length) {
-                            if (name?.length > 1) {
-                              return `${name[0][0]}${name[name?.length - 1][0]}`.toUpperCase()
+                {
+                  !isLogin && !user ?
+                    <div className="shrink-0 flex items-center">
+                      <Button onClick={openAuth} className=" border border-white max-h-min text-base font-medium rounded py-3 px-8 hover:bg-orange-400 hover:text-white " title="Sign In"></Button>
+                    </div>
+                    :
+                    <div className=" w-max flex relative text-black items-center justify-end lg:ml-4 md:mx-4  cursor-pointer account">
+                      <div className=" w-6 h-6 bg-gray-100 text-gray-400 p-5 overflow-hidden flex justify-center items-center rounded-full">
+                        <span className="text-sm font-extrabold	">
+                          {(() => {
+                            const name = user?.full_name.split(' ')
+                            if (name?.length) {
+                              if (name?.length > 1) {
+                                return `${name[0][0]}${name[name?.length - 1][0]}`.toUpperCase()
+                              }
+                              return `${name[0][0]}${name[0][1]}`.toUpperCase()
                             }
-                            return `${name[0][0]}${name[0][1]}`.toUpperCase()
-                          }
-                          return 'A'
-                        })()}
-                      </span>
-                    </div>
-                    <div className="flex ">
-                      {/* <span className='block min-w-max text-dark text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span> */}
-                      <AiFillCaretDown className="" size={18} />
-                    </div>
+                            return 'A'
+                          })()}
+                        </span>
+                      </div>
+                      <div className="flex ">
+                        {/* <span className='block min-w-max text-dark text-lg font-bold tracking-tight  mt-2  ml-2 mr-2'> My Account</span> */}
+                        <AiFillCaretDown className="" size={18} />
+                      </div>
 
-                    <div className="absolute w-40 hidden  account-options top-full -right-12 z-10">
-                      <div
-                        className="py-6 px-4 mt-6 bg-white w-full rounded account-options"
-                        style={{ boxShadow: '0px 4px 8px #2424243F' }}
-                      >
-                        <ul className="list-none black-color-75 text-base font-medium space-y-6">
-                          <li className="btn-hover-colors hover:text-[#48887B]">
-                            <Link href="/account">
-                              <a>Account</a>
-                            </Link>
-                          </li>
-                          <li className="btn-hover-colors cursor-pointer hover:text-[#48887B]">
-                            <Link href="/account/myorders">
-                              <a>My Orders</a>
-                            </Link>
-                          </li>
-                          <li className="btn-hover-colors cursor-pointer hover:text-[#48887B]">
-                            <Link href="/account/savedplaces">
-                              <a>Saved Places</a>
-                            </Link>
-                          </li>
-                          <li
-                            className="btn-hover-colors cursor-pointer hover:text-[#48887B]"
-                            onClick={() => {
-                              logOut()
-                              setIsLogin(false)
-                            }}
-                          >
-                            <span className="">Log Out</span>
-                          </li>
-                        </ul>
+                      <div className="absolute w-40 hidden  account-options top-full -right-12 z-10">
+                        <div
+                          className="py-6 px-4 mt-6 bg-white w-full rounded account-options"
+                          style={{ boxShadow: '0px 4px 8px #2424243F' }}
+                        >
+                          <ul className="list-none black-color-75 text-base font-medium space-y-6">
+                            <li className="btn-hover-colors hover:text-[#48887B]">
+                              <Link href="/account">
+                                <a>Account</a>
+                              </Link>
+                            </li>
+                            <li className="btn-hover-colors cursor-pointer hover:text-[#48887B]">
+                              <Link href="/account/myorders">
+                                <a>My Orders</a>
+                              </Link>
+                            </li>
+                            <li className="btn-hover-colors cursor-pointer hover:text-[#48887B]">
+                              <Link href="/account/savedplaces">
+                                <a>Saved Places</a>
+                              </Link>
+                            </li>
+                            <li
+                              className="btn-hover-colors cursor-pointer hover:text-[#48887B]"
+                              onClick={() => {
+                                logOut()
+                                setIsLogin(false)
+                              }}
+                            >
+                              <span className="">Log Out</span>
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-              }
-            </div>
-          </div>
-        </div>
-        <div style={{ backgroundColor: '#48887B' }}
-          className="    white-color   wrapper mx-auto " onMouseLeave={() => { setcathover({ ...cathover, active: false }) }}>
-          <div className="flex justify-around w-11/12 mx-12">
-            {
-              lists.length > 0 && lists.map((item, i) => (
-                i < 6 ?
-                  <div key={i}>
-                    <div className="flex  items-center cursor-pointer" onMouseOver={() => { setcathover({ ...cathover, id: item.category_id, active: true }) }} >
-
-                      <span className=" inline text-sm  mx-1 ">{item.category_name}</span>
-                      <span>
-                        <BsChevronDown className="" size={10} />
-
-                      </span>
-                    </div>
-
-                    <div className={`flex  absolute top-[95%]   items-center  `} onMouseLeave={() => { setcathover({ ...cathover, id: [], active: false }) }}>
-
-
-
-                      <ul className={` ${cathover.id === item.category_id ? cathover.active ? "" : 'hidden' : "hidden"} cursor-pointer text-gray-700 white-color
-   relative `}>
-
-
-                        {
-                          item.subCategories.map((item, i) => (
-                            <Link key={i + i} href={`/?category=${item.category_id}&subCategoryId=${item.sub_category_id}`}>
-                              <li  ><a className=" bg-[#48887B] hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap"  >{item.sub_category_name}</a></li>
-
-                            </Link>
-
-
-                          ))
-                        }
-
-
-                      </ul>
-
-
-                    </div>
-
-
-
-                  </div>
-                  :
-                  i === 6 &&
-                  <div key={i}>
-                    <div className="flex  items-center" onMouseOver={() => { setcathover({ ...cathover, id: 'other', active: true }) }}>
-
-                      <span className=" inline text-sm  mx-1">others</span>
-                      <span>
-                        <BsChevronDown className="" size={10} />
-
-                      </span>
-                    </div>
-
-                    <div key={i + "llll"} className={`flex  absolute top-[93%]   items-center  `} onMouseLeave={() => { setcathover({ ...cathover, id: [], active: false }) }} >
-
-
-
-                      <ul className={`  ${cathover.id === 'other' ? cathover.active ? "" : 'hidden' : "hidden"}  text-gray-700 white-color
-       relative `}  >
-
-
-                        {
-                          lists.length > 0 && lists.map((item, i) => (
-                            i >= 6 &&
-                            <li key={i + 'lll'} className=""><a className=" bg-[#48887B] hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">{item.category_name}</a></li>
-
-
-                          ))
-                        }
-
-
-                        {/* <li class=""><a class="rounded-b bg-gray-200 hover:bg-gray-400 py-2 px-4 block whitespace-no-wrap" href="#">Three is the magic number</a></li> */}
-                      </ul>
-
-
-                    </div>
-
-
-
-                  </div>
-              ))
-
-            }
-
-          </div>
-
-
-        </div>
-
-
-
-
-
-
-
-      </div>
-
-      <div className={`md:hidden   shadow-lg bg-[#48887B] h-[124px] w-full `}>
-        <div className=" flex justify-between ">
-
-          <GiHamburgerMenu onClick={() => { setmenu(true) }} className="m-4 my-4 cursor-pointer" color={'white'} size={30} />
-          <Button className="md:w-max mt-3 mb-3 lg:w-full" type="link" href="/">
-            <div className="flex  w-[135px] h-[46px]   rounded md:w-max lg:w-full  ">
-              <div className="h-full w-full rounded  shrink-0 flex  justify-center overflow-hidden r items-center">
-                <img
-                  className="w-100 h-100 object-cover"
-                  src={info.logo_img_url || '/img/default.png'} alt="..."
-
-                />
+                }
               </div>
             </div>
-          </Button>
-          <div>
-            <Button
-              className="flex items-center my-4 mx-4 text-black"
-              type="link"
-              href="/cart"
-            >
-              <span className=" text-white font-bold   relative">
-                <IoMdCart size={30} color={"white"} />
-                {
-                  !!totalItems &&
-                  <div className="absolute -top-2 -right-1 w-5 h-5 p-2 flex justify-center bg-[#F58634] rounded-full text-white items-center text-xs text-center rounded-full btn-bgs btn-color border border-white">
-                    {
-                      totalItems
+          </div>
+        </div>
+        {/* Category list start */}
+        <div
+          className="btn-bg white-color   wrapper mx-auto " onMouseLeave={() => { setcathover({ ...cathover, active: false }) }}>
+          <div className="flex justify-between items-center">
+            {
+              lists.length && lists.slice(0, isDesktopOrLaptopx ? 6 : 4).map((item, i) => (
 
-                    }
+                <div className="others" key={i}>
+                  <Link href={`/shop?category=${item.category_id}`}>
+                    <a className=" text-sm font-medium inline-block cursor-pointer">
+                      {item.category_name}
+                      {
+                        !!item?.subCategories?.length &&
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                        </svg>
+                      }
+                    </a>
+                  </Link>
+                  <div className=" absolute bg-white text-black others-list">
+                    <ul className="">
+                      {
+                        item?.subCategories.map((subItem, j) => (
+                          <li className=" relative others-list-item " key={j + 'll'}>
+                            <Link href={`/shop?category=${item.category_id}&subCategoryId=${subItem.sub_category_id}`}>
+                              <a className=" block py-2 px-4 hover:bg-gray-400">
+                                {subItem.sub_category_name}
+                              </a>
+                            </Link>
+                          </li>
+                        ))
+                      }
+                    </ul>
                   </div>
-                }
-              </span>
-            </Button>
+                </div>
+              ))
+            }
+            {
+              lists.length > 6 &&
+              <div className="others relative">
+                <h5 className=" text-sm font-medium inline-block cursor-pointer">Other
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 inline" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </h5>
+                <div className=" absolute -right-10 w-60 bg-white text-black  others-list">
+                  <ul className=" w-auto">
+                    {
+                      lists.length && lists.slice(isDesktopOrLaptopx ? 6 : 4).map((item, i) => (
+                        <li className=" relative others-list-item " key={i}>
+                          <Link href={`/shop?category=${item.category_id}`}>
+                            <a className=" block py-2 px-4 hover:bg-gray-400">
+                              {item.category_name}
+                            </a>
+                          </Link>
+                          <div className=" absolute top-0 right-full bg-white text-black sub-cat-list">
+                            <ul className="w-60 flex flex-col sticky bottom-0 overflow-x-clip overflow-y-auto" style={{ maxHeight: '300px' }}>
+                              {
+                                item.subCategories.map((subItem, j) => (
+                                  <li key={j + 'll'}>
+                                    <Link href={`/shop?category=${item.category_id}&subCategoryId=${subItem.sub_category_id}`}>
+                                      <a className=" block py-2 px-4 hover:bg-gray-400">
+                                        {subItem.sub_category_name}
+                                      </a>
+                                    </Link>
+                                  </li>
+                                ))
+                              }
+                            </ul>
+                          </div>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+              </div>
+            }
           </div>
         </div>
-
-
-        <div className={" bg-[#F9F6ED]  rounded-lg mx-4  mt-1 shadow-lg flex rounded"}>
-          <Input className=" py-2 w-11/12 border-[0.1px] rounded-l-lg border-[#F9F6ED] bg-transparent focus:outline-none " placeholder='Search ' onChange={onInputChangeHandler} />
-          <div className="bg-[#F9F6ED] lg:px-8 md:px-2 px-4 py-2  border-none outline-none cursor-pointer rounded-r-lg flex items-center " onClick={onSearched}>
-            <FiSearch color={'black'} size={20} />
-          </div>
-        </div>
-
-
-
       </div>
+      {/* has to be hide in some places */}
+      {
+        !exceptionRouteinMobile.includes(router.pathname) ?
+          <div className={`md:hidden nav-bg shadow-lg bg-[#48887B] h-[124px] w-full `}>
+            <div className=" flex justify-between ">
+              <GiHamburgerMenu onClick={() => { setmenu(true) }} className="m-4 my-4 cursor-pointer" color={'white'} size={30} />
+              <Button className="md:w-max mt-3 mb-3 lg:w-full" type="link" href="/">
+                <div className="w-20 h-20 rounded text-center shrink-0 flex  justify-center overflow-hidden items-center">
+                  <img
+                    className=" h-full w-full object-cover"
+                    src={info.logo_img_url || '/img/default.png'} alt="..."
+                  />
+                </div>
+              </Button>
+              <div>
+                <Button
+                  className="flex items-center my-4 mx-4 text-black"
+                  type="link"
+                  href="/cart"
+                >
+                  <span className=" text-white font-bold   relative">
+                    <IoMdCart size={30} color={"white"} />
+                    {
+                      !!totalItems &&
+                      <div className="absolute -top-2 -right-1 w-5 h-5 p-2 flex justify-center bg-[#F58634] rounded-full text-white items-center text-xs text-center rounded-full btn-bgs btn-color border border-white">
+                        {
+                          totalItems
+                        }
+                      </div>
+                    }
+                  </span>
+                </Button>
+              </div>
+            </div>
+            <div className={" bg-[#F9F6ED]  rounded-lg mx-4  mt-1 shadow-lg flex rounded"}>
+              <Input className=" py-2 w-11/12 border-[0.1px] rounded-l-lg border-[#F9F6ED] bg-transparent focus:outline-none " placeholder='Search ' onChange={onInputChangeHandler} />
+              <div className="bg-[#F9F6ED] lg:px-8 md:px-2 px-4 py-2  border-none outline-none cursor-pointer rounded-r-lg flex items-center " onClick={onSearched}>
+                <FiSearch color={'black'} size={20} />
+              </div>
+            </div>
+          </div>
+          :
+          ""
+      }
       {
         Menu &&
         <div className="w-full transition duration-150 ease-in-out bg-white h-[130vh] absolute z-[inherit] top-0 ">
@@ -420,17 +382,22 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
             </div>
 
             <div >
-              <p className="py-6 cursor-pointer px-14 text-lg font-[600]">About</p>
+              <Link href={'/'}>
+                <a className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Home</a>
+              </Link>
             </div>
             <div >
-              <p className="py-6 cursor-pointer px-14 text-lg font-[600]">Contact Us</p>
+              <Link href={'/'}>
+                <a className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Contact Us</a>
+              </Link>
             </div> <div >
-              <p className="py-6 cursor-pointer px-14 text-lg font-[600]">Privecy Policy</p>
+              <Link href={'https://goplinto.com/privacy-policy'}>
+                <a className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Privecy Policy</a>
+              </Link>
             </div> <div >
-              <p className="py-6 cursor-pointer px-14 text-lg font-[600]">Return & Refunds</p>
-            </div>
-            <div >
-              <p className="py-6 cursor-pointer px-14 text-lg font-[600]">Terms of Service</p>
+              <Link href={'https://goplinto.com/refund-policy'}>
+                <a className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Return & Refunds</a>
+              </Link>
             </div>
             <div >
               {/* <p className="py-6 px-14 text-base font-[600]">About</p> */}
@@ -439,14 +406,11 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
 
         </div>
       }
-
-
-
       {/* Navbar for mobile */}
       {
         name !== 'cart' && 'thank-you' &&
         <MediaQuery maxWidth={640}>
-          <div id='mob-navbar' className={`mob-navbar   z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-[-1px] left-0 right-0 bg-white sm:bg-transparent `} style={{ boxShadow: '0px -1px 4px #00000033' }}>
+          <div id='mob-navbar' className={`mob-navbar z-10 py-2 flex sm:justify-end items-center white-color justify-between w-full fixed sm:relative bottom-[-1px] left-0 right-0 bg-white sm:bg-transparent `} style={{ boxShadow: '0px -1px 4px #00000033' }}>
             <div className='text-black w-1/4 flex flex-col  '>
               <Button type='link' href='/' className={`block sm:hidden text-center text-xs ${router.asPath == '/' || router.pathname == '/[name]/[storeId]' && 'btn-nav-color-actives text-[#48887B]'}`}>
                 <div className={` w-[24px] h-[24px] mx-auto`}>
@@ -456,7 +420,7 @@ const Navbar = ({ user, cart, categories, getCategoryStart, getCategoryProducts,
               </Button>
             </div>
             <div className='text-center text-xs font-medium text-black w-1/4'>
-              <Button className={`btn-nav-color ${router.asPath.includes('cart') && 'btn-nav-color-active'}`} type='link' href='/cart'>
+              <Button className={`btn-nav-color ${router.asPath.includes('cart') && 'btn-nav-color-active'}`} type='link' href='/shop'>
                 <div className={` w-[24px] h-[24px] mx-auto`}>
                   {
                     !router.asPath.includes('cart') ?

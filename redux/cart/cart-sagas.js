@@ -97,9 +97,10 @@ function* onDeleteFromCartStart() {
 
 // Cart root sagas
 export default function* cartSagas() {
-    yield all([call(onAddToCartStart),
-    call(onRemoveFromCartStart),
-    call(onDeleteFromCartStart)
+    yield all([
+        //     call(onAddToCartStart),
+        // call(onRemoveFromCartStart),
+        // call(onDeleteFromCartStart)
     ]);
 }
 

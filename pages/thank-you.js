@@ -12,7 +12,7 @@ import Tracker from "@components/Cards/tracker"
 const ThankYou = ({ confirmOrder }) => {
     const [status, setStatus] = useState('loading') // loading, success, failure
     const [orderId, setOrderId] = useState(null)
-
+    // const [price, setPrice] = useState(0)
     const router = useRouter();
     useEffect(() => {
         if (!router.isReady) return;
@@ -21,24 +21,25 @@ const ThankYou = ({ confirmOrder }) => {
         console.log(id, data);
         setOrderId(data.orderId)
         confirmOrder({ ...data, setStatus })
+        // setPrice(data.amount)
 
     }, [router.isReady])
     const [mobNavHeight, setMobNavHeight] = useState(0)
     useEffect(() => {
-      if (typeof window !== 'undefined') {
-        const objerver = new ResizeObserver(function (e) {
-          if (e[0].contentRect.width < 640 && mobNavHeight == 0) {
-            const ele = document.getElementById('mob-navbar')
-            if (ele) {
-              if (ele.offsetWidth != mobNavHeight) {
-                // console.log(ele)
-                setMobNavHeight(ele.offsetHeight)
-              }
-            }
-          }
-        })
-        objerver.observe(document.body)
-      }
+        if (typeof window !== 'undefined') {
+            const objerver = new ResizeObserver(function (e) {
+                if (e[0].contentRect.width < 640 && mobNavHeight == 0) {
+                    const ele = document.getElementById('mob-navbar')
+                    if (ele) {
+                        if (ele.offsetWidth != mobNavHeight) {
+                            // console.log(ele)
+                            setMobNavHeight(ele.offsetHeight)
+                        }
+                    }
+                }
+            })
+            objerver.observe(document.body)
+        }
     }, [])
     return (
         <section >
@@ -65,55 +66,76 @@ const ThankYou = ({ confirmOrder }) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className=" text-center my-10 ">
-                                        <h3 className="text-xl font-bold text-[#1DAE81]">Order Placed!</h3>
+                                    <div className="text-center my-10 px-10 lg:px-0">
+                                        <h3 className="text-sm lg:text-xl font-bold text-[#1DAE81]">Order Placed. A confermation email has been sent.</h3>
                                         <div className='pt-6 pb-10'>
-                                            <span className="text-lg font-bold  pb-10">You saved  ₹6837 On this Order.</span>
+                                            {/* <span className="text-sm lg:text-lg font-bold  pb-10">You saved  ₹{price} On this Order.</span> */}
                                         </div>
-                                        <div className="w-full flex justify-between items-center">
-                                          <Link href="/">
-                                          <h4 className="text-lg text-[#1DAE81]  hidden md:blockmr-20  cursor-pointer">Continue Shoping</h4>
+                                        <div className="flex justify-between ">
+                                            <div className="w-1/2 flex items-center">
+                                                <Link href="/shop">
 
-                                          </Link>
-                                        <div className=" ml-20">
-                                            <Button className="py-2 w-[156px] block mx-auto  hidden md:block  btn-border btn-bg-revese 'btn-color-revese' text-white rounded border-2 " style={{backgroundColor:"#48887B", border:"2px solid #48887B"}} type="link" href={`/account/orderdetail/${orderId}`} title="Track order" />
+                                                    <p className="flex text-sm lg:text-[16px] btn-color-revese justify-start cursor-pointer ">Continue Shopping</p>
+                                                </Link>
+                                            </div>
+                                            <div className="w-1/2 flex justify-end ml-4">
+                                                <Button
+                                                    className="px-1 py-2 lg:py-3  lg:px-2 white-color rounded btn-bg text-center mx-auto"
+                                                    type="link"
+                                                    href={`/account/orderdetail/${orderId}`}
+                                                >
+                                                    Track Order
+                                                </Button>
+                                            </div>
+
+                                            <div>
+
+                                            </div>
                                         </div>
-                                        </div>
+                                        {/* <div className="w-full flex justify-between items-center">
+                                            <Link href="/">
+                                                <h4 className="text-lg text-[#1DAE81]  hidden md:blockmr-20  cursor-pointer">Continue Shoping</h4>
+
+                                            </Link>
+                                            <div className=" ml-20">
+                                                <Button className="py-2 w-[156px] block mx-auto  hidden md:block  btn-border btn-bg-revese 'btn-color-revese' text-white rounded border-2 " style={{ backgroundColor: "#48887B", border: "2px solid #48887B" }} type="link" href={`/account/orderdetail/${orderId}`} title="Track order" />
+                                            </div>
+                                        </div> */}
 
                                     </div>
                                 </div>
 
                             </div>
-                            <div id="cart-total-btn"
-                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
-                style={{
-                  bottom: `${mobNavHeight}px`,
-                  zIndex:1
-                }}
-              >
-                <div className="flex justify-between ">
-                  <div className="w-1/2 flex items-center">
-                  <Link href="/">
+                            {/* <div id="cart-total-btn"
+                                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
+                                style={{
+                                    bottom: `${mobNavHeight}px`,
+                                    zIndex: 1
+                                }}
+                            >
+                                <div className="flex justify-between ">
+                                    <div className="w-1/2 flex items-center">
+                                        <Link href="/">
 
-<p className="flex text-[16px] text-[#F58634] justify-start ">Continue Shopping</p>
-</Link>
-                  </div>
-                  <div className="w-1/2 flex justify-end ml-4">
-                  <Button
-                      className=" w-3/4 py-3  px-2 sm:py-4 white-color rounded btn-bg text-center mx-auto"
-                      type="link"
-                      style={{ backgroundColor: '#F58634'}}
-                      href={`/account/orderdetail/${orderId}`}
-                    >
-                      Track Order
-                    </Button>
-                  </div>
+                                            <p className="flex text-[16px] text-[#F58634] justify-start ">Continue Shopping</p>
+                                        </Link>
+                                    </div>
+                                    <div className="w-1/2 flex justify-end ml-4">
+                                        <Button
+                                            className=" w-3/4 py-3  px-2 sm:py-4 white-color rounded btn-bg text-center mx-auto"
+                                            type="link"
+                                            style={{ backgroundColor: '#F58634' }}
+                                            href={`/account/orderdetail/${orderId}`}
+                                        >
+                                            Track Order
+                                        </Button>
+                                    </div>
 
-                  <div>
+                                    <div>
 
-                  </div>
-                </div>
-                </div>
+                                    </div>
+                                </div>
+                            </div> */}
                         </div>
                         :
                         <div className="wrapper mx-auto">
@@ -148,11 +170,11 @@ const ThankYou = ({ confirmOrder }) => {
 
 
             }
-            <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[124px] w-full `} style={{zIndex:1200}}>
+            <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[124px] w-full `} style={{ zIndex: 1200 }}>
 
-<Tracker status={status==='success'?'order':'failed'} active2={true}/>
+                <Tracker status={status === 'success' ? 'order' : 'failed'} active2={true} />
 
-</div>
+            </div>
         </section>)
 }
 

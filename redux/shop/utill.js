@@ -1,4 +1,4 @@
-export const structureCat = (payload) => ([...payload].map(item => ({ ...item, subcategories: [] })));
+export const structureCat = (payload) => ([...payload].map(item => ({ ...item, subCategories: [] })));
 export const insertSubcat = (state, payload) => {
     const categories = state.categories;
     const subCatGroup = [...payload].reduce((r, item) => {
@@ -6,7 +6,7 @@ export const insertSubcat = (state, payload) => {
         r[item.category_id].push(item);
         return r;
     }, {});
-    const newCategories = categories.map((itme) => subCatGroup[itme.category_id] ? { ...itme, subcategories: subCatGroup[itme.category_id] } : itme)
+    const newCategories = categories.map((itme) => subCatGroup[itme.category_id] ? { ...itme, subCategories: subCatGroup[itme.category_id] } : itme)
     return newCategories;
 }
 

@@ -30,6 +30,7 @@ function Savedplaces({
   store,
 }) {
   const router = useRouter()
+  const addressdetails = router.query;
   const addressStructure = {
     full_name: '',
     phone: '',
@@ -45,13 +46,26 @@ function Savedplaces({
     state: '',
     zip_code: '',
   }
-  const [newAddress, setNewAddress] = useState(addressStructure)
+  const [newAddress, setNewAddress] = useState({})
   const [isAddressActive, setIsAddressActive] = useState(false)
 
   const [isLoadding, setIsLoadding] = useState(true)
   const [error, setError] = useState(null)
   const [formError, setFormError] = useState('')
   const [mobNavHeight, setMobNavHeight] = useState(0)
+
+  useEffect(()=>{
+    const addressdetails = router.query;
+    const isEmpty = Object.keys(addressdetails);
+    console.log("isEmpty",isEmpty)
+    if(isEmpty.length==0){            
+      setNewAddress(addressStructure);
+    }
+    else{
+      setNewAddress(addressdetails);
+    }
+},[router.query])
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const objerver = new ResizeObserver(function (e) {
@@ -101,35 +115,7 @@ function Savedplaces({
       updateAddress({
         userId: user.customer_id,
         addressId: newAddress.address_id,
-        address: (({
-          full_name,
-          phone,
-          address_line_1,
-          address_line_2,
-          city,
-          address_fields,
-          address_tag,
-          country,
-          is_default,
-          latitude,
-          longitude,
-          state,
-          zip_code,
-        }) => ({
-          full_name,
-          phone,
-          address_line_1,
-          address_line_2,
-          city,
-          address_fields: {},
-          address_tag,
-          country,
-          is_default,
-          latitude,
-          longitude,
-          state,
-          zip_code,
-        }))(newAddress),
+        address: newAddress,
         setError,
       })
     } else {
@@ -138,18 +124,18 @@ function Savedplaces({
     setIsAddressActive(false)
     setNewAddress(addressStructure)
     const url = `/${store?.store_name.replaceAll(" ", '-').trim()}/${store.store_id}`
-    router.push(`${url}/account/savedplaces`)
+    router.push(`/account/savedplaces`)
     // window.location.href(`${url}/account/savedplaces`)
   }
   return (
     <>
       {
         isLoadding ? (
-          <div className="w-full bg-white md:bg-[transparent]">
+          <div className="w-full bg-white md:bg-[transparent] mt-28">
             {/* <Header display={true} topic="Saved Address" /> */}
 
             <div className="my-4 mb-20 bg-white">
-              <div className="py-2 md:p-4 px-2 md:px-8   md:w-1/2  ">
+              <div className="py-2 md:p-4 px-2 md:px-8 md:w-1/2  ">
                 <span className=" font-bold text-lg md:block hidden  ">
                   Country*
                 </span>
@@ -159,7 +145,7 @@ function Savedplaces({
                   name="country"
                   placeholder="Your Country/Region..."
                   value={newAddress.country}
-                  className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                  className="h-[48px] my-2 rounded border border-gray-300 "
                 />
               </div>
               <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
@@ -170,9 +156,9 @@ function Savedplaces({
                   onChange={onChangeAddress}
                   type="text"
                   name="full_name"
-                  placeholder="Your full name..."
+                  placeholder="Full Name"
                   value={newAddress.full_name}
-                  className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                  className="h-[48px] my-2 rounded border border-gray-300 "
                 />
               </div>
 
@@ -184,9 +170,9 @@ function Savedplaces({
                   onChange={onChangeAddress}
                   type="text"
                   name="phone"
-                  placeholder="Enter Your 10 digit Mobile Number"
+                  placeholder="Mobile Number"
                   value={newAddress.phone}
-                  className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                  className="h-[48px] my-2 rounded border border-gray-300 "
                 />
               </div>
               <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
@@ -197,9 +183,9 @@ function Savedplaces({
                   onChange={onChangeAddress}
                   type="text"
                   name="address_line_1"
-                  placeholder="Address"
+                  placeholder="Flat, House no"
                   value={newAddress.address_line_1}
-                  className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                  className="h-[48px] my-2 rounded border border-gray-300 "
                 />
               </div>
               <div className="w-full md:flex">
@@ -211,9 +197,9 @@ function Savedplaces({
                     onChange={onChangeAddress}
                     type="text"
                     name="address_line_2"
-                    placeholder="More Address Details"
+                    placeholder="Area, Colony, Street, Sector"
                     value={newAddress.address_line_2}
-                    className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                    className="h-[48px] my-2 rounded border border-gray-300 "
                   />
                 </div>
                 <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
@@ -226,13 +212,10 @@ function Savedplaces({
                     name="city"
                     placeholder="City"
                     value={newAddress.city}
-                    className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                    className="h-[48px] my-2 rounded border border-gray-300 "
                   />
                 </div>
-              </div>
-
-              <div className="py-2 px-2 md:py-4  w-full flex">
-                <div className="pr-1 md:p-4 md:px-2 md:px-8  md:w-1/2  ">
+                <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
                   <span className=" font-bold text-lg md:block hidden  ">
                     State*
                   </span>
@@ -240,12 +223,16 @@ function Savedplaces({
                     onChange={onChangeAddress}
                     type="text"
                     name="state"
-                    placeholder="state"
+                    placeholder="State"
                     value={newAddress.state}
-                    className="h-[48px] my-2 rounded border-2 border-gray-300 "
+                    className="h-[48px] my-2 rounded border border-gray-300 "
                   />
                 </div>
-                <div className="pl-1 md:p-4 md:px-2 md:px-8  md:w-1/2   ">
+              </div>
+
+
+              <div className="py-2 px-2 md:py-4 flex">
+                <div className="pl-1 w-96">
                   <span className="  font-bold text-lg md:block hidden  ">
                     Zip Code*
                   </span>
@@ -253,14 +240,20 @@ function Savedplaces({
                     onChange={onChangeAddress}
                     type="text"
                     name="zip_code"
-                    placeholder="zip_code"
+                    placeholder="Zip Code"
                     value={newAddress.zip_code}
-                    className="h-[48px] my-2  rounded border-2 border-gray-300 "
+                    className="h-[48px] my-2  rounded border border-gray-300 "
                   />
+                </div>
+                <div className="pl-1 w-96">
+                    <select onChange={onChangeAddress} name="address_tag" className="h-[48px] my-2  rounded border border-gray-300 w-full text-gray-400" >
+                      <option value="Home" selected>Home</option>
+                      <option value="Work">Work</option>
+                    </select>
                 </div>
               </div>
 
-              <div className="p-4 px-8 ">
+              {/* <div className="p-4 px-8 ">
                 <span className=" font-bold text-lg md:block hidden  ">
                   Address Type*
                 </span>
@@ -310,7 +303,7 @@ function Savedplaces({
                     </label>
                   </div>
                 </div>
-              </div>
+              </div> */}
               <div className="col-12 mt-4">
                 <span className="red-color">{formError ? formError : ''}</span>
               </div>
@@ -370,7 +363,7 @@ function Savedplaces({
         // <Loader />
       }
       <div
-        className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[122px] w-full `}
+        className={`md:hidden fixed top-0 shadow-lg nav-bg h-[80px] w-full `}
         style={{ zIndex: 1200 }}
       >
         {/* <Tracker status={cartHeader.status}/> */}
@@ -379,7 +372,7 @@ function Savedplaces({
           onClick={router.back}
         >
           <BsArrowLeft className={`mx-4`} size={35} color={'white'} />
-          <p className={`text-2xl text-[white] mx-4`}>Edit New Address</p>
+          <p className={`text-2xl text-[white] mx-4`}>Enter New Address</p>
         </div>
         <div
           id="cart-total-btn md:hidden"
@@ -389,9 +382,9 @@ function Savedplaces({
             zIndex: 1,
           }}
         >
-          <div className=" p-2  flex justify-end items-center ">
+          <div className="p-2 flex justify-end items-center ">
             <Button
-              className="w-1/4  bg-[#48887B] px-4 py-2 rounded text-xl font-bold white-color"
+              className="w-1/4 btn-bg px-4 py-2 rounded text-xl font-bold white-color"
               onClick={onSave}
             >
               Save
@@ -404,8 +397,8 @@ function Savedplaces({
   )
 }
 const mapStateToProps = (state) => ({
-    store: state.store.info,
-    address: state.user.address,
+  store: state.store.info,
+  address: state.user.address,
 })
 const mapDispatchToProps = (dispatch) => ({
   getAddress: (payload) => dispatch(getAddressStart(payload)),

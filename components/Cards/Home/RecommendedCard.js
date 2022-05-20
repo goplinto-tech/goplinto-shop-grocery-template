@@ -8,17 +8,17 @@ function RecommendedCard({offer}) {
 }
   return (
     <>
-    <div className="md:border-2 md:border-gray-400 bg-white  ">
+    <div className="md:border md:border-gray-300 bg-white  ">
      <div className="flex justify-between w-full">
        <img  className="m-2" src="/img/square.png"/>
        <AiOutlineHeart className="m-2 hidden md:block" size={18} />
-       <div className="md:hidden flex">
+       {/* <div className="md:hidden flex">
     <p className=" text-sm flex items-center">4.5</p>
     <div className="flex items-center">
     <AiFillStar color="orange" />
 
     </div>
-    </div>
+    </div> */}
      </div>
      <div className="w-10/12 h-30 mx-6 ">
      <img className="w-full h-full " src="/img/fresh1.png"/>
@@ -39,17 +39,17 @@ function RecommendedCard({offer}) {
     </div>
     <div className="flex justify-between my-2 mx-1">
     <div className="flex">
-      <p className="font-bold text-lg">₹ 850</p>
-      <p className="text-gray-400 font-thinner text-sm mx-4 flex items-center"> (MPR. 1249)</p>
+      <p className="font-bold text-xs md:text-sm lg:text-lg">₹ 850</p>
+      <p className="text-gray-400 font-thinner text-xs md:text-sm lg:text-lg mx-4 flex items-center"> (MPR. 1249)</p>
 
     </div>
-    <div className="md:flex hidden">
+    {/* <div className="md:flex hidden">
     <p className=" text-sm flex items-center">4.5</p>
     <div className="flex items-center">
     <AiFillStar color="orange" />
 
     </div>
-    </div>
+    </div> */}
 
     </div>
     <div className="w-11/12 mx-1">
@@ -60,7 +60,7 @@ function RecommendedCard({offer}) {
 </p>
      </div>
     <div className="my-2 white-color ">
-    <Button  className="w-full py-2 rounded" style={{backgroundColor:"#F58634"}} type="button" href="/" title="ADD TO CART"/>
+    <Button  className="w-full py-2 rounded btn-bg" type="button" href="/" title="ADD TO CART"/>
 
     </div>
     </>

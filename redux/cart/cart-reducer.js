@@ -16,11 +16,11 @@ const cartReducer = (state = INITISL_STATE, { type, payload }) => {
             return deleteFromCart(state, payload);
 
         //** Update Cart with updated data of server (important)
-        case checkoutActionType.GET_PURCHASE_SUCCESS:
-            return filterCart(state, payload)
+        // case checkoutActionType.GET_PURCHASE_SUCCESS:
+        //     return filterCart(state, payload)
 
         case cartActionType.CLEAR_CART:
-            return []
+            return INITISL_STATE
 
         default:
             return state;

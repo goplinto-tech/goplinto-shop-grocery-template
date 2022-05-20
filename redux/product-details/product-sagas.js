@@ -10,9 +10,9 @@ import { riseError } from "../global-error-handler/global-error-handler-action.t
 // Product Details
 function* onProductFetchStart() {
     yield takeLatest(productActionType.PRODUCT_DETAILS_FETCH_START, function* ({ payload }) {
-        const { onSuccess, onFailure, id } = payload;
+        const { onSuccess, onFailure, id,seassion_id } = payload;
         try {
-            const res = yield fetcher('GET', `?r=catalog/get-item-details&itemId=${id}`)
+            const res = yield fetcher('GET', `?r=catalog/get-item-details&itemId=${id}&customerId=${seassion_id}`)
             yield put(productDetailsFetchSuccess(res.data))
             if (onSuccess) {
                 onSuccess(res.data)

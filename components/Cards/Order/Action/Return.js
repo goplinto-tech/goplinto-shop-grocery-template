@@ -10,11 +10,11 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     reason2: '',
     custom: '',
   })
-  const onReasonHandler=(e)=>{
-    const { value,  name, } = e.target
+  const onReasonHandler = (e) => {
+    const { value, name, } = e.target
 
 
-          setPayload({ ...payload,cancelReason: value })
+    setPayload({ ...payload, cancelReason: value })
 
 
   }
@@ -29,11 +29,10 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     const { value, checked, name, type } = e.target
 
 
-   if(type==="submit")
-   {
-     setPayload({...payload,cancelReason: reason.custom? reason.custom:reason.reason1? reason.reason1 :reason.reason2&&reason.reason2})
-     fetcher('post',`/?r=my-orders/cancel-order&orderId=${orderId}`,payload).then(response => {closeRetun(false),location.reload()}).catch(err => console.log(err))
-   }
+    if (type === "submit") {
+      setPayload({ ...payload, cancelReason: reason.custom ? reason.custom : reason.reason1 ? reason.reason1 : reason.reason2 && reason.reason2 })
+      fetcher('post', `/?r=my-orders/cancel-order&orderId=${orderId}`, payload).then(response => { closeRetun(false), location.reload() }).catch(err => console.log(err))
+    }
 
 
     if (checked) {
@@ -159,7 +158,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
 
                 <div className="flex justify-center md:justify-end lg:justify-end my-6 mb-40 lg:my-2 md:my-2">
                   <Button
-                    className={`w-full md:w-max lg:w-max m-2 btn-color text-lg font-medium bg-[#48887B] px-4 py-1 rounded `}
+                    className={`w-full md:w-max lg:w-max m-2 btn-color btn-bg text-lg font-medium  px-4 py-1 rounded `}
                     type="button"
                     onClick={(e) => {
                       onChangeHandler(e)
@@ -200,7 +199,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
 
                 <div className="flex justify-end ">
                   <Button
-                    className={`w-max m-2 btn-color text-lg font-medium bg-[#48887B] px-4 py-1 rounded `}
+                    className={`w-max m-2 btn-color btn-bg text-lg font-medium  px-4 py-1 rounded `}
                     type="button"
                     onClick={(e) => {
                       setfinal(

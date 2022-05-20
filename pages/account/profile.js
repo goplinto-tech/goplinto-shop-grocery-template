@@ -18,7 +18,7 @@ const router=useRouter()
           <Edit user={user} />
         </div>
       </div>
-      <div className={`md:hidden fixed top-0     shadow-lg bg-[#48887B] h-[121px] w-full `} style={{zIndex:1200}}>
+      <div className={`md:hidden fixed top-0 shadow-lg nav-bg h-[80px] w-full `} style={{zIndex:1200}}>
 
 {/* <Tracker status={cartHeader.status}/> */}
 <div className={`flex items-center absolute bottom-0  mb-4`} onClick={router.back}>

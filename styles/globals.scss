@@ -100,3 +100,26 @@
 .text-xxs {
   font-size: 10px;
 }
+
+.others {
+  .others-list {
+    display: none;
+    .ul-list {
+    }
+    .others-list-item {
+      .sub-cat-list {
+        display: none;
+      }
+      &:hover {
+        .sub-cat-list {
+          display: block;
+        }
+      }
+    }
+  }
+  &:hover {
+    .others-list {
+      display: block;
+    }
+  }
+}

@@ -44,10 +44,11 @@ const visualsStructure = {
     similarProducts: []  //[...similarProducts]
 }
 import { addWishlistStart } from '@redux/wishlist/wishlist-action'
+import { createSeasionId } from "services/pickytoClient";
 
 const ProductDetails = ({
     cart, addToCart, removeFromCart,
-    fetchProductDetails, fetchSimilarProducts, getAdditionalInfo, getSpecifications, addWishlist }) => {
+    fetchProductDetails, fetchSimilarProducts, getAdditionalInfo, getSpecifications, addWishlist,user }) => {
     const [success, onSuccess] = useState({})
     const [failure, onFailure] = useState(null)
     const [additionalinfo, setAdditionalInfo] = useState([])
@@ -61,13 +62,21 @@ const ProductDetails = ({
     const [visuals, setVisuals] = useState(visualsStructure)
     const router = useRouter()
     useEffect(() => {
+        var seassion_id
         const { productId } = router.query
         if (!productId) return;
-        fetchProductDetails({ id: productId, onSuccess, onFailure })
+        if(!user?.customer_id){
+            seassion_id = createSeasionId()
+        }
+        else {
+            seassion_id = user.customer_id
+        }
+        fetchProductDetails({ id: productId,seassion_id, onSuccess, onFailure })
         getAdditionalInfo({ setAdditionalInfo, id: productId })
         getSpecifications({ setSpecifications, id: productId })
         fetchSimilarProducts({ setSimilarProducts, id: productId })
     }, [router.isReady])
+
 
     //UI setting for mobile devices
     const [mobNavHeight, setMobNavHeight] = useState(0)
@@ -184,97 +193,94 @@ const ProductDetails = ({
             </div>
             {
                 visuals.view ?
-                    <div className="flex flex-row md:wrapper w-full mr-0 md:mr-2 ">
-                        <div className="basis-1/12 hidden md:block "></div>
-                        <div className="basis-12/12 md:basis-10/12 md:ml-7 md:mr-9 ">
-                            <section className="bg-black-color-lighter  pdp">
-                                <div className="w-full pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] bg-white  relative">
-                                    <div className="">
-                                        <div className="flex md:hidden  justify-between w-full">
-                                            <img className="my-2" src="/img/square.png" />
-                                            <AiOutlineHeart className="my-2" size={18} />
-                                        </div>
-                                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10 md:py-20 overflow-x-hidden">
-                                            <div className="w-11/12 md:w-full ml-4 md:ml-0">
-                                                {/* <img src={visuals.images[0]} alt={visuals.name} /> */}
-                                                <PdpImage name={visuals?.name} list={visuals?.images} />
-                                            </div>
-                                            <div className="relative overflow-auto no-scrollbar w-full h-full">
-                                                <div className=" lg:absolute w-full top-0">
-                                                    {/* <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span> */}
-                                                    <h1 className="text-base md:text-lg xl:text-3xl mb-4 font-semibold md:font-bold capitalize">{visuals?.name.toLowerCase()}</h1>
-                                                    <div >
+                    <section className="wrapper pdp">
+                        <div className="w-full pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] bg-white  relative">
+                            <div className="">
+                                <div className="flex md:hidden justify-between w-full">
+                                    <img className="my-2" src="/img/square.png" />
+                                    <AiOutlineHeart className="my-2" size={18} />
+                                </div>
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-10  overflow-x-hidden">
+                                    <div className="w-11/12 md:w-full ml-4 md:ml-0">
+                                        {/* <img src={visuals.images[0]} alt={visuals.name} /> */}
+                                        <PdpImage name={visuals?.name} list={visuals?.images} />
+                                    </div>
+                                    <div className="relative overflow-auto no-scrollbar w-full h-full">
+                                        <div className=" lg:absolute w-full top-0">
+                                            {/* <span className="text-sm md:text-lg black-color-75 capitalize ">{visuals.item.item_status.toLowerCase()}</span> */}
+                                            <h1 className="text-base md:text-lg xl:text-3xl mb-4 font-semibold md:font-bold capitalize">{visuals?.name.toLowerCase()}</h1>
+                                            {/* <div >
                                                         <Rating value={visuals?.rating.value} count={visuals?.rating.count} />
-                                                    </div>
-                                                    <div className="my-4 md:my-6">
-                                                        <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals?.price?.sale_price}</span>
-                                                        {
-                                                            visuals.price.sale_price != visuals?.price?.price &&
-                                                            <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹{visuals?.price?.price}</span>
-                                                        }
-                                                        {/* {
+                                                    </div> */}
+                                            <div className="my-4 md:my-6">
+                                                <span className="text-lg md:text-xl my-6 black-color font-semibold">₹{visuals?.price?.sale_price}</span>
+                                                {
+                                                    visuals.price.sale_price != visuals?.price?.price &&
+                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹{visuals?.price?.price}</span>
+                                                }
+                                                {/* {
                                                     Boolean(visuals.price.price - visuals.price.sale_price) &&
                                                     <span className="mx-2 md:mx-6 success-color text-sm md:text-lg font-light">save ₹{visuals.price.price - visuals.price.sale_price}</span>
                                                 } */}
-                                                    </div>
-                                                    <div className="my-6">
-                                                        <p className={`text-sm md:text-base text-gray-500 font-bold text-justify md:text-left  normal-case ${!viewdscmore && visuals?.desc?.length > 200 && 'product-truncate'} transition`}>
-                                                            {visuals?.desc}
-                                                        </p>
+                                            </div>
+                                            <div className="my-6">
+                                                <p className={`text-sm md:text-base text-gray-500 font-bold text-justify md:text-left  normal-case ${!viewdscmore && visuals?.desc?.length > 200 && 'product-truncate'} transition`}>
+                                                    {visuals?.desc}
+                                                </p>
+                                                {
+                                                    visuals?.desc?.length > 200 &&
+                                                    <Button className="btn-color-revers" onClick={() => setViewdscmore(!viewdscmore)}>{viewdscmore ? 'hide' : 'more'}.</Button>
+                                                }
+                                            </div>
+                                            <div className=" hidden sm:block">
+                                                {
+                                                    quantityInCart ?
+                                                        <QuantityID value={quantityInCart} pdp={true} disabledPlush={(() => {
+                                                            if (visuals?.inventoryDetails) {
+                                                                return visuals?.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0 || visuals.inventoryDetails.inventory_quantity <= quantityInCart
+                                                            }
+                                                            return false
+                                                        })()}
+                                                            onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
+                                                        :
+                                                        <Button className="w-full sm:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
+                                                }
+                                            </div>
+                                            {
+                                                visuals.inventoryDetails ?
+                                                    <>
                                                         {
-                                                            visuals?.desc?.length > 200 &&
-                                                            <Button style={{ color: "#F58634" }} className="btn-color-revers" onClick={() => setViewdscmore(!viewdscmore)}>{viewdscmore ? 'hide' : 'more'}.</Button>
+                                                            visuals.inventoryDetails.min_order_quantity > 0 &&
+                                                            <div className="">
+                                                                <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
+                                                            </div>
+                                                        } {
+                                                            (visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0) || visuals.inventoryDetails.inventory_quantity == quantityInCart &&
+                                                            <div className="">
+                                                                <span className="text-sm success-color">*You reached to maximum order quantity {visuals.inventoryDetails.max_order_quantity}.</span>
+                                                            </div>
                                                         }
-                                                    </div>
-                                                    <div>
-                                                        {
-                                                            quantityInCart ?
-                                                                <QuantityID className=" hidden md:block" value={quantityInCart} pdp={true} disabledPlush={(() => {
-                                                                    if (visuals?.inventoryDetails) {
-                                                                        return visuals?.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0 || visuals.inventoryDetails.inventory_quantity <= quantityInCart
-                                                                    }
-                                                                    return false
-                                                                })()}
-                                                                    onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
-                                                                :
-                                                                <Button className="w-full hidden md:block md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" style={{ backgroundColor: "#F58634" }} onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
-                                                        }
-                                                    </div>
-                                                    {
-                                                        visuals.inventoryDetails ?
-                                                            <>
-                                                                {
-                                                                    visuals.inventoryDetails.min_order_quantity > 0 &&
-                                                                    <div className="">
-                                                                        <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
-                                                                    </div>
-                                                                } {
-                                                                    (visuals.inventoryDetails.max_order_quantity == quantityInCart && visuals.inventoryDetails.max_order_quantity > 0) || visuals.inventoryDetails.inventory_quantity == quantityInCart &&
-                                                                    <div className="">
-                                                                        <span className="text-sm success-color">*You reached to maximum order quantity {visuals.inventoryDetails.max_order_quantity}.</span>
-                                                                    </div>
-                                                                }
-                                                            </>
-                                                            : <></>
-                                                    }
-                                                    <div className="my-6">
-                                                        {
+                                                    </>
+                                                    : <></>
+                                            }
+                                            <div className="my-6">
+                                                {
 
-                                                            defaultVariant.map(varient => (<>
-                                                                <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
-                                                                <div className="flex mt-6">
-                                                                    {
-                                                                        varient.map(() => (
-                                                                            <div className="mr-6 size-tab-active rounded flex items-center justify-center border-2 w-12 h-12 ">
-                                                                                <span className="text-base md:text-xl font-medium">S</span>
-                                                                            </div>
+                                                    defaultVariant.map(varient => (<>
+                                                        <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
+                                                        <div className="flex mt-6">
+                                                            {
+                                                                varient.map(() => (
+                                                                    <div className="mr-6 size-tab-active rounded flex items-center justify-center border-2 w-12 h-12 ">
+                                                                        <span className="text-base md:text-xl font-medium">S</span>
+                                                                    </div>
 
-                                                                        ))
-                                                                    }
-                                                                </div>
-                                                            </>))
-                                                        }
-                                                        {/* <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
+                                                                ))
+                                                            }
+                                                        </div>
+                                                    </>))
+                                                }
+                                                {/* <h6 className="text-base font-semibold md:text-xl md:font-medium">Size</h6>
                                             <div className="flex mt-6">
                                                 <div className="mr-6 size-tab rounded flex items-center justify-center border-2 w-12 h-12 ">
                                                     <span className="text-base md:text-xl font-medium">M</span>
@@ -286,187 +292,136 @@ const ProductDetails = ({
                                                     <span className="text-base md:text-xl font-medium">XL</span>
                                                 </div>
                                             </div> */}
-                                                    </div>
+                                            </div>
 
-                                                </div></div>
+                                        </div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="space-y-6 px-2 sm:px-0 md:space-y-10">
+
+                            {
+                                !!visuals.specifications.length &&
+                                <div className="w-full  pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px]   bg-white ">
+
+                                    <div className="mt-6">
+                                        <div className=" border-static additional-info mb-8">
+                                            <h2 className=" lg:text-2xl md:text-xl">
+                                                Highlights
+                                            </h2>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-5">
+                                            {
+                                                visuals.specifications.map((item, i) => (
+                                                    <div className="flex items-center" key={i}>
+                                                        <GoPrimitiveDot />
+                                                        <p className="text-sm md:text-xl font-thin text-gray-500 mx-2 ">{item.attribute_value}</p>
+                                                    </div>
+                                                ))
+                                            }
                                         </div>
                                     </div>
                                 </div>
-                                {
-                                    !!visuals.specifications.length &&
-                                    <div className="w-full  pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px]   bg-white ">
+                            }
+
+                            {
+                                !!visuals.specifications.length &&
+                                <div className="w-full bg-white ">
+                                    <div className="">
                                         <div className="">
-                                            <div className="py-4 md:py-20">
-                                                <div className="mt-6">
-                                                    <div className=" border-static additional-info mb-8">
-                                                        <h2 className=" lg:text-2xl md:text-xl">
-                                                            Highlights
-                                                        </h2>
-                                                    </div>
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        {
-                                                            visuals.specifications.map((item, i) => (
-                                                                <div className="py-3 flex flex items-center" key={i}>
-                                                                    <GoPrimitiveDot />
-                                                                    <p className="text-sm md:text-xl font-thin text-gray-500 mx-2 ">{item.attribute_value}</p>
-                                                                </div>
-                                                            ))
-                                                        }
-                                                    </div>
+                                            <div className="mt-6">
+                                                <div className=" border-static additional-info mb-8">
+                                                    <h3 className="text-base md:text-2xl">
+                                                        Product Specification
+                                                    </h3>
+                                                </div>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    {
+                                                        visuals.specifications.map((item, i) => (
+                                                            <div className="py-3 border-b-2 " key={i}>
+                                                                <h6 className="text-sm font-semibold black-color-75">{item.attribute_key}</h6>
+                                                                <h3 className="text-base font-semibold black-color mt-1">{item.attribute_value}</h3>
+                                                            </div>
+                                                        ))
+                                                    }
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                }
-
-                                {
-                                    !!visuals.specifications.length &&
-                                    <div className="w-full pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px]   bg-white ">
-                                        <div className="">
-                                            <div className="py-4 md:py-20">
-                                                <div className="mt-6">
-                                                    <div className=" border-static additional-info mb-8">
-                                                        <h3 className="lg:text-2xl text-base md:text-xl">
-                                                            Product Specification
-                                                        </h3>
-                                                    </div>
-                                                    <div className="grid grid-cols-2 gap-4">
-                                                        {
-                                                            visuals.specifications.map((item, i) => (
-                                                                <div className="py-3 border-b-2 " key={i}>
-                                                                    <h6 className="text-sm font-semibold black-color-75">{item.attribute_key}</h6>
-                                                                    <h3 className="text-base font-semibold black-color mt-1">{item.attribute_value}</h3>
-                                                                </div>
-                                                            ))
-                                                        }
-                                                    </div>
-                                                </div>
+                                </div>
+                            }
+                            {
+                                visuals.additionalinfo.length ?
+                                    <div className="w-full mt-3 bg-white ">
+                                        <div className="py-10">
+                                            <div className="additional-info">
+                                                <h3 className="text-base md:text-2xl">
+                                                    Additional Info
+                                                </h3>
+                                            </div>
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
+                                                {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
+                                                {
+                                                    visuals.additionalinfo.map((item, i) => (
+                                                        <div className="w-full" key={i} >
+                                                            <div className="w-full product-addinfo-img-c border rounded">
+                                                                {
+                                                                    item.media_type == "IMAGE" ?
+                                                                        <img className="w-full h-full object-fill" src={item.media_url} alt='...' />
+                                                                        :
+                                                                        <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
+                                                                }
+                                                            </div>
+                                                            <div className="mt-8">
+                                                                <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}{item.title.toLowerCase()}</h2>
+                                                                <p className="mt-6 text-sm md:text-lg black-color-75 leading-7 tracking-tight normal-case">
+                                                                    {
+                                                                        item.description
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                }
+                                                {/* </div> */}
                                             </div>
                                         </div>
                                     </div>
-                                }
+                                    : <></>
+                            }
 
-                                {
-                                    !!!visuals.similarProducts.length &&
-                                    <div className="w-full  h md:block bg-[#F5F5F5]  md:bg-white ">
-                                        <div className="">
-                                            <div className=" md:py-20">
-                                                <div className="md:mt-6">
-                                                    <div className=" border-static bg-white pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:additional-info mb-8">
-                                                        <h3 className="lg:text-2xl text-base md:text-xl">
-                                                            Recommended Products
-                                                        </h3>
-                                                    </div>
-                                                    <div className="grid bg-[#F5F5F5] pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:bg-white grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-
-
-
-                                {
-                                    visuals.additionalinfo.length ?
-                                        <div className="w-full pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px]   bg-white ">
-                                            <div className="">
-                                                <div className="">
-                                                    <div className=" border-static additional-info ">
-                                                        <h3 className=" lg:text-2xl md:text-xl">
-                                                            Additional Info
-                                                        </h3>
-                                                    </div>
-                                                    <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
-                                                        {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
-                                                        {
-                                                            visuals.additionalinfo.map((item, i) => (
-                                                                <div className="w-full" key={i} >
-                                                                    <div className="w-full product-addinfo-img-c border rounded">
-                                                                        {
-                                                                            item.media_type == "IMAGE" ?
-                                                                                <img className="w-full h-full object-cover " src={item.media_url} alt='...' />
-                                                                                :
-                                                                                <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
-                                                                        }
-                                                                    </div>
-                                                                    <div className="mt-8">
-                                                                        {/* <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}{item.title.toLowerCase()}</h2> */}
-                                                                        <p className="mt-6 text-sm md:text-lg text-gray-500 leading-7 tracking-tight normal-case">
-                                                                            {
-                                                                                item.description
-                                                                            }
-                                                                        </p>
-                                                                    </div>
-                                                                </div>
-                                                            ))
-                                                        }
-                                                        {/* </div> */}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        : <></>
-                                }
-
-                                {
-                                    !!!visuals.similarProducts.length &&
-                                    <div className="w-full  h md:block bg-[#F5F5F5]  md:bg-white ">
-                                        <div className="">
-                                            <div className=" md:py-20">
-                                                <div className="md:mt-6">
-                                                    <div className=" border-static bg-white pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:additional-info mb-8">
-                                                        <h3 className="lg:text-2xl text-base md:text-xl">
-                                                            Recommended Products
-                                                        </h3>
-                                                    </div>
-                                                    <div className="grid bg-[#F5F5F5] pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:bg-white grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-                                                        <div>
-                                                            <RecommendedCard />
-
-                                                        </div>
-
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                }
-                            </section >
+                            {
+                                // !!!visuals.similarProducts.length &&
+                                // <div className="w-full  h md:block bg-[#F5F5F5]  md:bg-white ">
+                                //     <div className="">
+                                //         <div className="">
+                                //             <div className="md:mt-6">
+                                //                 <div className=" border-static bg-white pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:additional-info mb-8">
+                                //                     <h3 className="lg:text-2xl text-base md:text-xl">
+                                //                         Recommended Products
+                                //                     </h3>
+                                //                 </div>
+                                //                 <div className="grid bg-[#F5F5F5] pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:bg-white grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                                //                     <div>
+                                //                         <RecommendedCard />
+                                //                     </div>
+                                //                     <div>
+                                //                         <RecommendedCard />
+                                //                     </div>
+                                //                     <div>
+                                //                         <RecommendedCard />
+                                //                     </div>
+                                //                     <div>
+                                //                         <RecommendedCard />
+                                //                     </div>
+                                //                 </div>
+                                //             </div>
+                                //         </div>
+                                //     </div>
+                                // </div>
+                            }
                         </div>
-                        <div className="basis-1/12 hidden md:block "></div>
-                    </div>
+                    </section >
                     : failure
                         ?
                         <ErrorPage message="failure.message" />
@@ -475,15 +430,13 @@ const ProductDetails = ({
 
             }
             <div id="cart-total-btn"
-                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed mt-2 sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
+                className=" border-[1px] border-[#E7E7E7]   md:border-[0px] mt-0 sm:mt-20 w-full left-0 fixed  mt-2 sm:relative bottom-0 p-4 sm:p-0  bg-white sm:bg-transparent"
                 style={{
                     bottom: `${mobNavHeight}px`,
                     zIndex: 1
                 }}
             >
-
-
-                <div className=" flex justify-center ">
+                <div className="sm:hidden flex justify-center ">
                     {
                         quantityInCart ?
                             <QuantityID value={quantityInCart} pdp={true} disabledPlush={(() => {
@@ -494,13 +447,9 @@ const ProductDetails = ({
                             })()}
                                 onPlush={() => addToCart(productDataForCart)} onMinus={() => removeFromCart(productDataForCart)} />
                             :
-                            <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" style={{ backgroundColor: "#F58634" }} onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
+                            <Button className="w-full md:w-auto py-3 px-12 text-base btn-bg btn-color rounded" onClick={() => addToCart(productDataForCart)} >ADD TO CART</Button>
                     }
                 </div>
-
-
-
-
             </div>
 
         </>
@@ -511,6 +460,7 @@ const mapStateToProps = state => ({
     // Other States
     cart: state.cart,
     wishlist: state.wishlist.list,
+    user: state.user.currentUser,
 })
 const mapDispatchToProps = dispatch => ({
     // Cart Dispatch

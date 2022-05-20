@@ -20,7 +20,7 @@ const Protecter = ({ WrappedComponent, authToggle, authshow, authestore, ...prop
                 // Router.back()
                 authToggle()
                 if (!authshow && !props.user) {
-                    Router.push(`/${authestore.store_name}/${authestore.store_id}`)
+                    Router.push(`/`)
                 }
             }, [props.user])
             return <Loader />;

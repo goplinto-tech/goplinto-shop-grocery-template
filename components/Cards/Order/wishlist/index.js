@@ -1,7 +1,7 @@
 import Wishlist from './wishlist.jsx'
-function index() {
+function index({data,wishListedItem,setWishListedItem}) {
   return (
-    <Wishlist/>
+    <Wishlist data={data} wishListedItem={wishListedItem} setWishListedItem={setWishListedItem}/>
   )
 }
 

@@ -27,10 +27,14 @@ function* onGetCurrentOrdersListStart() {
     yield takeLatest(ordersActionType.GET_CURRENT_ORDERS_LIST_START, function* ({ payload }) {
         const { userId, setOrderList, setError, setIsLoadingCurrent } = payload
         try {
-            const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=CURRENT`)
-            if (res.data) {
-                setOrderList(res.data);
+            const rescur = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=CURRENT`)
+            if (rescur.data) {
+                const respast = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
+                if(respast.data){
+                    let curAndPast=rescur.data.concat(respast.data)
+                setOrderList(curAndPast);
                 setIsLoadingCurrent('success')
+                }
             }
         } catch (error) {
             // console.log(error);
@@ -39,24 +43,24 @@ function* onGetCurrentOrdersListStart() {
         }
     })
 }
-function* onGetPastOrdersListStart() {
-    yield takeLatest(ordersActionType.GET_PAST_ORDERS_LIST_START, function* ({ payload }) {
-        const { userId, setOrderList, setError, status } = payload
-        console.log(payload);
-        try {
-            const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
-            if (res.data) {
-                setOrderList(res.data);
-                status('success')
-            }
-        } catch (error) {
-            // console.log(error);
-            setError(error)
-            status('failure')
-        }
-    })
-}
+// function* onGetPastOrdersListStart() {
+//     yield takeLatest(ordersActionType.GET_PAST_ORDERS_LIST_START, function* ({ payload }) {
+//         const { userId, setOrderList, setError, status,orderList } = payload
+//         console.log(payload);
+//         try {
+//             const res = yield fetcher('GET', `?r=my-orders/get-orders-by-customer-id&customerId=${userId}&orderStatusGroup=PAST`)
+//             if (res.data) {
+//                 setOrderList(...orderList,res.data);
+//                 status('success')
+//             }
+//         } catch (error) {
+//             // console.log(error);
+//             setError(error)
+//             status('failure')
+//         }
+//     })
+// }
 
 export default function* ordersSagas() {
-    yield all([call(onGetOrderDetailsStart), call(onGetCurrentOrdersListStart), call(onGetPastOrdersListStart)])
+    yield all([call(onGetOrderDetailsStart), call(onGetCurrentOrdersListStart)])
 }
