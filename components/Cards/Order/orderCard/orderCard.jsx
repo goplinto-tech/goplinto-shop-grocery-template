@@ -5,7 +5,9 @@ import Rating from '@components/rating-stars/rating';
 import { useState } from 'react';
 import Link from 'next/link'
 import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 function OrderCard({ status, message, data }) {
+  const router = useRouter()
   const [first, setfirst] = useState(0)
   const [orderCardImg, setOrderCardImg] = useState([])
 
@@ -53,7 +55,7 @@ function OrderCard({ status, message, data }) {
 
   let orderStatus = ""
   if (data.orderStatus == "PAYMENT_COMPLETED" || data.orderStatus == "ORDER_CONFIRMED_BY_REST" || data.orderStatus == "PENDING_PICKUP_BY_CUST") {
-    orderStatus = "Ordered by " + moment.unix(data.orderPlacedTime).format("MMM DD, YYYY")
+    orderStatus = "Ordered on " + moment.unix(data.orderPlacedTime).format("MMM DD, YYYY")
   }
   else if (data.orderStatus == "ORDER_DELIVERED_SUCCESS") {
     orderStatus = "Delivered on " + moment.unix(data.deliveredTime).format("MMM DD, YYYY")
@@ -70,11 +72,12 @@ function OrderCard({ status, message, data }) {
         <div className='flex'>
           <div className="h-[86px] w-[86px] sm:w-[150px] sm:h-[150px] rounded bg-gray-900 shrink-0 col-span-2">
             {/* <img className=" w-full h-full rounded object-cover opacity-80" src={` ${Object.values(data.orderItems)[0]?.itemImg || '/img/default.png'}`} /> */}
-            <img className=" w-full h-full rounded object-cover opacity-80" src={orderCardImg[0]} />
+            <img onClick={()=>router.push(`/account/orderdetail/${data.orderId}`)} className="cursor-pointer w-full h-full rounded object-cover opacity-80" src={orderCardImg[0]} />
           </div>
-          <div className="ml-8 lg:ml-4 flex flex-col justify-center">
+          <div onClick={()=>router.push(`/account/orderdetail/${data.orderId}`)} className="ml-8 lg:ml-4 flex flex-col justify-center cursor-pointer">
             <p className={`font-bold  ${data?.orderStatus == 'CANCELLED_BY_CUSTOMER' || data?.orderStatus == 'ORDER_DECLINED_BY_RESTAURANT' ? " text-[red]" : `${data.orderStatus == "ORDER_DELIVERED_SUCCESS" ? "text-[green]" : "text-black"} `} `}>{orderStatus} </p>
             <p className="text-left text-sm lg:text-base font-medium text-black mt-4 line-truncate-2">{Object.values(data.orderItems)[0]?.itemName}</p>
+            {Object.values(data.orderItems).length>1&&<p className='text-sm mt-2 text-[#f68d3d] font-medium'>{`+${Object.values(data.orderItems).length-1} more items`}</p>}
           </div>
         </div>
         <div className='flex justify-between col-span-3'>

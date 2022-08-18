@@ -376,7 +376,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                                                     </span>
                                                 </div>
                                                 <Radio
-                                                    className="mr-1"
+                                                    className="mr-"
                                                     id="online"
                                                     name="paymentMethod"
                                                     value="Y"
@@ -393,7 +393,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                                                 htmlFor="cod"
                                             >
                                                 <div className="flex justify-between items-center ">
-                                                    <div className="">
+                                                    <div className="md:pl-4">
                                                         <h3 className="font-semibold text-base block">
                                                             Cash On Delivery
                                                         </h3>

@@ -9,7 +9,7 @@ import { applyCouponCodeStart, invalidCouponCodeApplied, removeCouponCode } from
 import { useEffect } from 'react';
 
 
-const OrderSummry = ({invalidCouponCodeApplied, invalidCouponExist, removeCouponCode, user, payWithWallet, customerWallet, userAddress, info, checkout, applyCouponCode, isDetailsLoading, isBillingHidden, isTab }) => {
+const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCouponCode, user, payWithWallet, customerWallet, userAddress, info, checkout, applyCouponCode, isDetailsLoading, isBillingHidden, isTab }) => {
     const purchaseDetails = checkout.purchaseDetails
     const [cpError, setCpError] = useState(null)
     const [couponCode, setCouponCode] = useState("")
@@ -19,12 +19,12 @@ const OrderSummry = ({invalidCouponCodeApplied, invalidCouponExist, removeCoupon
         if (couponCode.length < 3) return;
         const order = Object.values(checkout.purchaseDetails.orders).find(item => item.storeId == info.store_id);
         const orderId = order?.orderId
-        applyCouponCode({ purchaseId: checkout.purchase?.purchase_id, storeId: info.store_id, couponCode, orderId, userId: user.customer_id, onSuccess: setOnSuccess, onError: setCpError, couponInfo: checkout.couponInfo,setCouponCode })
+        applyCouponCode({ purchaseId: checkout.purchase?.purchase_id, storeId: info.store_id, couponCode, orderId, userId: user.customer_id, onSuccess: setOnSuccess, onError: setCpError, couponInfo: checkout.couponInfo, setCouponCode })
         // setCouponCode("")
     }
 
     const removeCouponAppyHandler = () => {
-        removeCouponCode({ orderId: Object.keys(checkout?.purchaseDetails?.orders), purchaseId: checkout.purchase?.purchase_id ,setCouponCode})
+        removeCouponCode({ orderId: Object.keys(checkout?.purchaseDetails?.orders), purchaseId: checkout.purchase?.purchase_id, setCouponCode })
     }
 
     useEffect(() => {
@@ -82,7 +82,7 @@ const OrderSummry = ({invalidCouponCodeApplied, invalidCouponExist, removeCoupon
 
                                 {
                                     isBillingHidden &&
-                                    <h3 className="text-lg w-fit mb-5 font-semibold">
+                                    <h3 className="text-lg w-fit mb-24 font-semibold">
                                         ₹{Number(
                                             purchaseDetails?.calculatedPurchaseTotal
                                         ).toFixed(2)}
@@ -125,14 +125,14 @@ const OrderSummry = ({invalidCouponCodeApplied, invalidCouponExist, removeCoupon
                                                 </span>
                                             </div>
                                         </div>
-                                        {purchaseDetails?.totalDeliveryCharge !=0 && <div className="flex justify-between space-x-2  my-1">
+                                        {purchaseDetails?.totalDeliveryCharge != 0 && <div className="flex justify-between space-x-2  my-1">
                                             <h6 className=" text-sm md:text-base lg:text-lg  font-medium text-gray-400">
                                                 Delivery Charge
                                             </h6>
                                             <div>
                                                 <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
                                                     {`₹ ${Number(purchaseDetails?.totalDeliveryCharge).toFixed(2)}`
-                                                        }
+                                                    }
                                                 </span>
                                             </div>
                                         </div>}
@@ -179,19 +179,21 @@ const OrderSummry = ({invalidCouponCodeApplied, invalidCouponExist, removeCoupon
                                                 </div>
                                             </div>
                                         ) : null}
-                                        <div className="flex justify-between space-x-2 my-1">
-                                            <h6 className=" text-sm md:text-base lg:text-lg  font-medium text-gray-400">
-                                                Coupon Applied
-                                            </h6>
-                                            <div>
-                                                <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                    ₹
-                                                    {Number(
-                                                        purchaseDetails.totalCouponSavingsAmount
-                                                    ).toFixed(2)}
-                                                </span>
-                                            </div>
-                                        </div>
+                                        {purchaseDetails?.totalCouponSavingsAmount ?
+                                            (<div className="flex justify-between space-x-2 my-1">
+                                                <h6 className=" text-sm md:text-base lg:text-lg  font-medium text-gray-400">
+                                                    Coupon Applied
+                                                </h6>
+                                                <div>
+                                                    <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
+                                                        ₹
+                                                        {Number(
+                                                            purchaseDetails.totalCouponSavingsAmount
+                                                        ).toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            </div>) : null
+                                        }
                                         {
                                             payWithWallet &&
                                             <div className="flex justify-between space-x-2 my-1">
@@ -276,6 +278,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     applyCouponCode: (payload) => dispatch(applyCouponCodeStart(payload)),
     removeCouponCode: (payload) => dispatch(removeCouponCode(payload)),
-    invalidCouponCodeApplied:(payload)=>dispatch(invalidCouponCodeApplied(payload))
+    invalidCouponCodeApplied: (payload) => dispatch(invalidCouponCodeApplied(payload))
 })
 export default connect(mapStateToProps, mapDispatchToProps)(OrderSummry)

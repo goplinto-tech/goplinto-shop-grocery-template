@@ -186,7 +186,8 @@ function index({ info, socialProfile }) {
                   <h3 className='text-xl font-montMedium text-white '>Other Links</h3>
                   <div className='w-fit space-y-3'>
                     {
-                      otherLinks.map((item, idx) => <p onClick={() => window.location.href = `${item.url}`} key={idx} className='text-gray-200 font-montRegular text-base cursor-pointer'>{item.name}</p>)
+                      // otherLinks.map((item, idx) => <p onClick={() => window.location.href = `${item.url}`} key={idx} className='text-gray-200 font-montRegular text-base cursor-pointer'>{item.name}</p>)
+                      otherLinks.map((item,idx)=><p><Link key={idx} href={item.url}><a target="_blank" className='text-gray-200 font-montRegular text-base cursor-pointer capitalize'>{item.name}</a></Link></p>)
                     }
                   </div>
                 </div>

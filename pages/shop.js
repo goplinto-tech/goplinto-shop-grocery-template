@@ -126,7 +126,7 @@ const Home = ({ user, getFilterGroups, products, addWishlist, pageCount, getPage
         }
       }
     }
-    setTitle(search?"Search results" : tittleName)
+    setTitle(search?`Search results for ${search}` : tittleName)
   }, [Router.query, page])
 
   useEffect(() => {
@@ -158,7 +158,7 @@ const Home = ({ user, getFilterGroups, products, addWishlist, pageCount, getPage
         }
       }
     }
-    setTitle(search?"Search results" : tittleName)
+    setTitle(search?`Search results for ${search}`: tittleName)
   }, [category, subCategoryId, search])
 
   useEffect(() => { // UI function
@@ -356,7 +356,7 @@ const Home = ({ user, getFilterGroups, products, addWishlist, pageCount, getPage
 
                         products.map((item, i) => (
                           <div className='w-full'>
-                            <ProductItem className={'mx-auto'} key={i} data={item} addItemToWishlist={addWishlist} />
+                            <ProductItem className={'mx-auto'} key={i} data={item} addItemToWishlist={addWishlist} isWishlistNeeded={true}/>
                           </div>
                         ))}
                       {
