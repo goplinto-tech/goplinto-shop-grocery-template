@@ -31,6 +31,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GoogleAnalytics from '@components/GoogleAnalytics/GoogleAnalytics';
+import ZendeskChat from '@components/ZendeskChat/ZendeskChat';
+import FreshChat from '@components/FreshChat/FreshChat';
 
 if (process.env.NODE_ENV !== 'development') {
   console.log = () => { };
@@ -41,6 +43,8 @@ function MyApp({ Component, pageProps }) {
     <>
     <Provider store={store}>
     <GoogleAnalytics></GoogleAnalytics>
+    <ZendeskChat></ZendeskChat>
+    <FreshChat></FreshChat>
       <Layout>
       <ToastContainer></ToastContainer>
         <Component {...pageProps} />

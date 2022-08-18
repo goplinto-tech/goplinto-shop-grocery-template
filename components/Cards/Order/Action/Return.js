@@ -26,7 +26,8 @@ function Ret({ action, items, closeRetun, user, orderId }) {
     // }
     if (name === 'custom') {
       console.log(name, value)
-      setPayload({ ...payload, cancelReason: value })
+      let val = value.replace(/\s\s+/g, '').trim()
+      setPayload({ ...payload, cancelReason: val })
 
 
     }
@@ -178,6 +179,7 @@ function Ret({ action, items, closeRetun, user, orderId }) {
 
                 <div className="flex justify-center md:justify-end lg:justify-end my-6 mb-40 lg:my-2 md:my-2">
                   <Button
+                  disabled={payload.cancelReason==''}
                     className={`w-full md:w-max lg:w-max m-2 btn-color text-lg font-medium btn-bg px-4 py-1 rounded `}
                     type="submit"
                     onClick={(e) => {

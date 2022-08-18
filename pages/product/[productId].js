@@ -52,6 +52,7 @@ import { addWishlistStart, removeWishlistStart } from '@redux/wishlist/wishlist-
 import { createSeasionId, getVariantItemByItemId } from "services/pickytoClient";
 import ReactTooltip from "react-tooltip";
 import { authShowToggle } from "@redux/user/user-action";
+import ProductItem from "@components/product-item/product-item";
 
 const ProductDetails = ({ openAuth, store,
     cart, addToCart, removeFromCart,
@@ -100,7 +101,7 @@ const ProductDetails = ({ openAuth, store,
         getSpecifications({ setSpecifications, id: productId })
         fetchSimilarProducts({ setSimilarProducts, id: productId })
         getProductVariant({ setAllVariants, id: productId })
-    }, [router.isReady])
+    }, [router.isReady,router.query])
 
 
     //UI setting for mobile devices
@@ -161,25 +162,25 @@ const ProductDetails = ({ openAuth, store,
             }
         }
         else {
-            var defImg=[]
-            if(success.defaultVariantItem!=null){
+            var defImg = []
+            if (success.defaultVariantItem != null) {
                 for (let i = 1; i <= 5; i++) {
-                    if(success.defaultVariantItem[`variant_value_${i}`]!=null){
-                    if(success.defaultVariantItem[`variant_value_${i}`].variant_value_images!=null){
-                        if(typeof success.defaultVariantItem[`variant_value_${i}`].variant_value_images == 'string'){
-                        defImg=Object.values(JSON.parse(success.defaultVariantItem[`variant_value_${i}`].variant_value_images)).filter(Boolean);
-                        }
-                        else if(typeof success.defaultVariantItem[`variant_value_${i}`].variant_value_images == 'object'){
-                        defImg=Object.values(success.defaultVariantItem[`variant_value_${i}`].variant_value_images).filter(Boolean);
+                    if (success.defaultVariantItem[`variant_value_${i}`] != null) {
+                        if (success.defaultVariantItem[`variant_value_${i}`].variant_value_images != null) {
+                            if (typeof success.defaultVariantItem[`variant_value_${i}`].variant_value_images == 'string') {
+                                defImg = Object.values(JSON.parse(success.defaultVariantItem[`variant_value_${i}`].variant_value_images)).filter(Boolean);
+                            }
+                            else if (typeof success.defaultVariantItem[`variant_value_${i}`].variant_value_images == 'object') {
+                                defImg = Object.values(success.defaultVariantItem[`variant_value_${i}`].variant_value_images).filter(Boolean);
+                            }
                         }
                     }
-                }
-                    
+
                 }
             }
             // const defImg = Object.values(success?.defaultVariantItem?.variant_value_1?.variant_value_images != undefined ? success.defaultVariantItem?.variant_value_1?.variant_value_images : '').filter(Boolean)
-            var imgurl=[]
-            if(defImg.length==0){
+            var imgurl = []
+            if (defImg.length == 0) {
                 for (let i = 1; i <= 5; i++) {
                     if (success[`img_url_${i}`]) {
                         imgurl.push(success[`img_url_${i}`])
@@ -189,10 +190,10 @@ const ProductDetails = ({ openAuth, store,
             if (defImg.length != 0) {
                 images = defImg
             }
-            else if(imgurl.length!=0){
+            else if (imgurl.length != 0) {
                 images = imgurl
             }
-             else {
+            else {
                 images = ['/img/default.png']
             }
         }
@@ -644,7 +645,7 @@ const ProductDetails = ({ openAuth, store,
                                                 visuals.inventoryDetails ?
                                                     <>
                                                         {
-                                                            visuals.inventoryDetails.min_order_quantity > 0 && quantityInCart>=1 &&
+                                                            visuals.inventoryDetails.min_order_quantity > 0 && quantityInCart >= 1 &&
                                                             <div className="">
                                                                 <span className="text-sm black-color-75">*Minimum order quantity is {visuals.inventoryDetails.min_order_quantity}.</span>
                                                             </div>
@@ -698,7 +699,7 @@ const ProductDetails = ({ openAuth, store,
                                 !!visuals.specifications.length &&
                                 <div className="w-full  pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px]   bg-white ">
 
-                                    <div className="lg:mt-6">
+                                    <div className="lg:mt-0">
                                         <div className=" border-static additional-info mb-8">
                                             <h2 className=" lg:text-2xl md:text-xl">
                                                 Highlights
@@ -709,7 +710,7 @@ const ProductDetails = ({ openAuth, store,
                                                 visuals.specifications.map((item, i) => (
                                                     <div className="flex items-center" key={i}>
                                                         <GoPrimitiveDot className=" shrink-0" />
-                                                        <p className="text-sm md:text-xl font-thin text-gray-500 mx-2 ">{item.attribute_value}</p>
+                                                        <p className="text-sm font-thin md:font-semibold md:text-base text-gray-500 mx-2 ">{item.attribute_value}</p>
                                                     </div>
                                                 ))
                                             }
@@ -785,34 +786,26 @@ const ProductDetails = ({ openAuth, store,
                             }
 
                             {
-                                // !!!visuals.similarProducts.length &&
-                                // <div className="w-full  h md:block bg-[#F5F5F5]  md:bg-white ">
-                                //     <div className="">
-                                //         <div className="">
-                                //             <div className="md:mt-6">
-                                //                 <div className=" border-static bg-white pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:additional-info mb-8">
-                                //                     <h3 className="lg:text-2xl text-base md:text-xl">
-                                //                         Recommended Products
-                                //                     </h3>
-                                //                 </div>
-                                //                 <div className="grid bg-[#F5F5F5] pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:bg-white grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                                //                     <div>
-                                //                         <RecommendedCard />
-                                //                     </div>
-                                //                     <div>
-                                //                         <RecommendedCard />
-                                //                     </div>
-                                //                     <div>
-                                //                         <RecommendedCard />
-                                //                     </div>
-                                //                     <div>
-                                //                         <RecommendedCard />
-                                //                     </div>
-                                //                 </div>
-                                //             </div>
-                                //         </div>
-                                //     </div>
-                                // </div>
+                                visuals?.similarProducts?.length &&
+                                <div className="w-full h md:block bg-white ">
+                                    <div className="">
+                                        <div className="">
+                                            <div className="md:mt-6">
+                                                <div className=" border-static bg-white pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] md:additional-info mb-2">
+                                                    <h3 className="lg:text-2xl text-base md:text-xl">
+                                                        Recommended Products
+                                                    </h3>
+                                                </div>
+                                                <div className="grid pl-[7px] pr-[8px] py-[16px] md:pl-[0px] md:pr-[0px] md:py[16px] bg-white grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                                                    {visuals?.similarProducts.map((item, idx) =>
+                                                        <ProductItem key={idx} data={item} isWishlistNeeded={false}/>
+                                                    )
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             }
                         </div>
                     </section >

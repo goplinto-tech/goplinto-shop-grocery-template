@@ -36,7 +36,13 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
         // if (name != 'confirmPassword') value = value.trim()
         if (value.length > 40 && name == 'password') return;
         if (value.length > 40 && name == 'confirmPassword') return;
-        setState({ ...state, [name]: value })
+        let val = ''
+        if (name == 'password') {
+            val = value.replace(/\s\s+/g, '').trim()
+        } else {
+            val = value.replace(/\s\s+/g, ' ').trimStart()
+        }
+        setState({ ...state, [name]: val })
     }
     const onSubmitHandler = (e) => {
         e.preventDefault();

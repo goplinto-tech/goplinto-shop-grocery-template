@@ -31,7 +31,7 @@ function product({ products, status, storeName }) {
             products.length
               ?
               products.map((item, i) => (
-                <ProductItem key={i} data={item} />
+                <ProductItem key={i} data={item}/>
               ))
               :
               <div className="flex justify-center items-center" style={{ height: "30vh" }}>
