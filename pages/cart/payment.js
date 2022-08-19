@@ -478,7 +478,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                         </div>
                     </div>
                     : initiateStatus == 'loading' && rzpOrder && checkoutDetails.paymentMethod == 'Y' && (purchaseDetails?.calculatedPurchaseTotal - (+customerWallet?.customer_wallet_balance) > 0 && checkoutDetails.walletPay || (!checkoutDetails.walletPay && checkoutDetails.paymentMethod == 'Y'))
-                        ? <OnlienPayment walletPay={checkoutDetails.walletPay} walletAmount={+customerWallet?.customer_wallet_balance} themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError, razorpayKey }} />
+                        ? <OnlienPayment walletPay={checkoutDetails.walletPay} walletAmount={+customerWallet?.customer_wallet_balance} themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError, razorpayKey,setRzpOrder }} />
                         : null
             }
             <div className='fixed right-0 bottom-36 sm:bottom-3 space-y-2'>

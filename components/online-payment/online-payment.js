@@ -5,7 +5,7 @@ import plintoLogo from './plintoLogo.jpg'
 import { orderPaymentConfirmStart } from "../../redux/checkout/checkout-action"
 import Loader from "../loading/loader"
 
-const OnlienPayment = ({ razorpayKey, store, user, themeColor = '#F64B5D', checkout, setConfirmPayment, rzpOrder, children, setInitiateStatus, setError, walletPay, walletAmount }) => {
+const OnlienPayment = ({ razorpayKey, store, user, themeColor = '#F64B5D', checkout, setConfirmPayment, rzpOrder, children, setInitiateStatus, setError, walletPay, walletAmount ,setRzpOrder}) => {
     console.log('fsdfsdfsdf', walletPay ? checkout.purchaseDetails.calculatedPurchaseTotal - walletAmount : checkout.purchaseDetails.calculatedPurchaseTotal);
     useEffect(() => {
         // if (!checkout.rzpOrder) Router.push(`/${store.store_name.replaceAll(' ', '-').trim()}/${store.store_id}/cart`)
@@ -45,14 +45,16 @@ const OnlienPayment = ({ razorpayKey, store, user, themeColor = '#F64B5D', check
             modal: {
                 "ondismiss": () => {
                     document.body.style.overflow = 'auto'
+                    setRzpOrder(null)
                     setInitiateStatus('pending');
+                    
 
                 }
             }
         };
         const rzp = new window.Razorpay(options);
         rzp.open();
-    })
+    },[])
     return (
         <>
             {children}
