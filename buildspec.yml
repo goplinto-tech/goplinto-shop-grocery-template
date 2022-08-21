@@ -13,8 +13,8 @@ phases:
   pre_build:
     commands:
       - echo Fetch env file
-      - echo aws s3 cp s3://goplinto.config.files/$SITE_NAME/.env.$STAGE.local .env.local
-      - aws s3 cp s3://goplinto.config.files/$SITE_NAME/.env.$STAGE.local .env.local
+      - echo aws s3 cp s3://goplinto.config.files/$SITE_NAME/$STAGE/$STORE_ID/.env.$STAGE.local .env.local
+      - aws s3 cp s3://goplinto.config.files/$SITE_NAME/$STAGE/$STORE_ID/.env.$STAGE.local .env.local
   build:
     commands:
       - echo Building static site...
