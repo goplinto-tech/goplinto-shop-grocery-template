@@ -15,6 +15,7 @@ import {
     getCategoryStart,
     getSubCategoryStart,
     getShopWidgets,
+    getStorePolicies,
 } from "@redux/shop/shop-action";
 import { createSeasionId } from "services/pickytoClient";
 import { getWalletBalance } from "@redux/user/user-action";
@@ -32,7 +33,7 @@ function hexToRGB(hex, alpha) {
     }
 }
 
-const verifier = ({ widgets, getShopWidgets, user, children, isLogin, store, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getCategories, getSubCategories, getBanner, getWalletBalance, seo,storeInfo }) => {
+const verifier = ({ widgets, getShopWidgets, user, children, isLogin, store, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, getPageCount, getCategories, getSubCategories, getBanner, getWalletBalance, seo,storeInfo,getStorePolicies }) => {
     const router = useRouter()
     const exceptionRouteinMobile = ['/account/profile']
     const isTabletOrMobile = useMediaQuery({ query: '(max-width: 900px)' })
@@ -88,6 +89,7 @@ const verifier = ({ widgets, getShopWidgets, user, children, isLogin, store, get
             getShopDisplaySettings(storeId)
             getCategories(storeId)
             getShopWidgets(storeId)
+            getStorePolicies(storeId)
         }
     }, [router])
 
@@ -268,6 +270,7 @@ const mapDispatchToProps = dispatch => ({
     getPageCount: (shopId) => dispatch(getPageCountStart(shopId)),
     getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
     getSocialProfile: (shopId) => dispatch(getSocialProfileStart(shopId)),
+    getStorePolicies: (shopId) => dispatch(getStorePolicies(shopId)),
     getShopDisplaySettings: (storeId) => dispatch(getShopDisplaySettingsStart(storeId)),
     getCategories: (storeId) => dispatch(getCategoryStart(storeId)),
     getSubCategories: (storeId) => dispatch(getSubCategoryStart(storeId)),

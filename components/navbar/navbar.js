@@ -29,7 +29,7 @@ import ContactUs from "@components/ContactUS/ContactUs";
 import MobContactUs from "@components/ContactUS/MobContactUs";
 import { SocialIcon } from 'react-social-icons';
 
-const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref }) => {
+const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref, storePolicies }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const [lists, setlists] = useState([])
   const [isLogin, setIsLogin] = useState(false)
@@ -418,7 +418,8 @@ const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCa
             </div>
           </div>
 
-          <div class="grid grid-cols-1 divide-y">
+
+          <div className='grid grid-cols-1 divide-y max-h-[400px] overflow-y-scroll'>
             <div >
               {/* <p className="py-6 px-14 text-base font-[600]">About</p> */}
             </div>
@@ -432,15 +433,28 @@ const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCa
 
               <a onClick={() => setMobContactUsVisible(true)} className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Contact Us</a>
 
-            </div> <div >
+            </div>
+            {/* <div >
               <Link href={'https://goplinto.com/privacy-policy'}>
                 <a target="_blank" className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Privacy Policy</a>
               </Link>
-            </div> <div >
+            </div>
+             <div >
               <Link href={'https://goplinto.com/refund-policy'}>
                 <a target="_blank" className=" block py-6 cursor-pointer px-14 text-lg font-[600]">Return & Refunds</a>
               </Link>
-            </div>
+            </div> */}
+
+            {
+              storePolicies.map(function (item, idx) {
+                if (item.is_policy_added) {
+                  return (
+                    <div><Link key={idx} href={`/policies/${item.policy_id}`}><a target="_blank" className=" block py-6 cursor-pointer px-14 text-lg font-[600]">{item.policy_name}</a></Link></div>
+                  )
+                }
+              })
+            }
+
             <div >
               {/* <p className="py-6 px-14 text-base font-[600]">About</p> */}
             </div>
@@ -552,10 +566,10 @@ const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCa
                         {
                           lists.map((item) => (
                             <li key={item.category_id} className={`lists category-item px-3 py-2 ${category == item.category_id && ' btn-color-revers bg-white font-semibold'}`} >
-                              <p onClick={()=>{
+                              <p onClick={() => {
                                 router.push(`/shop?category=${item.category_id}`)
                                 setIsCategoryOpen(!isCategoryOpen)
-                              }} 
+                              }}
                               // href={`/shop?category=${item.category_id}`}
                               >
                                 <a>
@@ -618,7 +632,8 @@ const mapStateToProps = state => ({
   displaySettings: state.store.displaySettings,
   // Search handler from plp
   searchHandler: state.search.searchHandler,
-  socialProfile: state.store.socialProfile
+  socialProfile: state.store.socialProfile,
+  storePolicies: state.store.storePolicies
 })
 
 const mapDispatchToProps = dispatch => ({

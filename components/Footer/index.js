@@ -5,7 +5,7 @@ import { BsDot } from 'react-icons/bs'
 import { useRouter } from 'next/router'
 import ContactUs from '@components/ContactUS/ContactUs';
 import absoluteUrl from 'next-absolute-url'
-function index({ info, socialProfile }) {
+function index({ info, socialProfile, storePolicies }) {
   const router = useRouter()
   const [mobNavHeight, setMobNavHeight] = useState(0)
   const [contactUsVisible, setContactUsVisible] = useState(false)
@@ -77,7 +77,8 @@ function index({ info, socialProfile }) {
     }
   }, [])
 
-  console.log("otherLinks", otherLinks)
+  // console.log("otherLinks", otherLinks)
+  // console.log("policy",storePolicies)
   return (
 
     // <footer style={{
@@ -187,7 +188,13 @@ function index({ info, socialProfile }) {
                   <div className='w-fit space-y-3'>
                     {
                       // otherLinks.map((item, idx) => <p onClick={() => window.location.href = `${item.url}`} key={idx} className='text-gray-200 font-montRegular text-base cursor-pointer'>{item.name}</p>)
-                      otherLinks.map((item,idx)=><p><Link key={idx} href={item.url}><a target="_blank" className='text-gray-200 font-montRegular text-base cursor-pointer capitalize'>{item.name}</a></Link></p>)
+                      storePolicies.map(function (item, idx) {
+                        if (item.is_policy_added) {
+                          return (
+                            <p><Link key={idx} href={`/policies/${item.policy_id}`}><a target="_blank" className='text-gray-200 font-montRegular text-base cursor-pointer capitalize'>{item.policy_name}</a></Link></p>
+                          )
+                        }
+                      })
                     }
                   </div>
                 </div>
@@ -268,7 +275,8 @@ function index({ info, socialProfile }) {
 
 const mapStateToProps = state => ({
   info: state.store.info,
-  socialProfile: state.store.socialProfile
+  socialProfile: state.store.socialProfile,
+  storePolicies: state.store.storePolicies
 
 
 })
