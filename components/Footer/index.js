@@ -12,6 +12,15 @@ function index({ info, socialProfile, storePolicies }) {
   const otherLinksName = ['refund-policy', 'privacy-policy']
   const otherLinksTitle = ['Return & Refunds', 'Privacy Policy']
   const [otherLinks, setOtherLinks] = useState([])
+  const [showOtherLinks, setShowOtherLinks] = useState(false)
+
+  useEffect(() => {
+    storePolicies && storePolicies?.map((item, idx) => {
+      if (item.is_policy_added) {
+        setShowOtherLinks(true)
+      }
+    })
+  }, [])
 
   const { origin } = absoluteUrl()
   // console.log("origin",origin)
@@ -150,7 +159,7 @@ function index({ info, socialProfile, storePolicies }) {
             </div>
             {/* links */}
             <div className='col-span-3 ml-24'>
-              <div className={`grid ${socialProfile.length ? "grid-cols-4" : "grid-cols-3"}`}>
+              <div className={`grid ${showOtherLinks ? "grid-cols-4" : "grid-cols-3"}`}>
                 <div className='space-y-3'>
                   <h3 className='text-xl font-montMedium text-white'>Menu</h3>
                   <div className='w-fit space-y-3'>
@@ -183,7 +192,7 @@ function index({ info, socialProfile, storePolicies }) {
                     </div>
                   </div> : ""
                 }
-                <div className='space-y-3'>
+                {showOtherLinks && <div className='space-y-3'>
                   <h3 className='text-xl font-montMedium text-white '>Other Links</h3>
                   <div className='w-fit space-y-3'>
                     {
@@ -197,7 +206,7 @@ function index({ info, socialProfile, storePolicies }) {
                       })
                     }
                   </div>
-                </div>
+                </div>}
 
               </div>
 
