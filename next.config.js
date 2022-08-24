@@ -1,15 +1,14 @@
 /**
  * @type {import('next').NextConfig}
  */
-const withPWA = require("next-pwa");
+const withPWA = require("next-pwa")({
+  dest: "public",
+  register: true,
+  skipWaiting: true,
+})
 const path = require('path')
 module.exports = withPWA({
-  pwa: {
-    dest: "public",
-    register: true,
-    skipWaiting: true,
-  },
-  
+   
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "colors.scss";`
