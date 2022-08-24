@@ -1,9 +1,9 @@
 /**
  * @type {import('next').NextConfig}
  */
-// const withPWA = require("next-pwa");
+const withPWA = require("next-pwa");
 const path = require('path')
-module.exports = {
+module.exports = withPWA({
   // pwa: {
   //   dest: "public",
   //   register: true,
@@ -59,7 +59,7 @@ module.exports = {
     ]
   ]
 
-}
+})
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable @typescript-eslint/no-unused-vars */
