@@ -56,6 +56,16 @@ export const getShopDisplaySettingsSuccess = (settingd) => ({
     type: shopActionType.GET_SHOP_DISPLAY_SETTINGS_SUCCESS,
     payload: settingd
 })
+//Store policies
+export const getStorePolicies=(storeId)=>({
+    type:shopActionType.GET_STORE_POLICIES,
+    payload:storeId
+})
+export const setStorePolicies=(data)=>({
+    type:shopActionType.SET_STORE_POLICIES,
+    payload:data
+})
+
 // SOCIAL PROFILE
 export const getSocialProfileStart = (storeId) => ({
     type: shopActionType.GET_SHOP_SOCIAL_PROFILE_START,

@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     // About products
     products: [],
     categories: [],
-    widgets:null
+    widgets:null,
+    storePolicies:[]
 }
 
 const isReady = ({ info, settings }) => {
@@ -104,6 +105,11 @@ const shopReducer = (state = INITIAL_STATE, { type, payload }) => {
             return {
                 ...state,
                 widgets: payload
+            }
+        case storeActionType.SET_STORE_POLICIES:
+            return {
+                ...state,
+                storePolicies: payload
             }
 
         default:
