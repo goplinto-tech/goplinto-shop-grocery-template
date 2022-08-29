@@ -54,7 +54,7 @@ const Cart = ({ user, userAddress, isDetailsLoading, storeSettings, cart, info, 
                 totalItems ?
                     <div className="wrapper bg-[#f2f2f2] w-full ">
                         <div className="w-full py-0 sm:py-10 space-y-5 pb-[80px] sm:pb-10">
-                            <h3 className='text-2xl font-semibold hidden sm:block'> <span className='btn-color-revers'>{totalItems}</span> Items In Your Cart</h3>
+                            <h3 className='text-2xl font-semibold hidden sm:block'> <span className='btn-color-revers'>{totalItems} Items</span> In Your Cart</h3>
                             <div className='flex flex-col md:flex-row justify-between md:space-x-6'>
                                 <div className='flex-1 space-y-5'>
                                     <CartList />

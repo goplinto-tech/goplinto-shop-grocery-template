@@ -12,6 +12,7 @@ import { getRegisterOtpStart, loginSuccess, authShowToggle, getLoginOtpStart, re
 // Register Component
 const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithPassword, userloginSuccess, info }) => {
     const [showPass, setShowPass] = useState(false)
+    const [showConfirmPass,setShowConfirmPass]=useState(false)
     const [isVarificationPhone, setIsVarificationPhone] = useState(false)
     const [state, setState] = useState({
         storeId: info.store_id,
@@ -91,14 +92,14 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                             <div className="p-6 sm:absolute bottom-0 sm:bottom-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full bg-white sm:w-[512px] rounded " style={{ border: "2px solid #F58634" }} >
                                 <div className="flex justify-between items-center">
                                     {/* <h2 className="text-2xl font-semibold">Login</h2> */}
-                                    <div className='w-fit flex   p-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                    {/* <div className='w-fit flex   p-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
                                         <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <BsFillTelephoneFill />
                                         </span>
                                         <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <MdEmail />
                                         </span>
-                                    </div>
+                                    </div> */}
                                     <Button className='bg-transparent dark-blue hidden sm:block' onClick={showToggle} >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                                             <path fillRule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
@@ -126,6 +127,16 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                     </div>
 
                                 }
+                                {/* toggle */}
+                                <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                        <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
+                                            <BsFillTelephoneFill />
+                                        </span>
+                                        <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
+                                            <MdEmail />
+                                        </span>
+                                    </div>
+
                                 <form onSubmit={onSubmitHandler}  >
                                     <div className="flex justify-center mt-2">
 
@@ -177,7 +188,17 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
                                         </div>
                                     </div>
                                     <div className="flex justify-center mt-4">
-                                        <Input disabled={isLoading} name='confirmPassword' className={`border input-focus py-4 w-3/4 rounded-lg ${error && ' border-red-400'}`} type={showPass ? 'text' : 'password'} placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
+                                    <div className=' relative w-full '>
+                                        <Input disabled={isLoading} name='confirmPassword' className={`border input-focus py-4 w-3/4 rounded-lg ${error && ' border-red-400'}`} type={showConfirmPass ? 'text' : 'password'} placeholder="Confirm password" onChange={onChangeHandler} value={state.confirmPassword} />
+                                        <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowConfirmPass(!showConfirmPass)}>
+                                                {
+                                                    showConfirmPass ?
+                                                        <IoEyeOff size={25} color="#eeeff2" />
+                                                        :
+                                                        <IoEyeOutline size={25} color="#eeeff2" />
+                                                }
+                                            </div>
+                                            </div>
                                     </div>
                                     <div className="py-8 border-b-2 flex w-full justify-center">
                                         <Button className={`w-full rounded-lg btn-color text-lg font-medium btn-bg py-4 ${isLoading == true ? 'loading-btn' : ""}`} type="submit" disabled={isLoading == true}

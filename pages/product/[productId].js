@@ -513,6 +513,8 @@ const ProductDetails = ({ openAuth, store,
 
     console.log("su", success)
 
+    console.log("visuals",visuals)
+
     return (
         <>
             {/* <ToastContainer /> */}
@@ -754,7 +756,7 @@ const ProductDetails = ({ openAuth, store,
                                                     Additional Info
                                                 </h3>
                                             </div>
-                                            <div className="grid grid-cols-1 sm:grid-cols-2 mt-10  gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 mt-10 gap-y-10 gap-x-4 md:gap-8 lg:gap-x-16 xl:gap-x-24">
                                                 {/* // <div className="grid grid-cols-2 mt-10 gap-y-10 gap-x-36"> */}
                                                 {
                                                     visuals.additionalinfo.map((item, i) => (
@@ -767,8 +769,8 @@ const ProductDetails = ({ openAuth, store,
                                                                         <ReactPlayer height={'100%'} width={'100%'} url={item.media_url} />
                                                                 }
                                                             </div>
-                                                            <div className="mt-8">
-                                                                <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}{item.title.toLowerCase()}</h2>
+                                                            <div className="mt-8 ">
+                                                                <h2 className="text-base md:text-xl font-semibold capitalize">{item.title}</h2>
                                                                 <p className="mt-6 text-sm md:text-lg black-color-75 leading-7 tracking-tight normal-case">
                                                                     {
                                                                         item.description
@@ -786,7 +788,7 @@ const ProductDetails = ({ openAuth, store,
                             }
 
                             {
-                                visuals?.similarProducts?.length &&
+                                visuals?.similarProducts?.length >0 &&
                                 <div className="w-full h md:block bg-white ">
                                     <div className="">
                                         <div className="">

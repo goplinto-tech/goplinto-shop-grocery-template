@@ -73,8 +73,8 @@ const ThankYou = ({ confirmOrder, display, clearCheckout, clearCart, purchase })
                     :
                     status == 'success'
                         ?
-                        <div className="wrapper mx-auto  md:bg-[#E5E5E5]">
-                            <div className="thank-you py-16 my-5 md:my-20">
+                        <div className="wrapper mx-auto md:bg-[#E5E5E5]">
+                            <div className="thank-you py-16 my-5 md:my-20 bg-white">
                                 <div className="flex justify-center items-center flex-col">
                                     <div className="">
                                         <div className="animation-ctn">

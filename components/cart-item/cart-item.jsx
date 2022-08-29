@@ -78,6 +78,7 @@ const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteF
                         </span>
                         {/* <img className="w-full h-full object-cover" src={data.defaultVariantItem ? Object.keys(data.defaultVariantItem).length && data?.defaultVariantItem?.variant_value_1?.variant_value_images != null ? data?.defaultVariantItem?.variant_value_1?.variant_value_images.img_url_1 : '/img/default.png' : data.primary_img ? data.primary_img : '/img/default.png'} alt="product" /> */}
                         <img className="w-full h-full object-cover" src={cartItemImg[0]} alt="product" />
+                        {data.is_veg=='Y' && <img className="w-4 h-4 top-2 left-2 absolute" src="/img/veg.svg" />}
                     </a>
                 </Link>
                 <div className="flex-1 space-y-2 md:space-y-4 mt-0 md:mt-4">

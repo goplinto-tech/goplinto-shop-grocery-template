@@ -11,11 +11,13 @@ import { BsArrowLeft } from 'react-icons/bs'
 import { useRouter } from 'next/router';
 import { connect } from 'react-redux'
 import WishlistSkeleton from '@components/Cards/Order/wishlist/wishlistSkeleton';
+import { Button, Input } from '@components/inputs';
 
 import { getWishlistStart, getWishlistSuccess, addWishlistStart, addWishlistSuccess, } from '@redux/wishlist/wishlist-action'
 
-function Wishlist({ user, info, getWishlist, wishItem }) {
-  const [loading,setLoading]=useState('loading')
+function Wishlist({ user, info, getWishlist, wishItem,cart }) {
+  const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
+  const [loading, setLoading] = useState('loading')
   const [wishListedItem, setWishListedItem] = useState([])
   const [noMore, setNoMore] = useState(true)
   const [page, setPage] = useState(2)
@@ -56,7 +58,7 @@ function Wishlist({ user, info, getWishlist, wishItem }) {
           <span className=" btn-color-revers">{wishListedItem.length} items </span>  in your Wishlist</p>
       </div>
       {
-        wishListedItem.length == 0 && loading=='loading' ? <div className='mt-32 lg:mt-4'><WishlistSkeleton /></div> :
+        wishListedItem.length == 0 && loading == 'loading' ? <div className='mt-32 lg:mt-4'><WishlistSkeleton /></div> :
           <InfiniteScroll
             dataLength={wishListedItem?.length}
             next={getMoreProducts}
@@ -74,22 +76,47 @@ function Wishlist({ user, info, getWishlist, wishItem }) {
           </InfiniteScroll>
       }
       {
-        wishListedItem.length == 0 && loading=='success'?
-        <div className='bg-white p-5'>
-        <div className='flex justify-center items-center'>
-          <img className='w-[150px] h-[150px]' src="/img/wishlist.png" alt="" />
-          
-        </div>
-        <div className='text-center mt-3'>
-        <p className='text-xl font-bold'>No Product in the Wishlist</p>
-        </div>
-        </div>
-        :""
+        wishListedItem.length == 0 && loading == 'success' ?
+          <div className='bg-white p-5'>
+            <div className='flex justify-center items-center'>
+              <img className='w-[150px] h-[150px]' src="/img/wishlist.png" alt="" />
+
+            </div>
+            <div className='text-center mt-3'>
+              <p className='text-xl font-bold'>No Product in the Wishlist</p>
+            </div>
+          </div>
+          : ""
       }
       <div className={`md:hidden fixed top-0 shadow-lg nav-bg h-[80px] w-full `} style={{ zIndex: 1200 }}>
-        <div className={`flex items-center absolute bottom-0  mb-4`} onClick={router.back}>
+        <div className={`flex justify-between w-full mt-6`}>
+        <div className={`flex items-center mb-4`} onClick={router.back}>
           <BsArrowLeft className={`mx-4 nav-items-color`} size={35} />
           <p className={`text-2xl mx-4 nav-items-color`}>Wishlist</p>
+        </div>
+        <div>
+          <Button
+            className="flex items-center text-black mr-6"
+            type="link"
+            href="/cart"
+          >
+            <span className=" text-black nav-items-color font-bold  my-2 relative">
+              {/* <IoMdCart size={30} /> */}
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+              </svg>
+              {
+                !!totalItems &&
+                <div className="absolute -top-2 -right-1 w-5 h-5 p-2 flex justify-center btn-bg text-white items-center text-xs text-center rounded-full btn-bgs btn-color border border-white">
+                  {
+                    totalItems
+
+                  }
+                </div>
+              }
+            </span>
+          </Button>
+        </div>
         </div>
       </div>
     </div>
@@ -98,7 +125,8 @@ function Wishlist({ user, info, getWishlist, wishItem }) {
 const mapStateToProps = state => ({
   user: state.user,
   info: state.store.info,
-  wishItem: state.wishlist
+  wishItem: state.wishlist,
+  cart: state.cart,
 })
 const mapDispatchToProps = dispatch => ({
   getWishlist: (payload) => dispatch(getWishlistStart(payload)),

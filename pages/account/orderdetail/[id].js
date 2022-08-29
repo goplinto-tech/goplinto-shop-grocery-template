@@ -130,7 +130,7 @@ function orderDetail({ getOrderDetails, display, info }) {
         }
       </div>
       <div className=" lg:w-full bg-white flex justify-between px-4 sm:px-6 mb-0 sm:mb-6 py-0 sm:py-6 md:py-3">
-        <p className="hidden md:block lg:block text-left font-bold text-lg md:w-max">Order Details</p>
+        <p className="hidden md:block lg:block text-left font-bold text-lg md:w-max"><BsArrowLeft onClick={()=>router.push('/account/myorders')} className={`inline mr-2 cursor-pointer`} size={24} />Order Details</p>
         <p className=" hidden md:block text-left font-medium text-lg text-gray-500 md:w-max ">OrderId- #{orderDetails?.orderId}</p>
       </div>
       <section className="bg-gray-100 w-full pb-1 lg:pb-0">
