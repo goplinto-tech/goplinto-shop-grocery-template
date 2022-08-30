@@ -9,7 +9,7 @@ import { SocialIcon } from 'react-social-icons';
 // import { useRouter } from 'next/router'
 // import { setSocialProfile } from '../../actions';
 
-const ContactUs = ({ contactUsVisible, setContactUsVisible, info, socialProfile }) => {
+const ContactUs = ({ contactUsVisible, setContactUsVisible, info, socialProfile,settings }) => {
     console.log("contact us page", info, socialProfile)
 
     const customStyles = {
@@ -54,7 +54,7 @@ const ContactUs = ({ contactUsVisible, setContactUsVisible, info, socialProfile 
                                 <p className='cursor-pointer text-xl font-thin' onClick={() => setContactUsVisible(false)}><AiOutlineClose /></p>
                             </div>
                             <div className='text-white space-y-3 pr-7 pl-4'>
-                                {(info?.address || info?.city || info?.state || info?.country) ? <div>
+                                {settings.is_address_available=="Y" ? <div>
                                     <span><svg className='inline mr-2' width="18" height="22" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M17 9.18182C17 15.5455 9 21 9 21C9 21 1 15.5455 1 9.18182C1 7.01187 1.84285 4.93079 3.34315 3.3964C4.84344 1.86201 6.87827 1 9 1C11.1217 1 13.1566 1.86201 14.6569 3.3964C16.1571 4.93079 17 7.01187 17 9.18182Z" stroke="white" strokeOpacity="1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                                         <path d="M8.99992 11.9091C10.4727 11.9091 11.6666 10.6881 11.6666 9.18186C11.6666 7.67563 10.4727 6.45459 8.99992 6.45459C7.52716 6.45459 6.33325 7.67563 6.33325 9.18186C6.33325 10.6881 7.52716 11.9091 8.99992 11.9091Z" stroke="white" strokeOpacity="1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -161,6 +161,7 @@ const ContactUs = ({ contactUsVisible, setContactUsVisible, info, socialProfile 
 
 const mapStateToProps = state => ({
     info: state.store.info,
+    settings: state.store.settings,
     socialProfile: state.store.socialProfile
 
 
