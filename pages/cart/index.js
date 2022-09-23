@@ -70,7 +70,7 @@ const Cart = ({ user, userAddress, isDetailsLoading, storeSettings, cart, info, 
                                                     <div className=' space-y-1 block sm:hidden'>
                                                         <span className='block'>{totalItems} Items in cart</span>
                                                         <span className=' text-base block font-semibold'>
-                                                            ₹{' '}
+                                                        {info.currency_symbol}{' '}
                                                             {purchaseDetails?.calculatedPurchaseTotal ? Number(
                                                                 purchaseDetails?.calculatedPurchaseTotal
                                                             ).toFixed(2) : 0}

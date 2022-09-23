@@ -10,7 +10,7 @@ import Loader from '@components/loading/loader'
 import ErrorPage from '@components/error'
 import { Input, Button } from '@components/inputs'
 // Actions
-import { getAddressStart, addAddressStart, updateAddressStart, removeAddressStart } from "@redux/user/user-action";
+import { getAddressStart, addAddressStart, updateAddressStart, removeAddressStart, getCountryAction } from "@redux/user/user-action";
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 import { useRouter } from 'next/router';
 import { BsArrowLeft } from 'react-icons/bs'
@@ -18,7 +18,7 @@ import { Modal } from 'antd'
 import { useMediaQuery } from 'react-responsive'
 import AddressForm from '@components/address-form/address-form'
 
-function Savedplaces({ user, address, info, getAddress, addAddress, removeAddress, updateAddress }) {
+function Savedplaces({ user, address, info, getAddress, addAddress, removeAddress, updateAddress ,getCountryAction}) {
   const isTabletOrMobile = useMediaQuery({ query: '(max-width: 900px)' })
   const router = useRouter()
   const addressStructure = {
@@ -43,11 +43,14 @@ function Savedplaces({ user, address, info, getAddress, addAddress, removeAddres
   const [isLoadding, setIsLoadding] = useState(true)
   const [error, setError] = useState(null)
   const [formError, setFormError] = useState('')
+  const [countries,setCountries]=useState([])
   useEffect(() => {
     // if (!address.length) {
     getAddress({ userId: user.customer_id, setError })
+    getCountryAction(setCountries)
     // }
   }, [])
+
   useEffect(() => {
     // setIsLoadding(!!address.length)
   })
@@ -173,7 +176,7 @@ function Savedplaces({ user, address, info, getAddress, addAddress, removeAddres
                     </div>
                     :
                     <div className='flex-1 p-6 sm:p-8 bg-white' id={'address-form'}>
-                      <AddressForm edit={newAddress} close={() => setIsAddressActive(false)} />
+                      <AddressForm countries={countries} edit={newAddress} close={() => setIsAddressActive(false)} />
                     </div>
                 }
               </>
@@ -241,7 +244,7 @@ function Savedplaces({ user, address, info, getAddress, addAddress, removeAddres
             {
               isAddressActive && isTabletOrMobile &&
               <div className='flex-1 p-6 pb-20 sm:p-8 bg-white' id={'address-form'}>
-                <AddressForm edit={newAddress} close={() => setIsAddressActive(false)} />
+                <AddressForm countries={countries} edit={newAddress} close={() => setIsAddressActive(false)} />
               </div>
               // <div className="mb-14 bg-white">
               //   <div className="py-2 md:p-4 px-2 md:px-8  w-full xl:w-1/2  ">
@@ -501,6 +504,7 @@ const mapDispatchToProps = dispatch => ({
   addAddress: (payload) => dispatch(addAddressStart(payload)),
   updateAddress: (payload) => dispatch(updateAddressStart(payload)),
   removeAddress: (payload) => dispatch(removeAddressStart(payload)),
+  getCountryAction: (payload) => dispatch(getCountryAction(payload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(withAuth(accountLayout(Savedplaces))))

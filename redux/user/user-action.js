@@ -164,4 +164,9 @@ export const setWalletBalance = (data) =>
     }
 )
 
+export const getCountryAction = (data) => ({
+    type: userActionType.GET_COUNTRIES,
+    payload: data
+})
+
 

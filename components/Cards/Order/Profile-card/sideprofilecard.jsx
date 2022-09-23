@@ -165,7 +165,7 @@ function Sideprofilecard({ user, logout, customerWallet, info, getWalletBalance 
                       </svg>
                       <span>Wallet</span>
                     </p>
-                    <p className={`font-semibold ${customerWallet?.customer_wallet_balance.length>=7 ? "text-sm mr-6":"text-base mr-7"} py-1 text-[#44ADF4] bg-[#44ADF440] px-2 rounded-3xl`}><span className="text-[#44ADF4] mr-1">₹</span> {customerWallet?.customer_wallet_balance}</p>
+                    <p className={`font-semibold ${customerWallet?.customer_wallet_balance.length>=6 ? "text-sm mr-6":"text-base mr-7"} py-1 text-[#44ADF4] bg-[#44ADF440] px-2 rounded-3xl`}><span className="text-[#44ADF4] mr-1">{info.currency_symbol}</span> {customerWallet?.customer_wallet_balance}</p>
                   </div>
                 </Link>
               </div> :
@@ -179,7 +179,7 @@ function Sideprofilecard({ user, logout, customerWallet, info, getWalletBalance 
                         Wallet
                       </span>
                     </p>
-                    <p className={`font-semibold ${customerWallet?.customer_wallet_balance.length>=7 ? "text-sm mr-6":"text-base mr-7"} py-1 text-[#44ADF4] bg-[#44ADF440] px-2 rounded-3xl`}><span className="text-[#44ADF4] mr-1">₹</span> {customerWallet?.customer_wallet_balance}</p>
+                    <p className={`font-semibold ${customerWallet?.customer_wallet_balance.length>=6 ? "text-sm mr-6":"text-base mr-7"} py-1 text-[#44ADF4] bg-[#44ADF440] px-2 rounded-3xl`}><span className="text-[#44ADF4] mr-1">{info.currency_symbol}</span> {customerWallet?.customer_wallet_balance}</p>
                   </div>
 
                 </Link>

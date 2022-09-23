@@ -554,10 +554,10 @@ const ProductDetails = ({ openAuth, store,
                                                         <Rating value={visuals?.rating.value} count={visuals?.rating.count} />
                                                     </div> */}
                                             <div className="md:my-6 ml-2 lg:ml-0">
-                                                <span className="text-lg md:text-xl black-color font-semibold">₹ {visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>
+                                                <span className="text-lg md:text-xl black-color font-semibold">{store.currency_symbol} {visuals.defaultVariantItem ? visuals.defaultVariantItem.sale_price : visuals.price.sale_price}</span>
                                                 {
                                                     visuals.price.sale_price != visuals.price.price &&
-                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">₹ {visuals.defaultVariantItem ? visuals.defaultVariantItem.list_price : visuals.price.price}</span>
+                                                    <span className="mx-2 md:mx-6 black-color-75 text-sm md:text-lg font-light line-through">{store.currency_symbol} {visuals.defaultVariantItem ? visuals.defaultVariantItem.list_price : visuals.price.price}</span>
                                                 }
                                             </div>
                                             <div className=" my-1 lg:my-6 ml-2 lg:ml-0">

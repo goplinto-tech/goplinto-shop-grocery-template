@@ -83,7 +83,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                 {
                                     isBillingHidden &&
                                     <h3 className="text-lg w-fit mb-24 font-semibold">
-                                        ₹{Number(
+                                        {info.currency_symbol}{Number(
                                             purchaseDetails?.calculatedPurchaseTotal
                                         ).toFixed(2)}
                                     </h3>
@@ -118,7 +118,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                             </h6>
                                             <div>
                                                 <span className=" text-sm md:text-base lg:text-lg font-medium ml-2">
-                                                    ₹
+                                                {info.currency_symbol}
                                                     {Number(
                                                         purchaseDetails?.totalOrderAmount
                                                     ).toFixed(2)}
@@ -131,7 +131,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                             </h6>
                                             <div>
                                                 <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                    {`₹ ${Number(purchaseDetails?.totalDeliveryCharge).toFixed(2)}`
+                                                    {`${info.currency_symbol} ${Number(purchaseDetails?.totalDeliveryCharge).toFixed(2)}`
                                                     }
                                                 </span>
                                             </div>
@@ -157,7 +157,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                             </h6>
                                             <div>
                                                 <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                    ₹
+                                                {info.currency_symbol}
                                                     {Number(
                                                         purchaseDetails.totalTaxAmount
                                                     ).toFixed(2)}
@@ -171,7 +171,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                                 </h6>
                                                 <div>
                                                     <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                        ₹
+                                                    {info.currency_symbol}
                                                         {Number(
                                                             purchaseDetails.totalConvenienceCharge
                                                         ).toFixed(2)}
@@ -186,7 +186,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                                 </h6>
                                                 <div>
                                                     <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                        ₹
+                                                    {info.currency_symbol}
                                                         {Number(
                                                             purchaseDetails.totalCouponSavingsAmount
                                                         ).toFixed(2)}
@@ -202,7 +202,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                                 </h6>
                                                 <div>
                                                     <span className=" text-sm md:text-base lg:text-lg black-color font-medium ml-2">
-                                                        - ₹{''}
+                                                        - {info.currency_symbol}{''}
                                                         {Number(
                                                             (customerWallet?.customer_wallet_balance) >= purchaseDetails?.calculatedPurchaseTotal ?
                                                                 purchaseDetails?.calculatedPurchaseTotal
@@ -218,7 +218,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                             </h6>
                                             <div>
                                                 <span className=" text-sm md:text-base lg:text-lg success-color font-medium ml-2">
-                                                    - ₹
+                                                    - {info.currency_symbol}
                                                     {Number(
                                                         purchaseDetails.totalSavings
                                                     ).toFixed(2)}
@@ -230,7 +230,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                                 Total Amount
                                             </h2>
                                             <h2 className=" text-sm md:text-base lg:text-lg font-bold">
-                                                ₹{' '}
+                                            {info.currency_symbol}{' '}
                                                 {Number(
                                                     payWithWallet ?
                                                         (customerWallet?.customer_wallet_balance) >= purchaseDetails?.calculatedPurchaseTotal ?
