@@ -22,22 +22,24 @@ class MyDocument extends Document {
         try {            
             const storeSettingsRes = await fetcher('GET', `?r=stores/get-details&storeId=${storeId}`);
             const seo = await fetcher('GET', `?r=stores/get-seo-details&storeId=${storeId}`);
-            return { ...initialProps, data: storeSettingsRes.data, seo: seo.data };
+            const displaySettings= await fetcher('GET',`?r=stores/get-store-display-settings&storeId=${storeId}`)
+            return { ...initialProps, data: storeSettingsRes.data, seo: seo.data, displaySettings:displaySettings.data };
         } catch (error) {
-            return { ...initialProps, data: null, seo: null };
+            return { ...initialProps, data: null, seo: null, displaySettings:null };
         }
     }
 
 
     render() {
-        console.log('I am props', this.props);
+        // console.log('I am props', this.props);
         const store = this.props?.data;
         const seo = this.props?.seo;
+        const displaySettings = this.props?.displaySettings;
         return (
             <Html>
                 <Head>
                     <title>{seo ? seo.seo_title : store ? store?.store_name : 'GoPlinto'}</title>
-                    <link rel="shortcut icon" href={store ? store.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" />
+                    <link rel="shortcut icon" href={displaySettings ? displaySettings.favicon_img_url ? displaySettings.favicon_img_url :store ? store.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png': 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" />
                     <meta name="description" content={seo ? seo?.seo_desc : store ? store.store_desc : 'GoPlinto'} />
 
                     <meta property="og:title" content={seo ? seo.seo_title : store ? store?.store_name : 'GoPlinto'}></meta>

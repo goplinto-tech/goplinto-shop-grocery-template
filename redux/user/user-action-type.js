@@ -46,6 +46,8 @@ const authActionType = {
     SET_WALLET_BALANCE: "SET_WALLET_BALANCE",
 
     AUTH_ERROR: "AUTH_ERROR",
+    
+    GET_COUNTRIES:"GET_COUNTRIES",
 
     LOG_OUT: 'LOG_OUT'
 

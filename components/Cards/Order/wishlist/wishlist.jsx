@@ -9,7 +9,7 @@ import { Button } from '@components/inputs';
 import { removeWishlistStart } from "@redux/wishlist/wishlist-action";
 import { useRouter } from 'next/router'
 
-function Wishlist({ addToCart, data, removeFromCart, removeWishlistStart, wishListedItem, setWishListedItem, cart }) {
+function Wishlist({ addToCart, data, removeFromCart, removeWishlistStart, wishListedItem, setWishListedItem, cart,info }) {
     const router = useRouter();
     const removeFromWishList = (wishlistid) => {
 
@@ -69,10 +69,10 @@ function Wishlist({ addToCart, data, removeFromCart, removeWishlistStart, wishLi
                     <div className="flex justify-between items-center mt-10">
 
                         <div className="space-x-8">
-                            <span className="font-bold black-color-75 text-base sm:text-xl inline-block sm:mr-2">₹ {data?.sale_price || '1234'}</span>
+                            <span className="font-bold black-color-75 text-base sm:text-xl inline-block sm:mr-2">{info.currency_symbol} {data?.sale_price || '1234'}</span>
                             {
                                 data?.sale_price != data?.price &&
-                                <span className="text-base">(MRP<span className=" text-base sm:text-base black-color-50 line-through ml-2 inline-block">₹{data?.price}</span>)</span>
+                                <span className="text-base">(MRP<span className=" text-base sm:text-base black-color-50 line-through ml-2 inline-block">{info.currency_symbol}{data?.price}</span>)</span>
                             }
                         </div>
 
@@ -107,12 +107,12 @@ function Wishlist({ addToCart, data, removeFromCart, removeWishlistStart, wishLi
                         <div className="flex flex-col justify-between ">
 
                             <div className="flex justify-between items-center pr-1">
-                                <span className="font-bold black-color-75 my-2  text-base sm:text-xl inline-block sm:mr-2">₹ {data && parseInt(data?.sale_price) || '1234'}</span>
+                                <span className="font-bold black-color-75 my-2  text-base sm:text-xl inline-block sm:mr-2">{info.currency_symbol} {data && parseInt(data?.sale_price) || '1234'}</span>
                                 {
                                     data?.sale_price != data?.price ?
-                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">₹{data?.price}</span>
+                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">{info.currency_symbol}{data?.price}</span>
                                         :
-                                        <span className=" text-sm sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">MRP (₹{data?.price || '4567'})</span>
+                                        <span className=" text-sm sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">MRP ({info.currency_symbol}{data?.price || '4567'})</span>
                                 }
                             </div>
                         </div>
@@ -163,6 +163,7 @@ function Wishlist({ addToCart, data, removeFromCart, removeWishlistStart, wishLi
 }
 const mapStateToProps = state => ({
     cart: state.cart,
+    info:state.store.info
 
 
 })

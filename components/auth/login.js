@@ -79,16 +79,16 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
                                 </Button>
                             </div>
                             <div className="p-6 absolute bottom-0 sm:bottom-auto top-[100px] sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-full bg-white sm:w-[512px] rounded " style={{ border: "2px solid #F58634" }} >
-                                <div className="flex justify-between items-center">
+                                <div className="flex justify-end items-center">
                                     {/* <h2 className="text-2xl font-semibold">Login</h2> */}
-                                    <div className='w-fit flex   p-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                    {/* <div className='w-fit flex   p-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
                                         <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <BsFillTelephoneFill />
                                         </span>
                                         <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <MdEmail />
                                         </span>
-                                    </div>
+                                    </div> */}
                                     <Button className='bg-transparent dark-blue  hidden sm:block' onClick={showToggle} >
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16">
                                             <path fillRule="evenodd" d="M13.854 2.146a.5.5 0 0 1 0 .708l-11 11a.5.5 0 0 1-.708-.708l11-11a.5.5 0 0 1 .708 0Z" />
@@ -109,6 +109,17 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
                                         alt="..."
                                     />
                                 </div>
+
+                                {/* toggle */}
+                                <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                        <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
+                                            <BsFillTelephoneFill />
+                                        </span>
+                                        <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
+                                            <MdEmail />
+                                        </span>
+                                    </div>
+
                                 <form onSubmit={onSubmitHandler}>
                                     <div className="mt-6 flex justify-center">
                                         <div className=' flex-col ' style={{ maxWidth: 'fit-content' }} >

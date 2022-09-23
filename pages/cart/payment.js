@@ -425,7 +425,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                                             <input disabled={checkoutDetails.paymentMethod != 'Y' || (+customerWallet?.customer_wallet_balance == 0)} id='wallet' type="checkbox" name="walletPay" value={'walletPay'} checked={checkoutDetails.walletPay} onClick={onChangeHandler} />
                                             <label htmlFor='wallet'>
                                                 <h4 className=''>Pay With Wallet</h4>
-                                                <span className=' text-base'>Available Balance: <span className=' btn-color-revers'>₹ {+customerWallet?.customer_wallet_balance}</span></span>
+                                                <span className=' text-base'>Available Balance: <span className=' btn-color-revers'>{info.currency_symbol} {+customerWallet?.customer_wallet_balance}</span></span>
                                             </label>
                                         </div>
                                     )

@@ -185,7 +185,7 @@ const ProductItem = ({ openAuth, className, store, data, user, addToCart, remove
                 <div className="flex flex-col justify-between items-start">
                     <div className="flex justify-start items-baseline h-full my-2  w-full ">
                         <div className="flex">
-                            <p className="font-bold text-sm md:text-lg">₹ {data.sale_price}</p>
+                            <p className="font-bold text-sm md:text-lg">{store.currency_symbol} {data.sale_price}</p>
                             {
                                 data.sale_price != data.price && <span className="text-gray-400 font-thinner text-xs ml-2 flex items-center line-through"> (MRP {data.price})</span>
                             }

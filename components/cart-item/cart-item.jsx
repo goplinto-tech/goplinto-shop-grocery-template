@@ -8,7 +8,7 @@ import { deleteFromPurchaseStart } from "@redux/checkout/checkout-action";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteFromPurchase, isDetailsLoading }) => {
+const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteFromPurchase, isDetailsLoading,info }) => {
     console.log("cart item", data)
     const [cartItemImg, setCartItemImg] = useState([])
     useEffect(() => {
@@ -78,6 +78,7 @@ const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteF
                         </span>
                         {/* <img className="w-full h-full object-cover" src={data.defaultVariantItem ? Object.keys(data.defaultVariantItem).length && data?.defaultVariantItem?.variant_value_1?.variant_value_images != null ? data?.defaultVariantItem?.variant_value_1?.variant_value_images.img_url_1 : '/img/default.png' : data.primary_img ? data.primary_img : '/img/default.png'} alt="product" /> */}
                         <img className="w-full h-full object-cover" src={cartItemImg[0]} alt="product" />
+                        {data.is_veg=='Y' && <img className="w-4 h-4 top-2 left-2 absolute" src="/img/veg.svg" />}
                     </a>
                 </Link>
                 <div className="flex-1 space-y-2 md:space-y-4 mt-0 md:mt-4">
@@ -104,14 +105,14 @@ const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteF
                     <div className="flex justify-between items-center ">
                         <div className="lg:col-span-5">
                             <div className="">
-                                <span className="font-medium black-color-75  text-base sm:text-xl inline-block sm:mr-2">₹{data.defaultVariantItem ? data.defaultVariantItem.sale_price : data.sale_price}</span>
+                                <span className="font-medium black-color-75  text-base sm:text-xl inline-block sm:mr-2">{info.currency_symbol}{data.defaultVariantItem ? data.defaultVariantItem.sale_price : data.sale_price}</span>
                                 {
                                     data.defaultVariantItem ?
                                         data.defaultVariantItem.sale_price != data.defaultVariantItem.list_price &&
-                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">(MRP ₹{data.defaultVariantItem.list_price})</span>
+                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">(MRP {info.currency_symbol}{data.defaultVariantItem.list_price})</span>
                                         :
                                         data.sale_price != data.price &&
-                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">(MRP ₹{data.price})</span>
+                                        <span className=" text-base sm:text-base black-color-50 line-through ml-4 lg:ml-0 xl:ml-4 inline-block">(MRP {info.currency_symbol}{data.price})</span>
                                 }
                             </div>
                         </div>
@@ -208,6 +209,7 @@ const CartItem = ({ addToCart, removeFromCart, data, deleteItemFromCart, deleteF
 
 const mapStateToProps = state => ({
     isDetailsLoading: state.ui.isDetailsLoading,
+    info:state.store.info
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment'
 import { Button } from '../../../inputs'
-const OrderItemDetails = ({ item }) => {
+const OrderItemDetails = ({ item,info }) => {
     console.log(item)
     const [orderItemImg, setOrderItemImg] = useState([])
     useEffect(() => {
@@ -77,7 +77,7 @@ const OrderItemDetails = ({ item }) => {
                         }
                     }
                 })}</p>}
-                <p className="text-left text-lg lg:text-2xl font-bold text-gray-900  ">₹ {item.discountedOrderItemAmount}</p>
+                <p className="text-left text-lg lg:text-2xl font-bold text-gray-900  ">{info.currency_symbol} {item.discountedOrderItemAmount}</p>
             </div>
         </div>
     );

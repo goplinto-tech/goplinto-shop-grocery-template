@@ -310,3 +310,15 @@ button[disabled] {
 .ReactModal__Overlay--before-close{
   opacity: 0;
 }
+
+
+/* .fc-widget-normal{
+  bottom: 54px !important;
+} */
+
+.addressphone{
+  padding-left: 4rem !important;
+}
+.react-tel-input .selected-flag{
+  width: 100% !important;
+}

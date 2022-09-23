@@ -402,9 +402,27 @@ function* onGetCustomerWallet() {
     })
 }
 
+function* onGetCountriesStart() {
+    yield takeLatest(userActionType.GET_COUNTRIES, function* ({ payload }) {
+        try {
+            const res = yield fetcher('GET', `?r=store-config/get-distinct-locations&locationType=COUNTRY`)
+            if (res.data) {
+                payload(res.data)
+            }
+        } catch (error) {
+            if (error.message == 'Network Error') {
+                yield put(riseError({ name: 'No Internet', message: "Please connect device to Internet!", onOk: () => { return }, onOkName: "Close" }))
+            } else {
+                yield put(riseError({ name: error.name, message: "Operation faield!", onOk: () => { return }, onOkName: "CLOSE" }))
+            }
+            yield put(autheError(error))
+        }
+    })
+}
+
 export default function* userSagas() {
     yield all([call(onGetRegisterOtpStart), call(onGetLoginOtpStart), call(onOtpVerificationStart), call(onLogoutStart), call(onGetAddressStart), call(onAddAddressStart), call(onRemoveAddressStart), call(onUpdateAddressStart),
-    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart), call(onUpdateUserDetailsStart), call(onGetCustomerWallet)
+    call(onRegisterWithPassword), call(onLoginWithPasswordStart), call(onForgotPasswordStart), call(onForgotPasswordOtpVerifyStart), call(onNewPasswordCreateStart), call(onUpdateUserDetailsStart), call(onGetCustomerWallet), call(onGetCountriesStart)
     ])
 
 }

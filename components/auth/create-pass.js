@@ -6,6 +6,7 @@ import { otpVerificationStart, authShowToggle, newPasswordCreateStart, loginSucc
 
 const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSuccess, user, info }) => {
     const [showPass, setShowPass] = useState(false)
+    const [showConfirmPass,setShowConfirmPass]=useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSuccess, setIsSuccess] = useState(false)
     const [error, setError] = useState('')
@@ -56,6 +57,7 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
                                     </g>
                                 </svg>
                             </div>
+                            <h2 className='text-center'>Password Reset Successfully</h2>
                         </div>
                     </div>
                     :
@@ -122,7 +124,15 @@ const CreateNewPassword = ({ showToggle, setPage, createNewPassword, loginSucces
                                         </div>
                                         <div className='mt-6 relative h-fit'>
                                             {/* <h3 className='mb-1'>Confirm password</h3> */}
-                                            <Input name='confirmPassword' className={` border input-focus ${error && ' border-red-400'} rounded-lg py-4 w-full`} type={showPass ? 'text' : 'password'} placeholder="Confirm password" value={state.confirmPassword} onChange={onChangeHandler} disabled={isLoading} />
+                                            <Input name='confirmPassword' className={` border input-focus ${error && ' border-red-400'} rounded-lg py-4 w-full`} type={showConfirmPass ? 'text' : 'password'} placeholder="Confirm password" value={state.confirmPassword} onChange={onChangeHandler} disabled={isLoading} />
+                                            <div className=' cursor-pointer absolute top-1/2 right-0 -translate-y-1/2 p-4' onClick={() => setShowConfirmPass(!showConfirmPass)}>
+                                                    {
+                                                        showConfirmPass ?
+                                                            <IoEyeOff />
+                                                            :
+                                                            <IoEyeOutline />
+                                                    }
+                                                </div>
                                         </div>
                                     </div>
 

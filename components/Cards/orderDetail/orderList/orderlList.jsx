@@ -2,7 +2,7 @@ import moment from 'moment'
 import { Button } from '../../../inputs'
 import OrderItemDetails from './OrderItemDetails'
 
-function orderlList({ list, storeName, orderId, createTime, openReturn }) {
+function orderlList({ list, storeName, orderId, createTime, openReturn,info }) {
 
 
   return (
@@ -11,7 +11,7 @@ function orderlList({ list, storeName, orderId, createTime, openReturn }) {
       <div>
         {
           list?.map((item, i) => (
-            <OrderItemDetails item={item}/>
+            <OrderItemDetails info={info} item={item}/>
             // <div key={i} className=" rounded bg-white flex justify-start space-x-4 mt-2 sm:mt-0 p-0 sm:p-4 items-center px-4 sm:px-6">
             //   <Button className="mt-2 rounded bg-gray-900 md:w-[131px] md:h-[131px] w-20 h-20 shrink-0 block" type='link' href={`/product/${item.orderItemId}`}>
             //     <img className="w-full h-full rounded object-cover opacity-80" src={item.customizationDetails ? Object.keys(item.customizationDetails.variant_item_attributes).length&&item?.customizationDetails?.variant_item_attributes?.variant_value_1?.variant_value_images !=null ? item?.customizationDetails?.variant_item_attributes?.variant_value_1?.variant_value_images?.img_url_1:'/img/default.png':item.itemImg?item.itemImg:'/img/default.png'} />

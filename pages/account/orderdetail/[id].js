@@ -130,7 +130,7 @@ function orderDetail({ getOrderDetails, display, info }) {
         }
       </div>
       <div className=" lg:w-full bg-white flex justify-between px-4 sm:px-6 mb-0 sm:mb-6 py-0 sm:py-6 md:py-3">
-        <p className="hidden md:block lg:block text-left font-bold text-lg md:w-max">Order Details</p>
+        <p className="hidden md:block lg:block text-left font-bold text-lg md:w-max"><BsArrowLeft onClick={()=>router.push('/account/myorders')} className={`inline mr-2 cursor-pointer`} size={24} />Order Details</p>
         <p className=" hidden md:block text-left font-medium text-lg text-gray-500 md:w-max ">OrderId- #{orderDetails?.orderId}</p>
       </div>
       <section className="bg-gray-100 w-full pb-1 lg:pb-0">
@@ -145,7 +145,7 @@ function orderDetail({ getOrderDetails, display, info }) {
                   <div className="grid grid-cols-1 lg:grid-cols-12 ">
                     <div className="lg:col-span-12 mb-3 lg:mb-5 space-y-3 ">
                       <div className="bg-white">
-                        <List orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} />
+                        <List info={info} orderId={orderDetails.orderId} storeName={orderDetails.storeName} createTime={orderDetails.createTime} list={Object.values(orderDetails.orderItems)} />
                         {/* <Ordertracker data={{ orderId: orderDetails.orderId }} details={orderDetails} openReturn={setIsReturnActive} /> */}
                         <div className='py-8 ml-8 lg:ml-14'>
                           <Stepper vertical={true} steps={isCanceled ? cancledStep : steps} activeStep={orderStatus + 1} sx={style} openReturn={handleCancel} details={orderDetails} isCanceled={isCanceled} />
@@ -170,13 +170,13 @@ function orderDetail({ getOrderDetails, display, info }) {
                                 <div className="flex justify-between space-x-2 ">
                                   <h6 className="text-base black-color font-medium">Item Total</h6>
                                   <div>
-                                    <span className="text-base black-color font-medium ml-2">₹ {Number(orderDetails.orderAmount).toFixed(2)}</span>
+                                    <span className="text-base black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.orderAmount).toFixed(2)}</span>
                                   </div>
                                 </div>
                                 {parseFloat(orderDetails.deliveryCharge) ?<div className="flex justify-between space-x-2 ">
                                   <h6 className="text-base black-color font-medium">Delivery Charge</h6>
                                   <div>
-                                    <span className="text-base black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `₹${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
+                                    <span className="text-base black-color font-medium ml-2">{parseFloat(orderDetails.deliveryCharge) ? `${info.currency_symbol}${Number(orderDetails.deliveryCharge).toFixed(2)}` : 'Free'}</span>
                                   </div>
                                 </div>:""}
                                 {
@@ -184,7 +184,7 @@ function orderDetail({ getOrderDetails, display, info }) {
                                   <div className="flex justify-between space-x-2 ">
                                     <h6 className="text-base black-color font-medium">Parcel Charge</h6>
                                     <div>
-                                      <span className="text-base black-color font-medium ml-2">₹{Number(orderDetails.parcelCharge).toFixed(2)}</span>
+                                      <span className="text-base black-color font-medium ml-2">{info.currency_symbol}{Number(orderDetails.parcelCharge).toFixed(2)}</span>
                                     </div>
                                   </div>
                                 }
@@ -192,7 +192,7 @@ function orderDetail({ getOrderDetails, display, info }) {
                                 <div className="flex justify-between space-x-2 ">
                                   <h6 className="text-base black-color font-medium">Tax</h6>
                                   <div>
-                                    <span className="text-base black-color font-medium ml-2">₹ {Number(orderDetails.taxAmount).toFixed(2)}</span>
+                                    <span className="text-base black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.taxAmount).toFixed(2)}</span>
                                   </div>
                                 </div>
                                 {
@@ -200,7 +200,7 @@ function orderDetail({ getOrderDetails, display, info }) {
                                     <div className="flex justify-between space-x-2 ">
                                       <h6 className="text-base black-color font-medium">Convenience Charge</h6>
                                       <div>
-                                        <span className="text-base black-color font-medium ml-2">₹ {Number(orderDetails.convenienceFee).toFixed(2)}</span>
+                                        <span className="text-base black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.convenienceFee).toFixed(2)}</span>
                                       </div>
                                     </div>
                                     : null
@@ -208,19 +208,19 @@ function orderDetail({ getOrderDetails, display, info }) {
                                 {Number(orderDetails.couponSavingsAmount)>0&&<div className="flex justify-between space-x-2 ">
                                   <h6 className="text-base black-color font-medium">Coupon Applied</h6>
                                   <div>
-                                    <span className="text-base black-color font-medium ml-2">₹ {Number(orderDetails.couponSavingsAmount).toFixed(2)}</span>
+                                    <span className="text-base black-color font-medium ml-2">{info.currency_symbol} {Number(orderDetails.couponSavingsAmount).toFixed(2)}</span>
                                   </div>
                                 </div>}
                                 <div className="flex justify-between space-x-2 ">
                                   <h6 className="text-base success-color font-medium">Discount</h6>
                                   <div>
-                                    <span className="text-base success-color font-medium ml-2">- ₹ {Number(orderDetails.savingsAmount).toFixed(2)}</span>
+                                    <span className="text-base success-color font-medium ml-2">- {info.currency_symbol} {Number(orderDetails.savingsAmount).toFixed(2)}</span>
                                   </div>
                                 </div>
                               </div>
                               <div className="flex justify-between mt-4 border-dashed">
                                 <h2 className="text-lg font-bold">Total Amount</h2>
-                                <h2 className="text-lg font-bold">₹ {Number(orderDetails.calculatedOrderTotal).toFixed(2)}</h2>
+                                <h2 className="text-lg font-bold">{info.currency_symbol} {Number(orderDetails.calculatedOrderTotal).toFixed(2)}</h2>
                               </div>
 
                               {/* <div className="text-center bg-success-color-lighter success-color py-3 mt-4">
