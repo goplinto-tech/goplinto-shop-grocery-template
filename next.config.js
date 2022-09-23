@@ -7,7 +7,7 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
 })
 
-const withPWA = require("next-pwa")
+// const withPWA = require("next-pwa")
 
 const path = require('path')
 module.exports = withPWA({
