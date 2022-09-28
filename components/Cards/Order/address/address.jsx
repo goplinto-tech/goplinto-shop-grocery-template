@@ -36,7 +36,7 @@ function address({ type, data, onEdit, onRemove, ids }) {
                   {data?.city}{' - '}{data?.zip_code}<br />
                   {data.state}{', '}{data.country},
                   <br />
-                  <span> mob.  {data.country_code ? data?.country_code : "+91"} {data.phone}</span>
+                  <span> mob. +{data.isd_code} {data.phone}</span>
                 </p>
               </div>
               <div className='flex justify-start items-center space-x-4'>
@@ -80,7 +80,7 @@ function address({ type, data, onEdit, onRemove, ids }) {
                 {data?.city}{' - '}{data?.zip_code}<br />
                 {data.state}{', '}{data.country},
                 <br />
-                <span> mob.  {data.country_code ? data?.country_code : "+91"} {data.phone}</span>
+                <span> mob. +{data.isd_code} {data.phone}</span>
               </p>
             </div>
           </div>

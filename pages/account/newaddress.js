@@ -17,6 +17,7 @@ import {
   updateAddressStart,
   removeAddressStart,
   getCountryAction,
+  getStateAction,
 } from '@redux/user/user-action'
 import PageWrapper from '@components/page-wrapper/page-wrapper'
 import { useRouter } from 'next/router'
@@ -31,7 +32,8 @@ function Savedplaces({
   removeAddress,
   updateAddress,
   store,
-  getCountryAction
+  getCountryAction,
+  getStateAction
 }) {
   const router = useRouter()
   const addressdetails = router.query;
@@ -44,12 +46,16 @@ function Savedplaces({
     address_fields: {},
     address_tag: 'Home',
     country: 'India',
+    country_code: 'IND',
     is_default: '',
     latitude: null,
     longitude: null,
-    state: '',
+    state: 'Tamil Nadu',
+    state_code: 'TN',
     zip_code: '',
+    isd_code: '91'
   }
+  const [countryState, setCountryState] = useState([])
   const [state, setState] = useState("91")
   const [newAddress, setNewAddress] = useState({})
   const [isAddressActive, setIsAddressActive] = useState(false)
@@ -66,9 +72,11 @@ function Savedplaces({
     console.log("isEmpty", isEmpty)
     if (isEmpty.length == 0) {
       setNewAddress(addressStructure);
+      getStateAction({ code: addressStructure.country_code, setCountryState })
     }
     else {
       setNewAddress(addressdetails);
+      getStateAction({ code: addressdetails.country_code, setCountryState })
     }
   }, [router.query])
 
@@ -105,6 +113,29 @@ function Savedplaces({
     }
     setNewAddress({ ...newAddress, [name]: value })
   }
+
+
+  const onChangeCountry = (e) => {
+    const country = e.target.value
+    console.log("country", country)
+    const countryCode = countries.filter(item => item.country_name == country)[0]
+    setNewAddress({ ...newAddress, country, country_code: countryCode.country_code, state_code: "", state: "" });
+    getStateAction({ code: countryCode.country_code, setCountryState })
+  }
+
+
+  const stateOnChange = (e) => {
+    const state = e.target.value
+    const stateCode = countryState.filter(item => item.state_name == state)[0]
+    if (stateCode) {
+      setNewAddress({ ...newAddress, state, state_code: stateCode.state_code });
+    }
+    else {
+      setNewAddress({ ...newAddress, state_code: "", state: "" });
+    }
+  }
+
+
   const onSave = () => {
     if (
       !newAddress.full_name ||
@@ -134,6 +165,12 @@ function Savedplaces({
     router.push(`/account/savedplaces`)
     // window.location.href(`${url}/account/savedplaces`)
   }
+
+  const onPhoneCodeChange = (value) => {
+    setNewAddress({ ...newAddress, isd_code: value });
+  }
+
+  console.log(newAddress)
   return (
     <>
       {
@@ -154,10 +191,10 @@ function Savedplaces({
                   value={newAddress.country}
                   className="h-[48px] my-2 rounded border border-gray-300 "
                 /> */}
-                <select name='country' onChange={onChangeAddress} className="w-full p-4 custom-input border rounded border-[#48887B]">
+                <select name='country' onChange={onChangeCountry} className="w-full p-4 custom-input border rounded border-[#48887B]">
                   {countries.map(item => {
                     return (
-                      <option value={item.country_name} selected={item.country_name == 'India'}>{item.country_name}</option>
+                      <option value={item.country_name} selected={item.country_name == newAddress.country}>{item.country_name}</option>
                     )
                   })}
                 </select>
@@ -180,6 +217,14 @@ function Savedplaces({
                 <span className=" font-bold text-lg md:block hidden  ">
                   Mobile Number ( Commonly Used to Assist Delivery ) *
                 </span>
+                {/* <Input
+                  onChange={onChangeAddress}
+                  type="text"
+                  name="phone"
+                  placeholder="Mobile Number*"
+                  value={newAddress.phone}
+                  className="h-[48px] my-2 rounded border border-gray-300 "
+                /> */}
                 <div className='flex space-x-1'>
                   <div className='w-[4rem] h-[55px] shrink-0 relative pt-2'>
                     <PhoneInput
@@ -188,12 +233,12 @@ function Savedplaces({
                       buttonClass='w-full flag-div'
                       // country={'us'}
                       // enableAreaCodes={true}
-                      value={state}
-                      onChange={phone => setState(phone)}
+                      value={newAddress.isd_code + ""}
+                      onChange={(value) => onPhoneCodeChange(value)}
                     />
                   </div>
                   <div className=' relative w-full'>
-                    <input className='ml-1 absolute text-center text-sm top-1/2 -translate-y-1/2 w-14 outline-none' value={'+' + state} />
+                    <input className='ml-1 absolute text-center text-sm top-1/2 -translate-y-1/2 w-14 outline-none' value={'+' + newAddress.isd_code} />
                     <Input
                       onChange={onChangeAddress}
                       type="text"
@@ -234,6 +279,27 @@ function Savedplaces({
                 </div>
                 <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
                   <span className=" font-bold text-lg md:block hidden  ">
+                    State*
+                  </span>
+                  {/* <Input
+                    onChange={onChangeAddress}
+                    type="text"
+                    name="state"
+                    placeholder="State*"
+                    value={newAddress.state}
+                    className="h-[48px] my-2 rounded border border-gray-300 "
+                  /> */}
+                  <select name='country' onChange={stateOnChange} className="w-full p-4 custom-input border rounded border-[#48887B]">
+                    <option value="">--Select State--</option>
+                    {countryState.map(item => {
+                      return (
+                        <option value={item.state_name} selected={item.state_name == newAddress.state}>{item.state_name}</option>
+                      )
+                    })}
+                  </select>
+                </div>
+                <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
+                  <span className=" font-bold text-lg md:block hidden  ">
                     City*
                   </span>
                   <Input
@@ -242,19 +308,6 @@ function Savedplaces({
                     name="city"
                     placeholder="City*"
                     value={newAddress.city}
-                    className="h-[48px] my-2 rounded border border-gray-300 "
-                  />
-                </div>
-                <div className="py-2 md:p-4 px-2 md:px-8  md:w-1/2  ">
-                  <span className=" font-bold text-lg md:block hidden  ">
-                    State*
-                  </span>
-                  <Input
-                    onChange={onChangeAddress}
-                    type="text"
-                    name="state"
-                    placeholder="State*"
-                    value={newAddress.state}
                     className="h-[48px] my-2 rounded border border-gray-300 "
                   />
                 </div>
@@ -436,6 +489,7 @@ const mapDispatchToProps = (dispatch) => ({
   updateAddress: (payload) => dispatch(updateAddressStart(payload)),
   removeAddress: (payload) => dispatch(removeAddressStart(payload)),
   getCountryAction: (payload) => dispatch(getCountryAction(payload)),
+  getStateAction: (data) => dispatch(getStateAction(data)),
 })
 
 export default connect(

@@ -30,11 +30,14 @@ function Savedplaces({ user, address, info, getAddress, addAddress, removeAddres
     address_fields: "",
     address_tag: "Home",
     country: "India",
+    country_code: "IND",
     is_default: "",
     latitude: null,
     longitude: null,
-    state: "",
-    zip_code: ""
+    state: "Tamil Nadu",
+    state_code: "TN",
+    zip_code: "",
+    isd_code:"91"
   }
   const [newAddress, setNewAddress] = useState(addressStructure)
   const [isAddressActive, setIsAddressActive] = useState(false);

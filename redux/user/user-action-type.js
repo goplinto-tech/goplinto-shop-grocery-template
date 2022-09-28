@@ -48,6 +48,7 @@ const authActionType = {
     AUTH_ERROR: "AUTH_ERROR",
     
     GET_COUNTRIES:"GET_COUNTRIES",
+    GET_STATES:"GET_STATES",
 
     LOG_OUT: 'LOG_OUT'
 

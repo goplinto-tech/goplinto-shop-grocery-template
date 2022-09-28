@@ -169,4 +169,9 @@ export const getCountryAction = (data) => ({
     payload: data
 })
 
+export const getStateAction = (data) => ({
+    type: userActionType.GET_STATES,
+    payload: data
+})
+
 
