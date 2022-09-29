@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-function Sideprofilecard({ user, logout, customerWallet, info, getWalletBalance }) {
+function Sideprofilecard({storeSettings, user, logout, customerWallet, info, getWalletBalance }) {
 
   let active = Router?.router?.state?.pathname.split('/')[2]
   active = active === undefined ? 'account' : active
@@ -155,6 +155,7 @@ function Sideprofilecard({ user, logout, customerWallet, info, getWalletBalance 
 
           {
             active === 'wallet' ?
+            storeSettings?.isWalletEnabled=='Y'&&
               <div className=" h-10 my-6">
 
                 <Link href='/account/wallet ' >
@@ -169,6 +170,7 @@ function Sideprofilecard({ user, logout, customerWallet, info, getWalletBalance 
                   </div>
                 </Link>
               </div> :
+            storeSettings?.isWalletEnabled=='Y'&&
               <div className=" cursor-pointer h-10 my-6">
                 <Link href='/account/wallet ' >
                   <div className="flex items-center justify-between">
@@ -239,6 +241,7 @@ const mapStateToProps = state => ({
   user: state.user.currentUser,
   customerWallet: state.user.customerWallet,
   info: state.store.info,
+  storeSettings: state.store.settings,
 })
 
 const mapDispatchToProps = dispatch => ({

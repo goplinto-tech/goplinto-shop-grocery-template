@@ -29,7 +29,7 @@ import ContactUs from "@components/ContactUS/ContactUs";
 import MobContactUs from "@components/ContactUS/MobContactUs";
 import { SocialIcon } from 'react-social-icons';
 
-const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref, storePolicies }) => {
+const Navbar = ({storeSettings, socialProfile, user, cart, categories, getCategoryStart, getCategoryProducts, getShopProducts, getSearchProducts, setSearchHandler, displaySettings, openAuth, logOut, getShopInfo, getShopSeo, getShopSettings, getSocialProfile, getShopDisplaySettings, searchHandler, info, ref, storePolicies }) => {
   const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
   const [lists, setlists] = useState([])
   const [isLogin, setIsLogin] = useState(false)
@@ -240,11 +240,11 @@ const Navbar = ({ socialProfile, user, cart, categories, getCategoryStart, getCa
                                 <a>Wishlist</a>
                               </Link>
                             </li>
-                            <li className="btn-hover-color cursor-pointer hover:text-[#48887B]">
+                            {storeSettings?.isWalletEnabled=='Y'&&<li className="btn-hover-color cursor-pointer hover:text-[#48887B]">
                               <Link href="/account/wallet">
                                 <a>Wallet</a>
                               </Link>
-                            </li>
+                            </li>}
                             <li className="btn-hover-color cursor-pointer hover:text-[#48887B]">
                               <Link href="/account/savedplaces/">
                                 <a>Saved Places</a>
@@ -630,6 +630,7 @@ const mapStateToProps = state => ({
   info: state.store.info,
   categories: state.store.categories,
   displaySettings: state.store.displaySettings,
+  storeSettings: state.store.settings,
   // Search handler from plp
   searchHandler: state.search.searchHandler,
   socialProfile: state.store.socialProfile,
