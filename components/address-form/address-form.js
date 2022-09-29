@@ -30,7 +30,7 @@ const AddressForm = ({getStateAction, countries, user, address, getAddress, addA
         zip_code: "",
         isd_code:"91"
     }
-    console.log("countries",countries)
+    
     const [countryState, setCountryState] = useState([])
     const [state, setState] = useState("91")
     const [newAddress, setNewAddress] = useState(addressStructure)
@@ -55,7 +55,7 @@ const AddressForm = ({getStateAction, countries, user, address, getAddress, addA
 
     const onChangeCountry = (e) => {
         const country = e.target.value
-        console.log("country",country)
+        
         const countryCode = countries.filter(item => item.country_name == country)[0]
         setNewAddress({ ...newAddress,country, country_code: countryCode.country_code,state_code:"",state:"" });
         getStateAction({ code: countryCode.country_code, setCountryState })
@@ -101,7 +101,7 @@ const AddressForm = ({getStateAction, countries, user, address, getAddress, addA
         setNewAddress({ ...newAddress, isd_code: value });
     }
 
-    console.log(edit, newAddress);
+    
     return (
         <div className="">
             <div className="heading border-gray-300 pb-4 border-b-2 flex justify-between items-center">

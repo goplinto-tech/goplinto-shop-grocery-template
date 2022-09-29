@@ -69,7 +69,7 @@ function Savedplaces({
   useEffect(() => {
     const addressdetails = router.query;
     const isEmpty = Object.keys(addressdetails);
-    console.log("isEmpty", isEmpty)
+    
     if (isEmpty.length == 0) {
       setNewAddress(addressStructure);
       getStateAction({ code: addressStructure.country_code, setCountryState })
@@ -117,7 +117,7 @@ function Savedplaces({
 
   const onChangeCountry = (e) => {
     const country = e.target.value
-    console.log("country", country)
+    
     const countryCode = countries.filter(item => item.country_name == country)[0]
     setNewAddress({ ...newAddress, country, country_code: countryCode.country_code, state_code: "", state: "" });
     getStateAction({ code: countryCode.country_code, setCountryState })
@@ -163,14 +163,14 @@ function Savedplaces({
     setNewAddress(addressStructure)
     const url = `/${store?.store_name.replaceAll(" ", '-').trim()}/${store.store_id}`
     router.push(`/account/savedplaces`)
-    // window.location.href(`${url}/account/savedplaces`)
+    
   }
 
   const onPhoneCodeChange = (value) => {
     setNewAddress({ ...newAddress, isd_code: value });
   }
 
-  console.log(newAddress)
+  
   return (
     <>
       {

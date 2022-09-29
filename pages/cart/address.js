@@ -114,9 +114,7 @@ const Address = ({getCountryAction,getShopSettings, user, userAddress, display, 
             getAddress({ userId: user.customer_id })
         }
         getCountryAction(setCountries)
-        // if (checkout.purchase) {
-        //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: 'Y' });
-        // }
+
     }, [])
 
     const steps = [{ lable: 'Delivery Address' },
