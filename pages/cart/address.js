@@ -16,7 +16,7 @@ import AddressForm from '@components/address-form/address-form'
 
 // Actions
 import { clearCart, deleteItemFromCart } from '@redux/cart/cart-actions'
-import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle, } from '@redux/user/user-action'
+import { getAddressStart, addAddressStart, updateAddressStart, authShowToggle, getCountryAction, } from '@redux/user/user-action'
 import {
     setBackendCartStart, getPurchageStart, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod,
     initiateOrderPymentStart, clearCheckout, createNewRzpOrderStart, applyCouponCodeStart,
@@ -27,7 +27,7 @@ import Stepper from '@components/stepper/stepper';
 import { redirect } from '@components/link';
 import { getShopSettingsStart } from '@redux/shop/shop-action';
 
-const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle, initiateOrder, clearCheckout, createNewRzpOrder, clearCart, deleteItemFromCart, applyCouponCode }) => {
+const Address = ({getCountryAction,getShopSettings, user, userAddress, display, isDetailsLoading, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle, initiateOrder, clearCheckout, createNewRzpOrder, clearCart, deleteItemFromCart, applyCouponCode }) => {
 
     const addressStructure = {
         address_fields: "",
@@ -38,7 +38,7 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
         address_tag: "",
         city: "",
         country: "India",
-        country_code: "",
+        country_code: "IND",
         create_date: "",
         customer_id: "",
         delivery_schema_id: "",
@@ -48,9 +48,10 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
         latitude: "",
         longitude: "",
         phone: "",
-        state: "",
-        state_code: "",
+        state: "Tamil Nadu",
+        state_code: "TN",
         zip_code: "",
+        isd_code:"91"
     };
     const purchaseDetails = checkout.purchaseDetails
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0);
@@ -69,6 +70,7 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
     const [payment, setpayment] = useState(false)
     const [active2, setactive2] = useState(false)
     const [confirmOrder, setConfirmOrder] = useState(false)
+    const [countries,setCountries]=useState([])
     const [checkoutDetails, setcheckoutDetails] = useState({
         deliveryAddress: purchaseDetails?.deliveryAddressDetails?.address_id || "",
         deliveryMethod: purchaseDetails?.isDelivery || ""
@@ -111,9 +113,8 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
         if (user) {
             getAddress({ userId: user.customer_id })
         }
-        // if (checkout.purchase) {
-        //     setShipmentMethod({ purchaseId: checkout.purchase?.purchase_id, flag: 'Y' });
-        // }
+        getCountryAction(setCountries)
+
     }, [])
 
     const steps = [{ lable: 'Delivery Address' },
@@ -199,7 +200,7 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
                                                                         {item?.country},{' '}
                                                                     </span>
                                                                     <span className="country font-w-bold">
-                                                                        +91 {item?.phone}
+                                                                        +{item.isd_code} {item?.phone}
                                                                     </span>
                                                                 </div>
 
@@ -236,7 +237,7 @@ const Address = ({getShopSettings, user, userAddress, display, isDetailsLoading,
                                         </div>
                                         :
                                         <div className='flex-1 p-6 sm:p-8 bg-white' id={'address-form'}>
-                                            <AddressForm edit={newAddress} close={() => setIsAddressActive(false)} />
+                                            <AddressForm countries={countries} edit={newAddress} close={() => setIsAddressActive(false)} />
                                         </div>
                                 }
                             </>
@@ -308,5 +309,6 @@ const mapDispatchToProps = (dispatch) => ({
     applyCouponCode: (payload) => dispatch(applyCouponCodeStart(payload)),
     authToggle: () => dispatch(authShowToggle()),
     getShopSettings: (shopId) => dispatch(getShopSettingsStart(shopId)),
+    getCountryAction: (payload) => dispatch(getCountryAction(payload)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper(withAuth(Address)))

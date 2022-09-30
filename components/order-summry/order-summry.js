@@ -106,7 +106,7 @@ const OrderSummry = ({ invalidCouponCodeApplied, invalidCouponExist, removeCoupo
                                                     {purchaseDetails?.deliveryAddressDetails?.zip_code},{' '}
                                                 </span>
                                                 <span className="country font-w-bold">
-                                                    phone: +{purchaseDetails?.deliveryAddressDetails?.phone}
+                                                    phone: +{purchaseDetails?.deliveryAddressDetails?.isd_code} {purchaseDetails?.deliveryAddressDetails?.phone}
                                                 </span>
                                             </span>
                                         </div>

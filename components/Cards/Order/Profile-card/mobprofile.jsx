@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { getWalletBalance,logOut, logOutStart } from '@redux/user/user-action';
 import { AiOutlineUser } from 'react-icons/ai'
 
-function mobprofile({ user, logout, getWalletBalance, customerWallet, info }) {
+function mobprofile({storeSettings, user, logout, getWalletBalance, customerWallet, info }) {
   const active = Router?.router?.state?.pathname.split('/')[2]
 
   // useEffect(() => {
@@ -145,6 +145,7 @@ function mobprofile({ user, logout, getWalletBalance, customerWallet, info }) {
 
             {
               active === 'wallet' ?
+              storeSettings?.isWalletEnabled=='Y'&&
                 <div className="border-l-4 border-rose-700 h-10 ">
 
                   <Link href='/account/wallet ' >
@@ -162,6 +163,7 @@ function mobprofile({ user, logout, getWalletBalance, customerWallet, info }) {
                     </div>
                   </Link>
                 </div> :
+                storeSettings?.isWalletEnabled=='Y'&&
                 <div className=" cursor-pointer h-10 ">
                   <Link href='/account/wallet ' >
                     <div className="mx-4  pt-2 flex justify-between">
@@ -228,6 +230,7 @@ const mapStateToProps = state => ({
   user: state.user.currentUser,
   customerWallet: state.user.customerWallet,
   info: state.store.info,
+  storeSettings: state.store.settings,
 })
 
 const mapDispatchToProps = dispatch => ({
