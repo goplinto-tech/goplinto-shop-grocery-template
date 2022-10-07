@@ -39,7 +39,7 @@ class MyDocument extends Document {
             <Html>
                 <Head>
                     <title>{seo ? seo.seo_title : store ? store?.store_name : 'GoPlinto'}</title>
-                    <link rel="shortcut icon" href={displaySettings ? displaySettings.favicon_img_url ? displaySettings.favicon_img_url :store ? store.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png': 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" />
+                    {/* <link rel="shortcut icon" href={displaySettings ? displaySettings.favicon_img_url ? displaySettings.favicon_img_url :store ? store.logo_img_url : 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png': 'https://www.goplinto.com/assets/images/goplinto-logo-white-480x97.png'} type="image/x-icon" /> */}
                     <meta name="description" content={seo ? seo?.seo_desc : store ? store.store_desc : 'GoPlinto'} />
 
                     <meta property="og:title" content={seo ? seo.seo_title : store ? store?.store_name : 'GoPlinto'}></meta>
