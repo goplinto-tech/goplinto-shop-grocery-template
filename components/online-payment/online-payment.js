@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/router'
 import { connect } from "react-redux"
-import plintoLogo from './plintoLogo.jpg'
+// import plintoLogo from './plintoLogo.jpg'
 import { orderPaymentConfirmStart } from "../../redux/checkout/checkout-action"
 import Loader from "../loading/loader"
 
@@ -20,7 +20,7 @@ const OnlienPayment = ({ razorpayKey, store, user, themeColor = '#F64B5D', check
             amount: (orderAmount * 100).toFixed(2), // Accept in Paisa (₹1 = 100 paisa)
             name: store.store_name || "Sigaram Technologies",
             description: "Powered by Goplinto",
-            image: store.logo_img_url || plintoLogo.src,
+            image: store.logo_img_url,
             order_id: rzpOrderId,
             handler: async (response) => {
                 if (!response.razorpay_payment_id) {
