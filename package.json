@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export -o build",
-    "build2": "next build",
     "start": "next start"
+  },
+  "engines": {
+    "node": ">= 14.20.0"
   },
   "dependencies": {
     "@sentry/nextjs": "^7.17.4",
