@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && next export -o build",
-    "build2": "next build",
     "start": "next start"
   },
+  "engines": {
+    "node": "14.19.2"
+  },
   "dependencies": {
+    "@sentry/nextjs": "^7.17.4",
     "antd": "^4.20.4",
     "axios": "^0.26.0",
     "babel-plugin-styled-components": "^2.0.6",

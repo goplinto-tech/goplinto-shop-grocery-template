@@ -7,16 +7,10 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
 })
 
-// const withPWA = require("next-pwa")
+const { withSentryConfig } = require('@sentry/nextjs');
 
 const path = require('path')
-module.exports = withPWA({
-  // pwa:{
-  //     dest: "public",
-  //     register: true,
-  //     skipWaiting: true,
-  //   },
-
+const moduleExports = withPWA({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "colors.scss";`
@@ -64,45 +58,13 @@ module.exports = withPWA({
       "babel-plugin-styled-components",
       { "ssr": true, "displayName": true, "preprocess": false }
     ]
-  ]
+  ],
+  sentry: {
+    hideSourceMaps: true,
+  },
+});
 
-})
-
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-// const withPlugins = require('next-compose-plugins');
-// const optimizedImages = require('next-optimized-images');
-
-// // const getLocalPackages = require('./scripts/getLocalPackages');
-
-// // const localPackages = getLocalPackages.getLocalPackages();
-// // const withTM = require('next-transpile-modules')(localPackages);
-// const nextConfig = {
-//   webpack: (config, options) => {
-//     return config;
-//   },
-//   eslint: {
-//     // ESLint managed on the workspace level
-//     ignoreDuringBuilds: true,
-//   },
-//   images: {
-//     disableStaticImages: true,
-//   },
-// };
-
-// const config = withPlugins(
-//   [
-//     // [withTM()],
-//     [
-//       optimizedImages,
-//       {
-//         // optimisation disabled by default, to enable check https://github.com/cyrilwanner/next-optimized-images
-//         optimizeImages: false,
-//       },
-//     ],
-//   ],
-//   nextConfig
-// );
-
-// module.exports = config;
+const sentryWebpackPluginOptions = {
+  silent: true, // Suppresses all logs
+};
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);

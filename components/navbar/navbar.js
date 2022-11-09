@@ -15,7 +15,6 @@ import { FiSearch } from 'react-icons/fi'
 import { GrLocation } from 'react-icons/gr';
 
 import { Button, Input } from '@components/inputs';
-import headerImg from './header-background.jpg'
 // Actions
 import { authShowToggle } from '@redux/user/user-action'
 import { logOutStart } from '@redux/user/user-action'

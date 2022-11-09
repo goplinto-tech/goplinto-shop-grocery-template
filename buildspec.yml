@@ -9,7 +9,7 @@ phases:
   install:
     commands:
       - echo Installing app dependencies
-      - yarn
+      - yarn --ignore-engines
   pre_build:
     commands:
       - echo Fetch env file
