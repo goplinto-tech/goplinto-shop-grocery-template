@@ -47,7 +47,6 @@ function MyApp({ Component, pageProps }) {
     <FreshChat></FreshChat>
       <Layout>
       <ToastContainer></ToastContainer>
-      <button onClick={()=>{throw new Error("GROSSERY ERR")}}>THOR ERR</button>
         <Component {...pageProps} />
       </Layout>
     </Provider>
