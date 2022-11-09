@@ -7,8 +7,10 @@ const withPWA = require("next-pwa")({
   skipWaiting: true,
 })
 
+const { withSentryConfig } = require('@sentry/nextjs');
+
 const path = require('path')
-module.exports = withPWA({
+const moduleExports = withPWA({
   sassOptions: {
     includePaths: [path.join(__dirname, 'styles')],
     prependData: `@import "colors.scss";`
@@ -57,4 +59,12 @@ module.exports = withPWA({
       { "ssr": true, "displayName": true, "preprocess": false }
     ]
   ],
+  sentry: {
+    hideSourceMaps: true,
+  },
 });
+
+const sentryWebpackPluginOptions = {
+  silent: true, // Suppresses all logs
+};
+module.exports = withSentryConfig(moduleExports, sentryWebpackPluginOptions);
