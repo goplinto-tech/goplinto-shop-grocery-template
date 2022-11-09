@@ -1,7 +1,0 @@
-[defaults]
-url = https://sentry.io/
-org = goplinto
-project = grocery-nextjs
-
-[auth]
-token=cb1971e72a534c3c927e63807ae4e52ad7410c50de994489a020cb890e2a8124
