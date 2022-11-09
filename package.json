@@ -8,7 +8,7 @@
     "start": "next start"
   },
   "engines": {
-    "node": "19.0.0"
+    "node": "14.19.2"
   },
   "dependencies": {
     "@sentry/nextjs": "^7.17.4",
