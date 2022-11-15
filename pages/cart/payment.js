@@ -36,6 +36,7 @@ import { getShopSettingsStart } from '@redux/shop/shop-action'
 
 const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, user, userAddress, isDetailsLoading, displaySettings, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle, initiateOrder, clearCheckout, createNewRzpOrder, clearCart, deleteItemFromCart, applyCouponCode }) => {
 
+    const [gateway, setGateway] = useState("PAYPAL");
     const purchaseDetails = checkout.purchaseDetails
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const themeColor = displaySettings && (() => displaySettings.primary_color)() || '#F64B5D'
@@ -164,7 +165,6 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
         }
         if (paymentMethod == 'PAY' && purchase?.purchase_id) {
             if (checkoutDetails.walletPay) {
-                console.log('Inside wallate pay');
                 // Wallet payment
                 if (confirmOrder) {
                     if (purchaseDetails?.calculatedPurchaseTotal - (+customerWallet?.customer_wallet_balance) > 0) {
@@ -175,13 +175,21 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                             customerId: user.customer_id,
                             // setInitiateStatus,
                             setInitiateData,
-                        })
-                        createNewRzpOrder({
-                            purchaseId: purchase?.purchase_id,
-                            totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal - (+customerWallet?.customer_wallet_balance),
-                            currency: purchaseDetails?.currencyCode,
-                            setRzpOrder,
-                            setError,
+                            cbSuccess: () => {
+                                if (gateway == 'PAYPAL') {
+                                    redirect('/cart/initiate-payment')
+                                    return;
+                                } else {
+                                    createNewRzpOrder({
+                                        purchaseId: purchase?.purchase_id,
+                                        totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal - (+customerWallet?.customer_wallet_balance),
+                                        currency: purchaseDetails?.currencyCode,
+                                        setRzpOrder,
+                                        setError,
+                                    })
+                                }
+
+                            }
                         })
 
                     }
@@ -214,13 +222,21 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                     customerId: user.customer_id,
                     // setInitiateStatus,
                     setInitiateData,
-                })
-                createNewRzpOrder({
-                    purchaseId: purchase?.purchase_id,
-                    totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal,
-                    currency: purchaseDetails?.currencyCode,
-                    setRzpOrder,
-                    setError,
+                    cbSuccess: () => {
+                        if (gateway == 'PAYPAL') {
+                            redirect('/cart/initiate-payment')
+                            return;
+                        } else {
+                            createNewRzpOrder({
+                                purchaseId: purchase?.purchase_id,
+                                totalPurchaseAmount: purchaseDetails?.calculatedPurchaseTotal,
+                                currency: purchaseDetails?.currencyCode,
+                                setRzpOrder,
+                                setError,
+                            })
+
+                        }
+                    }
                 })
             }
         }
@@ -420,7 +436,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                                         </div>
                                     )}
 
-                                    {storeSettings?.is_payment_accepted == 'Y' && storeSettings?.isWalletEnabled=='Y'&&(
+                                    {storeSettings?.is_payment_accepted == 'Y' && storeSettings?.isWalletEnabled == 'Y' && (
                                         <div className={`p-5 md:p-0 flex justify-start items-center space-x-4 ${(checkoutDetails.paymentMethod != 'Y' || checkoutDetails.paymentMethod == '' || (+customerWallet?.customer_wallet_balance == 0)) && 'opacity-50'}`}>
                                             <input disabled={checkoutDetails.paymentMethod != 'Y' || (+customerWallet?.customer_wallet_balance == 0)} id='wallet' type="checkbox" name="walletPay" value={'walletPay'} checked={checkoutDetails.walletPay} onClick={onChangeHandler} />
                                             <label htmlFor='wallet'>
@@ -478,7 +494,7 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
                         </div>
                     </div>
                     : initiateStatus == 'loading' && rzpOrder && checkoutDetails.paymentMethod == 'Y' && (purchaseDetails?.calculatedPurchaseTotal - (+customerWallet?.customer_wallet_balance) > 0 && checkoutDetails.walletPay || (!checkoutDetails.walletPay && checkoutDetails.paymentMethod == 'Y'))
-                        ? <OnlienPayment walletPay={checkoutDetails.walletPay} walletAmount={+customerWallet?.customer_wallet_balance} themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError, razorpayKey,setRzpOrder }} />
+                        ? <OnlienPayment walletPay={checkoutDetails.walletPay} walletAmount={+customerWallet?.customer_wallet_balance} themeColor={themeColor}  {...{ store: info, user, checkout, setConfirmPayment, rzpOrder, setInitiateStatus, setError, razorpayKey, setRzpOrder }} />
                         : null
             }
             <div className='fixed right-0 bottom-36 sm:bottom-3 space-y-2'>
