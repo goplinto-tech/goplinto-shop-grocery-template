@@ -5,7 +5,6 @@ const PayButton = ({ onCancel, onSuccess, purchaseId, storeId }) => {
     const payButton = useRef();
     const [active, setActive] = useState(false)
     useEffect(() => {
-        console.log(process.env.NEXT_PUBLIC_NODE_ENV);
         const script = document.createElement('script');
         script.src = 'https://www.paypalobjects.com/api/checkout.js';
         script.type = 'text/javascript';
@@ -19,7 +18,7 @@ const PayButton = ({ onCancel, onSuccess, purchaseId, storeId }) => {
                     shape: 'pill',
                     label: 'paypal',
                 },
-                env: process.env.NEXT_PUBLIC_NODE_ENV == "development" ? 'sandbox' : 'live',
+                env: process.env.NEXT_PUBLIC_NODE_ENV == "development" ? 'sandbox' : 'production',
                 payment: (data, actions) => {
                     return actions.request.post(`${process.env.NEXT_PUBLIC_PLINTO_URL}?r=payment-gateway/paypal-create-payment&purchaseId=${purchaseId}&storeId=${storeId}`, {},
                         {
