@@ -30,7 +30,12 @@ const ThankYou = ({ confirmOrder, display, clearCheckout, clearCart, purchase })
             router.push('/')
         }
         // setPrice(data.amount)
-
+        return () => {
+            if (purchase) {
+                clearCheckout();
+                clearCart();
+            }
+          }
     }, [router.isReady])
     const steps = [{ lable: 'Delivery Address' },
     { lable: 'Add payment method' },

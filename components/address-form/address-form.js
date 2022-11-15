@@ -127,7 +127,7 @@ const AddressForm = ({getStateAction, countries, user, address, getAddress, addA
                             <Input onChange={onChangeAddress} className=' rounded w-full border-static border py-3 xl:w-1/2' type="text" name='full_name' placeholder="Enter Your Full Name" value={newAddress.full_name} />
                         </div>
                         <div className="mt-4 col-12">
-                            <div className="text-base font-semibold mb-1">Mobile Number* <span className=" text-sm font-normal">( Commonly Used to Assist Delivery ) </span></div>
+                            <div className="text-base font-semibold mb-1">Mobile Number* <span className=" text-sm font-normal">( The store will reach out to you on this number ) </span></div>
                             {/* <Input onChange={onChangeAddress} className='rounded w-full border-static border py-3 xl:w-[50%]' type="text" name='phone' placeholder="Enter Your 10 digit Mobile Number" value={newAddress.phone} /> */}
                             <div className='mt-2 flex space-x-1'>
                                 <div className='w-[4rem] shrink-0 relative'>
