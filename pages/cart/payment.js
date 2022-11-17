@@ -36,7 +36,6 @@ import { getShopSettingsStart } from '@redux/shop/shop-action'
 
 const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, user, userAddress, isDetailsLoading, displaySettings, storeSettings, cart, info, checkout, setBackendCart, getPurchage, getAddress, setDeliveryAddressToPurchase, setPaymentMethod, setShipmentMethod, authToggle, initiateOrder, clearCheckout, createNewRzpOrder, clearCart, deleteItemFromCart, applyCouponCode }) => {
 
-    const [gateway, setGateway] = useState("PAYPAL");
     const purchaseDetails = checkout.purchaseDetails
     const totalItems = cart.reduce((prev, item) => prev + item?.quantity, 0)
     const themeColor = displaySettings && (() => displaySettings.primary_color)() || '#F64B5D'
@@ -61,7 +60,9 @@ const Payment = ({ widgets, removeCouponCode, getShopSettings, customerWallet, u
         paymentMethod: '',
         walletPay: false
     })
-    console.log('line', checkoutDetails, confirmOrder);
+    
+    const gateway = widgets?.RAZORPAY_INTEGRATION?.record_status == "ACTIVE" ? 'RAZORPAY' :  'PAYPAL'; // RAZORPAY
+
     if (!purchaseDetails) {
         redirect('/cart')
     }
