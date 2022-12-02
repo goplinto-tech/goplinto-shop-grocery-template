@@ -132,20 +132,20 @@ function* onPaymentMethodToPurchese() {
 function* onInitiatePayment() {
     yield takeLatest(checkoutActionType.INITIATE_PAYMENT_START_START, function* ({ payload }) {
         try {
-            const { purchaseId, customerId, method, setInitiateStatus, setInitiateData } = payload; // cod ==  N, Online Pay == Y
+            const { purchaseId, customerId, method, setInitiateStatus, setInitiateData, cbSuccess } = payload; // cod ==  N, Online Pay == Y
             if (!purchaseId) {
                 setStatus('failure')
                 return
             };
             const res = yield fetcher('GET', `?r=orders/initiate-payment&purchaseId=${purchaseId}`)
-            console.log(1, 'dfsf');
             if (res.data) {
-                console.log(2, 'dfsf');
                 // const amount = res.data.calculatedPurchaseTotal
                 setInitiateData(res.data)
                 if (setInitiateStatus) {
-                    console.log(3, 'dfsf');
                     setInitiateStatus('success')
+                }
+                if(cbSuccess){
+                    cbSuccess(res.data)
                 }
                 // if (method == 'COD') { // COD or Pay On Delivery
                 //     yield put(orderPaymentConfirmStart({ amount, purchaseId, method, customerId }))

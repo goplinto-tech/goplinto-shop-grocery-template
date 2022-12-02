@@ -12,7 +12,7 @@ import { MdEmail } from 'react-icons/md'
 // Login Component
 const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forgotPassword, setPage, info }) => {
 
-    const [isVarificationPhone, setIsVarificationPhone] = useState(true)
+    const [isVarificationPhone, setIsVarificationPhone] = useState(false)
     const [forgotPass, setForgotPass] = useState(false)
     const [showPass, setShowPass] = useState(false)
     const [user, setUser] = useState(null)
@@ -111,14 +111,14 @@ const Login = ({ fcmToken, showToggle, loginWithPassword, userloginSuccess, forg
                                 </div>
 
                                 {/* toggle */}
-                                <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                {/* <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
                                         <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <BsFillTelephoneFill />
                                         </span>
                                         <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <MdEmail />
                                         </span>
-                                    </div>
+                                    </div> */}
 
                                 <form onSubmit={onSubmitHandler}>
                                     <div className="mt-6 flex justify-center">

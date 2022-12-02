@@ -128,14 +128,14 @@ const Register = ({ fcmToken, showToggle, setPage, forgotPassword, registerWithP
 
                                 }
                                 {/* toggle */}
-                                <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
+                                {/* <div className='w-fit flex pl-0 py-4 pr-4' onClick={() => setIsVarificationPhone(!isVarificationPhone)}>
                                         <span className={`py-2 px-3   transition-all  duration-500 border-2 border-static ${isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <BsFillTelephoneFill />
                                         </span>
                                         <span className={`py-2 px-3  transition-all duration-500 border-2 border-static ${!isVarificationPhone ? 'btn-color font-medium btn-bg btn-bg' : 'btn-color-revers'}`}>
                                             <MdEmail />
                                         </span>
-                                    </div>
+                                    </div> */}
 
                                 <form onSubmit={onSubmitHandler}  >
                                     <div className="flex justify-center mt-2">
